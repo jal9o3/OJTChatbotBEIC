@@ -34,6 +34,6 @@ if __name__ == "__main__":
     # Extract text from the PDF
     pdf_to_text(pdf_path, file_path)
 
-    print("Saved as " + output_file_name + " at " + file_path)\  
+    print("Saved as " + output_file_name + " at " + file_path)  
 
     
