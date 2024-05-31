@@ -35,5 +35,3 @@ if __name__ == "__main__":
     pdf_to_text(pdf_path, file_path)
 
     print("Saved as " + output_file_name + " at " + file_path)  
-
-    
