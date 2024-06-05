@@ -1,12 +1,11 @@
 
 A CASE STUDY OF UNDERSTANDING THE
-
 BONAPARTE BASIN USING UNSTRUCTURED DATA
 ANALYSIS WITH MACHINE LEARNING TECHNIQUES
 
-ANN. Sazali!, N.M. Hernandez', F. Baillard', K.G. Maver!
+AN. Sazali!, N.M. Hernandez’, F. Baillard', K.G. Maver!
 
-' Traya Energies
+'Traya Energies
 
 Summary
 
@@ -26,6 +25,7 @@ It will be shown that potential issues encountered during exploration of the Bon
 identified. Based on a quick look and gathering of all information it can be concluded that most of the
 production in the Bonaparte Basin is from Jurassic and Triassic with observed net pay of 18-60m
 thickness, porosity of 11-29% and saturation of 11-55% Sw.
+
 
 
 A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with
@@ -51,17 +51,15 @@ of information available in previous studies, reports and presentations. The uns
 Bonaparte Basin have been ingested in a Knowledge Container through consecutive ML and AI
 pipelines and analysed using big data analytics tools.
 
-Java Sea
-
 Consist of several structural elements :
 @ Ashmore Platform © Malita Graben
 © Vulcan Sub-Basin © Sahul Platform
-© Londonderry High @® Flamingo High
-© Petrel Sub-basin @ Flamingo Syncline
-© Darwin Shelf ® Sahul Syncline
-@ Calder Graben ® Nancar Trough
-@ Troubadour Terrace  @)_ Laminaria High
 
+© Londonderry High @ Flamingo High
+© Petrel Sub-basin @ Flamingo Syncline
+© Darwin Shelf @® Sahul Syncline
+@ Calder Graben ® Nancar Trough
+@ Troubadour Terrace Laminaria High
 Figure 1 Location of the Bonaparte Basin within the Australian continental margin (left) and 14
 structural elements observed within the Bonaparte Basin (right).
 
@@ -80,43 +78,20 @@ associated to it. Such information is primarily available in unstructured data, 
 engineers to process and ingest the information before focusing on a specific play and prospect using
 structured data. Therefore, we have modified the existing PBE pyramid to introduce an additional
 
-————— ———— ——
 
 
 dimension associated with data science identifying the different types of data available at different
 stages, allowing us to better define the best suited ML/AI strategy for a given stage (Figure 2).
 
-Prospect Specific chance
+STRUCTURED
 
-Prospect focus
-= image, Map, Evaluate
+Tora nercare cercest
+UNSTRUCTURED ‘ 8 rence siento renown, se 30008)
 
-STRUCTURED chance that a panicular prospect will
-become
-a discovery in case play works.
+of being present and effective over 20,
 
-Play Focus
-
-' Play Chance
-1 Identity imits ofthe single play elements 1 the chance hat a parteuler play
-unsracres: Al eee wean | gy mesnereamecercett
-\ dbcare te 1 elements (e.g. reservoir, seal, source)
-effectiveness of each element | of being present and effective over an
-
-(Commmon Risk Segment Mapping)
-
-@ Analyse play statistics. Seon Gey O44 a
-
-Determination and description of the
-Regional context and Basin
-Framework
-Understanding of the Petroleum
-system(s)
-
-Basin Focus
-
-= Assess the possibility a play may
-exists in a basin
+@ Assess the possibsty a play may
+exiets ina basin
 
 Figure 2 Customized Play Based Exploration (PBE) pyramid with ML technology (Modified from
 Lottaroli et al., 2016).
@@ -128,43 +103,43 @@ Natural Language Processing or Deep Convolutional Neural Network (Hernandez et a
 trends and anomalies present within the data. Machine assistance is heavily used in repetitive tasks early
 in the process during the processing of the data and up to 95% of the tasks will be performed by the
 machine. This provides additional time for the specialist to focus on critical thinking and cognitive skills
+
 to interpret the data.
 
-MACHINE LEARNING PIPELINE ANALYTICS, GEOLOGICAL INSIGHTS
+MACHINE LEARNING PIPELINE ANALYTICS GEOLOGICAL INSIGHTS
 
--inniogy an Early interpretation on
-Geological environment
+Early intespretation on
 
-* Text Search Data are geospatially
+* lithology Cloud Geological environment
 
-Extracted image ea
-+ “Imoges. ~~” Image Classification — > nae |, distributed on maps for
-Deep Convolutional ee trends and anomalies
-Unstructured pecker hom Giants
-» Structured * Image Search
-Data ee
-a
+‘Text Search = —~ Data are geospatially
++ Image Classification - + » distributed on maps for
+Deep Convolutional trends and anomalies
 
-|, Extracted | Metadata Extraction |, Document
-Text and Tagging Tags
+Unstructured Neural Network Sharable observation
 
-‘Notural tanguage Processing
+Data Structured » Image Search
+Data
++ |, Extracted | Metadata Extraction |, Document
 
-._ Early trend can be observed
+Text and Tagging Tags Heat Map
 
-> Heat Mi in
-ea MEe across the whole basin
+‘Natural Language Processing
 
-._ Identify well analogues and
+Early trend can be observed
+across the whole basin
 
-“HEE oe relationship between wells
+Identify well analogues and
 
-MACHINE 4 on =
+* Knowledge Graph —- —* relationship between wells
 
-Af. 50.%5 . i 60% 0%
+95% 1909 — 6) —
 
-ML/Al sequence automated with Analytics tools for data display Human high-level interpretation
+MI/AI sequence automated with Analytics tools for data display Hurnan high-level interpretation
 human in the loop for QC
+9,
+
+tue oN $$ 5% 40% mee |
 
 Figure 3 Unstructured Big Data pipeline
 
@@ -189,53 +164,37 @@ supported by the stratigraphic chart where the carbonate environment occurs in t
 from Cretaceous to Neogene period, whereas clastic environment is present in the older formations from
 Triassic to Cretaceous.
 
-Ne
+Basal vanegrassive enadetone Limeston:
+and marine shelf sand mestone
+HE arine claystone and shale
 
-PALEOGENE
-eae
-
-Ea
-
-‘CRETACEOUS
-
-$3233 3 3
-JURASSIC
-
-toy | Mee
-
-Ting 5
-wo
-
-Basal transgressive snadstone EEEEEE Limestone
-
-and marine shelf sand
-Marine claystone and shale ES van
-
-Moditied trom Frankowicz & McClay 2009
+Moditied from Frankowlez & McClay 2009
 
 Figure 4 Lithology distribution on heatmaps (left) and corresponding stratigraphic chart (right).
 
 The analysis of the (iii) Limited Mineral Composition Understanding, shown in Figure 5, utilizes the
 thin section automatically extracted using ML classification over the full area and suggests that:
 
-¢ Quartz overgrowth and kaolinite are quite common in Bonaparte Basin
+Quartz overgrowth and kaolinite are quite common in Bonaparte Basin
 
-e Mica mineral can be observed at the north-eastern part of the basin
+Mica mineral can be observed at the north-eastern part of the basin
 
-e Highly corroded, skeletal feldspar has been extensively dissolved, which forms secondary
+Highly corroded, skeletal feldspar has been extensively dissolved, which forms secondary
 porosity, and can be observed in the northern part of the basin
 
-e Some patchy siderites are also observed in the southern part of the basin
-
-————— ———— ——
+Some patchy siderites are also observed in the southern part of the basin
 
 
+
+stam (cone
 Figure 5 Thin section images distributed on a map across the Bonaparte Basin.
 
 Conclusion
 
 A regional understanding is critical and time consuming as it involves dealing with a very large data
+
 volume. Within a project time frame, based on PBE pyramid, the time spent at the Basin Focus stage
+
 can be reduced, and more time are available to focus on the other project stages. The explorationist will
 be able to bring more value to the study.
 
@@ -249,15 +208,15 @@ thickness, porosity ~11-29% and saturation ~11-55% Sw.
 
 References
 
-Hernandez N., Lucafias P., Graciosa J.C., Mamador C., and Panganiban L. C. L, 2019: Automated
+Hernandez N., Lucafias P., Graciosa J.C., Mamador C., and Panganiban L. C. I, 2019: Automated
 information retrieval from unstructured documents utilizing a sequence of smart machine learning
 methods within a hybrid cloud container. EAGE Workshop on Big Data and Machine Learning for E&P
 Efficiency 25 - 27 February.
 
 Lottaroli F., Craig J., Cozzi A., 2016: Evaluating a vintage play fairway exercise using subsequent
-exploration results: did it work? Petroleum Geoscience, Vol 24, no 2, p. 159-171.
+exploration results: did it work? Petroleum Geoscience, Vol 24, no 2, p. 159 — 171.
 
-Maver K.G., Hernandez N., Lucafias P., Graciosa J.C., Mamador C., Panganiban L.C.I., Yu C., and
+Maver K.G., Hernandez N., Lucafias P., Graciosa J.C., Mamador C., Panganiban L.C.L, Yu C., and
 Maver M.G., 2018: An automated information retrieval platform for unstructured well data smart
 machine learning algorithms within a hybrid cloud container. EAGE/PESGB Workshop on Machine
 Learning, 29 — 30 November.

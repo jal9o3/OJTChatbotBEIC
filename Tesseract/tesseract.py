@@ -1,6 +1,19 @@
 import pytesseract
 from pdf2image import convert_from_path
 import os
+from PIL import Image
+
+def remove_images(page_image):
+    # Convert the image to grayscale
+    gray_image = page_image.convert('L')
+
+    # Perform thresholding to convert grayscale image to binary (black and white)
+    binary_image = gray_image.point(lambda pixel: 255 if pixel > 200 else 0, '1')
+
+    # Invert the binary image (so that text becomes white on black background)
+    inverted_image = Image.eval(binary_image, lambda pixel: 255 - pixel)
+
+    return inverted_image
 
 def pdf_to_text(pdf_path, file_path):
 
@@ -15,8 +28,11 @@ def pdf_to_text(pdf_path, file_path):
         bottom_crop = int(0.95 * height)
         cropped_image = page_image.crop((0, top_crop, width, bottom_crop))
         
+        # Remove images from the page
+        text_image = remove_images(cropped_image)
+
         #Perform OCR on the page image
-        text = pytesseract.image_to_string(cropped_image)
+        text = pytesseract.image_to_string(text_image)
 
         with open(file_path, 'a') as f: #Append extracted text to the file
             f.write(f"\n{text}\n")
