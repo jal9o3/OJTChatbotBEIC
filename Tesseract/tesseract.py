@@ -39,22 +39,32 @@ def pdf_to_text(pdf_path, file_path):
 
 if __name__ == "__main__":
 
-    pdf_path = input("Input PDF file path (with file extension): ") #Specify path to the PDF file
-
-    output_file_name = input("Output text file name (with file extension): ") #Specify output file name
-
-    directory_path = input("Where to save the file: ") #Specify output file directory
-
-    file_path = os.path.join(directory_path, output_file_name) #Creates file path
-
+    directory_path = input("Enter folder containing PDF files: ") #Specify pdf file directory
+    
+    #Create new directory for the output files
+    new_directory = "output_text"
+    output_directory = os.path.join(directory_path, new_directory)
     try: #Creates a new file
-        with open(file_path, 'x', encoding='utf-8')as f:
-            f.close()
-    except FileExistsError: #If file already exist, write over existing file rendering its contents null
-        with open(file_path, 'w', encoding='utf-8')as f:
-            f.close()
+        os.mkdir(output_directory)
+    except FileExistsError: #notify if the directory already exist
+        print(f"The directory '{output_directory}' already exists.")
+    
+    for file_name in os.listdir(directory_path): #iterate for each file in the directory
+        if file_name.endswith(".pdf"): #Check if the file is a pdf
+            pdf_path = os.path.join(directory_path, file_name) #Specify path to the PDF file
 
-    # Extract text from the PDF
-    pdf_to_text(pdf_path, file_path)
+            output_file_name = os.path.splitext(file_name)[0] + ".txt" #Specify output file name
+            output_file_path = os.path.join(output_directory, output_file_name) #Creates file path
 
-    print("Saved as " + output_file_name + " at " + file_path)  
+            try: #Creates a new file
+                with open(output_file_path, 'x', encoding='utf-8')as f:
+                    f.close()
+            except FileExistsError: #If file already exist, write over existing file rendering its contents null
+                with open(output_file_path, 'w', encoding='utf-8')as f:
+                    f.close()
+
+            # Extract text from the PDF
+            pdf_to_text(pdf_path, output_file_path)
+
+            print("Saved as " + output_file_name + " at " + output_file_path)
+    print("Extraction Complete")
