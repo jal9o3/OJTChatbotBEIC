@@ -8,11 +8,18 @@ def pdf_to_text(pdf_path, file_path):
 
     #Iterate through each page image and perform OCR
     for page_number, page_image in enumerate(pages, start=1):
+        width, height = page_image.size
+        
+        #crop header and footnote
+        top_crop = int(0.05 * height)
+        bottom_crop = int(0.95 * height)
+        cropped_image = page_image.crop((0, top_crop, width, bottom_crop))
+        
         #Perform OCR on the page image
-        text = pytesseract.image_to_string(page_image)
+        text = pytesseract.image_to_string(cropped_image)
 
         with open(file_path, 'a') as f: #Append extracted text to the file
-            f.write(f"--- Page {page_number} ---\n{text}\n\n")
+            f.write(f"\n{text}\n")
 
 if __name__ == "__main__":
 
