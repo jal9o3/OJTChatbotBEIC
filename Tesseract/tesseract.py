@@ -68,3 +68,5 @@ if __name__ == "__main__":
 
             print("Saved as " + output_file_name + " at " + output_file_path)
     print("Extraction Complete")
+
+    # save each file to database
