@@ -6,11 +6,13 @@ from PIL import Image
 import mysql.connector
 from mysql.connector import errorcode
 
-'''
+import streamlit as st
+from zipfile import ZipFile
+import io
 
-    DATABASE FUNCTIONS
 
-'''
+    #DATABASE FUNCTIONS---------------------
+
 
 # Function to display existing databases
 def show_databases(cursor):
@@ -25,12 +27,36 @@ def database_exists(cursor, db_name):
     cursor.execute("SHOW DATABASES LIKE %s", (db_name,))
     return cursor.fetchone() is not None
 
+#Inserts the extracted text from the pdf to the database
+def insert_paper(output_file_path, file_name, cursor, conn):
+    # Read extracted text
+    with open(output_file_path, 'r', encoding='utf-8') as f:
+        text = f.read()
 
-'''
+    # Insert paper record into Papers table
+    cursor.execute("""
+        INSERT INTO Papers (title)
+        VALUES (%s)
+    """, (file_name,))
+    paper_id = cursor.lastrowid
+    conn.commit()
 
-    EXTRACTION FUNCTIONS
+    chunk_size = 255
+    chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
 
-'''
+    chunk_order = 1
+    for chunk in chunks:
+        cursor.execute("""
+            INSERT INTO Chunks (paper_id, chunk_order, chunk_text)
+            VALUES (%s, %s, %s)
+        """, (paper_id, chunk_order, chunk))
+        chunk_order += 1
+
+    conn.commit()
+
+
+#EXTRACTION FUNCTIONS------------------
+
 
 def remove_images(page_image):
     # Convert the image to grayscale
@@ -75,25 +101,39 @@ def pdf_to_text(pdf_path, file_path):
     print(f"Completed text extraction from: {pdf_path}")
 
 
-'''
 
-    MAIN FUNCTION
+    #MAIN FUNCTION--------------------------
 
-'''
+
 
 def main():
+    '''
+    host = ""
+    user = ""
+    password = ""
+
+    if host not in st.session_state:
+        st.session_state.host = ""
+    if user not in st.session_state:
+        st.session_state.user = ""
+    if password not in st.session_state:
+        st.session_state.password = ""
 
     # Ask user for MySQL host address, user name, and password
     print("Provide your MySQL credentials.")
-    host = input("Enter host (default: 127.0.0.1): ")
+    st.session_state[host] = input("Enter host (default: 127.0.0.1): ")
     # Set host to 127.0.0.1 if blank
     if host == "":
         host = "127.0.0.1"
     # Set user to root if blank
-    user = input("Enter user (default: root): ")
+    st.session_state[user] = input("Enter user (default: root): ")
     if user == "":
         user = "root"
-    password = input("Enter password: ")
+    st.session_state[password] = input("Enter password: ")
+    '''
+    host = "127.0.0.1"
+    user = "root"
+    password = "ChrisJohn#27"
 
     # Connect to MySQL server
     try:
@@ -109,7 +149,14 @@ def main():
         show_databases(cursor)
 
         # Ask user for a database name
-        db_name = input("Enter the database name: ")
+        '''
+        db_name = ""
+        if db_name not in st.session_state:
+            st.session_state.db_name = ""
+
+        st.session_state[db_name] = input("Enter the database name: ")
+        '''
+        db_name = "technical_database"
 
         # Check if the database exists
         if database_exists(cursor, db_name):
@@ -164,65 +211,85 @@ def main():
             conn.rollback()
 
 
-    directory_path = input("Enter folder containing PDF files: ") # Specify pdf file directory
-    print(f"Directory specified: {directory_path}")
+    st.title("Tesseract Extractor")
+    st.write("Extract PDFs and add them directly to the database\n\n\n")
+    st.write("Extract a diectory of PDFs:")
+
+    if 'uploaded_file' not in st.session_state:
+        st.session_state.uploaded_file = None
+
+    for item in st.session_state:
+        st.write(item)
+
+    if st.button("Upload zip file:"):
+        uploaded_file = st.file_uploader("Choose a zip file")
+        st.session_state.uploaded_file = uploaded_file
+
+        if st.session_state.uploaded_file is not None:
+            st.success("File Detected")
     
-    # Create new directory for the output files
-    new_directory = "output_text"
-    output_directory = os.path.join(directory_path, new_directory)
-    try: # Creates a new file
-        os.mkdir(output_directory)
-        print(f"Created new directory: {output_directory}")
-    except FileExistsError: # notify if the directory already exists
-        print(f"The directory '{output_directory}' already exists.")
-    
-    for file_name in os.listdir(directory_path): # iterate for each file in the directory
-        if file_name.endswith(".pdf"): # Check if the file is a pdf
-            print(f"Processing file: {file_name}")
-            pdf_path = os.path.join(directory_path, file_name) # Specify path to the PDF file
+        for item in st.session_state:
+            st.write(item)
 
-            output_file_name = os.path.splitext(file_name)[0] + ".txt" # Specify output file name
-            output_file_path = os.path.join(output_directory, output_file_name) # Creates file path
+        if st.session_state.uploaded_file is not None:
+            st.success("File Uploaded")
 
-            try: # Creates a new file
-                with open(output_file_path, 'x', encoding='utf-8') as f:
-                    f.close()
-                print(f"Created new file: {output_file_path}")
-            except FileExistsError: # If file already exists, write over existing file rendering its contents null
-                with open(output_file_path, 'w', encoding='utf-8') as f:
-                    f.close()
-                print(f"Overwriting existing file: {output_file_path}")
+            if 'file_bytes' not in st.session_state:
+                st.session_state.file_bytes = None
 
-            # Extract text from the PDF
-            pdf_to_text(pdf_path, output_file_path)
-            print(f"Saved as {output_file_name} at {output_file_path}")
+            st.session_state.file_bytes = io.BytesIO(st.session_state.uploaded_file.read())
 
-            # Read extracted text
-            with open(output_file_path, 'r', encoding='utf-8') as f:
-                text = f.read()
+            # Extract the zip file
+            with ZipFile(st.session_state.file_bytes) as zfile:
+                # List all files in the zip
+                st.write("Files in the zip:")
+                for file_info in zfile.infolist():
+                    st.write(f"{file_info.filename} ({file_info.file_size} bytes)")
+            
+            if st.button("Extract Files"):
+                with ZipFile(st.session_state.file_bytes) as zfile:
+                    # Create extraction directory
+                    
 
-            # Insert paper record into Papers table
-            cursor.execute("""
-                INSERT INTO Papers (title)
-                VALUES (%s)
-            """, (file_name,))
-            paper_id = cursor.lastrowid
-            conn.commit()
+                    zip_filename = os.path.splitext(st.session_state.uploaded_file.name)[0]
+                    extraction_dir = f"{os.path.join(os.getcwd(),zip_filename)}"
+                    
+                    if not os.path.exists(extraction_dir):# Ensure the extraction directory exists
+                        os.makedirs(extraction_dir)
+                    
+                    # Extract all files to the specified directory
+                    zfile.extractall(path=extraction_dir)
+                    
+                    # Create new directory for the output files
+                    new_directory = "output_text"
+                    output_directory = os.path.join(extraction_dir, new_directory)
+                    if not os.path.exists(output_directory):# Ensure the extraction directory exists
+                        os.makedirs(output_directory)
+                    
+                    for file_name in os.listdir(extraction_dir): # iterate for each file in the directory
+                        if file_name.endswith(".pdf"): # Check if the file is a pdf
+                            st.success(f"Processing file: {file_name}")
+                            pdf_path = os.path.join(extraction_dir, file_name) # Specify path to the PDF file
 
-            chunk_size = 255
-            chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
+                            output_file_name = os.path.splitext(file_name)[0] + ".txt" # Specify output file name
+                            output_file_path = os.path.join(output_directory, output_file_name) # Creates file path
 
-            chunk_order = 1
-            for chunk in chunks:
-                cursor.execute("""
-                    INSERT INTO Chunks (paper_id, chunk_order, chunk_text)
-                    VALUES (%s, %s, %s)
-                """, (paper_id, chunk_order, chunk))
-                chunk_order += 1
-        
-            conn.commit()
+                            try: # Creates a new file
+                                with open(output_file_path, 'x', encoding='utf-8') as f: 
+                                    f.close()
+                                #print(f"Created new file: {output_file_path}")
+                            except FileExistsError: # If file already exists, write over existing file rendering its contents null
+                                with open(output_file_path, 'w', encoding='utf-8') as f: 
+                                    f.close()
+                                #print(f"Overwriting existing file: {output_file_path}")
 
-    print("Extraction Complete")
+                            # Extract text from the PDF
+                            pdf_to_text(pdf_path, output_file_path)
+                            st.success(f"Saved as {output_file_name} at {output_file_path}")
+
+                            insert_paper(output_file_path, file_name, cursor, conn)
+
+            st.success("Extraction Complete")
 
 
 if __name__ == "__main__":
