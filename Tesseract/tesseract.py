@@ -12,7 +12,7 @@ import chromadb
 
 '''
 
-    DATABASE FUNCTIONS
+    MYSQL DATABASE FUNCTIONS
 
 '''
 
@@ -28,6 +28,57 @@ def show_databases(cursor):
 def database_exists(cursor, db_name):
     cursor.execute("SHOW DATABASES LIKE %s", (db_name,))
     return cursor.fetchone() is not None
+
+
+'''
+
+    CHROMADB
+
+
+'''
+
+
+def examine_chunks(query, paper_title, cursor, chroma_client):
+    # Get every row in MySQL database that corresponds to the given title
+    cursor.execute("SELECT * FROM papers WHERE title = %s", (paper_title,))
+    paper = cursor.fetchone()
+    if not paper:
+        return "No paper found with the title: " + paper_title
+
+    # Get the chunks for the paper
+    cursor.execute("SELECT * FROM chunks WHERE paper_id = %s ORDER BY chunk_order", (paper[0],))
+    chunks = cursor.fetchall()
+
+    # Convert to ChromaDB collection
+    collection = chroma_client.create_collection("temp_collection")
+    # for chunk in chunks:
+    #     collection.add(chunk[3])  # Assuming the chunk text is in the fourth column
+
+    print("Adding paper to ChromaDB collection...")
+    # Insert paper record into Technical ChromaDB collection
+    collection.add(
+        documents=[chunk[3] for chunk in chunks],
+        metadatas=[{"source": paper_title} for i in range(len(chunks))],
+        ids=[f"id{i}" for i in range(len(chunks))]
+    )
+    print(f"Saved {paper_title} to temp_collection ChromaDB collection")
+
+    # Pass the query to the collection
+    # results = collection.query(query)
+
+    results = collection.query(
+        query_texts = [
+            query
+        ],
+        n_results=2
+    )
+    print(results["documents"])
+
+    # Delete collection to save memory
+    chroma_client.delete_collection(name="temp_collection")
+
+    # Return the results
+    return results
 
 
 '''
@@ -275,14 +326,19 @@ def main():
             print(f"Saved {file_name} to {collection_name} ChromaDB collection")
 
     print("Extraction Complete")
+
+
     # Attempt a query
+    query = input("Query the vector database: ")
     results = collection.query(
         query_texts = [
-            "Tell me about the Bonaparte Basin."
+            query
         ],
         n_results=2
     )
     print(results["documents"])
+    deeper_results = examine_chunks(query, results["documents"][0][0], cursor, chroma_client)
+    print(deeper_results["documents"])
 
 if __name__ == "__main__":
     main()
