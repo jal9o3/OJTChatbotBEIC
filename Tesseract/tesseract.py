@@ -1,3 +1,5 @@
+import hashlib
+
 import pytesseract
 from pdf2image import convert_from_path
 import os
@@ -5,6 +7,8 @@ from PIL import Image
 
 import mysql.connector
 from mysql.connector import errorcode
+
+import chromadb
 
 '''
 
@@ -74,6 +78,25 @@ def pdf_to_text(pdf_path, file_path):
 
     print(f"Completed text extraction from: {pdf_path}")
 
+'''
+
+    HASHING
+
+'''
+
+
+def hash_string(input_string):
+    # Create a new sha256 hash object
+    hash_object = hashlib.sha256()
+
+    # Update the hash object with the bytes of the string
+    hash_object.update(input_string.encode())
+
+    # Get the hexadecimal representation of the hash
+    hashed_string = hash_object.hexdigest()
+
+    return hashed_string
+
 
 '''
 
@@ -82,6 +105,9 @@ def pdf_to_text(pdf_path, file_path):
 '''
 
 def main():
+
+    # Create or load a persistent client for ChromaDB
+    chroma_client = chromadb.PersistentClient(path="./chroma_persistent_client")
 
     # Ask user for MySQL host address, user name, and password
     print("Provide your MySQL credentials.")
@@ -163,6 +189,20 @@ def main():
             print(err)
             conn.rollback()
 
+    # Display existing ChromaDB collections
+    collections = chroma_client.list_collections()
+    print("Existing ChromaDB collections: ")
+    print(collections)
+
+    # Ask user for ChromaDB collection name
+    collection_name = input("Enter ChromaDB collection name: ")
+
+    # Create or get the ChromaDB collection
+    collection = chroma_client.get_or_create_collection(name=collection_name)
+    print(f"Selected the ChromaDB collection '{collection_name}'")
+
+    # chroma_client.persist()
+    print("NOTE: ChromaDB Client is automatically persisted!")
 
     directory_path = input("Enter folder containing PDF files: ") # Specify pdf file directory
     print(f"Directory specified: {directory_path}")
@@ -192,6 +232,9 @@ def main():
                 with open(output_file_path, 'w', encoding='utf-8') as f:
                     f.close()
                 print(f"Overwriting existing file: {output_file_path}")
+            except FileNotFoundError:
+                print(f"ERROR: Skipping file {file_name}")
+                continue
 
             # Extract text from the PDF
             pdf_to_text(pdf_path, output_file_path)
@@ -221,6 +264,24 @@ def main():
                 chunk_order += 1
         
             conn.commit()
+
+            print("Adding paper to ChromaDB collection...")
+            # Insert paper record into Technical ChromaDB collection
+            collection.add(
+                documents=chunks,
+                metadatas=[{"title": file_name, "source": pdf_path, "chunk_order": i} for i in range(len(chunks))],
+                ids=[f"id({file_name})#{i}" for i in range(len(chunks))]
+            )
+            print(f"Saved {file_name} to {collection_name} ChromaDB collection")
+
+            # Attempt a query
+            results = collection.query(
+                query_texts = [
+                    "Tell me about the Bonaparte Basin."
+                ],
+                n_results=2
+            )
+            print(results)
 
     print("Extraction Complete")
 
