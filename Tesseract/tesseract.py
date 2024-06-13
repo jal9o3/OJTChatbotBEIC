@@ -268,23 +268,21 @@ def main():
             print("Adding paper to ChromaDB collection...")
             # Insert paper record into Technical ChromaDB collection
             collection.add(
-                documents=chunks,
-                metadatas=[{"title": file_name, "source": pdf_path, "chunk_order": i} for i in range(len(chunks))],
-                ids=[f"id({file_name})#{i}" for i in range(len(chunks))]
+                documents=file_name,
+                metadatas=[{"source": pdf_path}],
+                ids=[f"id#{hash_string(file_name)}"]
             )
             print(f"Saved {file_name} to {collection_name} ChromaDB collection")
 
-            # Attempt a query
-            results = collection.query(
-                query_texts = [
-                    "Tell me about the Bonaparte Basin."
-                ],
-                n_results=2
-            )
-            print(results)
-
     print("Extraction Complete")
-
+    # Attempt a query
+    results = collection.query(
+        query_texts = [
+            "Tell me about the Bonaparte Basin."
+        ],
+        n_results=2
+    )
+    print(results["documents"])
 
 if __name__ == "__main__":
     main()
