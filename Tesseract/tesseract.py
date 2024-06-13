@@ -212,47 +212,42 @@ def main():
 
 
     st.title("Tesseract Extractor")
-    st.write("Extract PDFs and add them directly to the database\n\n\n")
+    st.write("Extract PDFs and add them directly to the database")
+    st.write("")
     st.write("Extract a diectory of PDFs:")
 
     if 'uploaded_file' not in st.session_state:
         st.session_state.uploaded_file = None
-
-    for item in st.session_state:
-        st.write(item)
-
-    if st.button("Upload zip file:"):
-        uploaded_file = st.file_uploader("Choose a zip file")
-        st.session_state.uploaded_file = uploaded_file
-
-        if st.session_state.uploaded_file is not None:
-            st.success("File Detected")
     
-        for item in st.session_state:
-            st.write(item)
+    if 'file_bytes' not in st.session_state:
+        st.session_state.file_bytes = None
 
-        if st.session_state.uploaded_file is not None:
-            st.success("File Uploaded")
+    for item in st.session_state.items():
+        item
 
-            if 'file_bytes' not in st.session_state:
-                st.session_state.file_bytes = None
+    #if st.button("Upload zip file:"):
+    st.session_state.uploaded_file = st.file_uploader("Choose a zip file")
+    
+    if st.session_state.uploaded_file is not None: 
+        st.success("File Uploaded")
+        st.session_state.file_bytes = io.BytesIO(st.session_state.uploaded_file.read())
 
-            st.session_state.file_bytes = io.BytesIO(st.session_state.uploaded_file.read())
+        for item in st.session_state.items():
+            item
 
-            # Extract the zip file
-            with ZipFile(st.session_state.file_bytes) as zfile:
-                # List all files in the zip
-                st.write("Files in the zip:")
-                for file_info in zfile.infolist():
-                    st.write(f"{file_info.filename} ({file_info.file_size} bytes)")
-            
+        # Extract the zip file
+        with ZipFile(st.session_state.file_bytes) as zfile:
+            # List all files in the zip
+            st.write("Files in the zip:")
+            for file_info in zfile.infolist():
+                st.write(f"{file_info.filename} ({file_info.file_size} bytes)")
+        
             if st.button("Extract Files"):
-                with ZipFile(st.session_state.file_bytes) as zfile:
                     # Create extraction directory
-                    
-
                     zip_filename = os.path.splitext(st.session_state.uploaded_file.name)[0]
+                    st.write(zip_filename)
                     extraction_dir = f"{os.path.join(os.getcwd(),zip_filename)}"
+                    st.write(extraction_dir)
                     
                     if not os.path.exists(extraction_dir):# Ensure the extraction directory exists
                         os.makedirs(extraction_dir)
@@ -277,11 +272,9 @@ def main():
                             try: # Creates a new file
                                 with open(output_file_path, 'x', encoding='utf-8') as f: 
                                     f.close()
-                                #print(f"Created new file: {output_file_path}")
                             except FileExistsError: # If file already exists, write over existing file rendering its contents null
                                 with open(output_file_path, 'w', encoding='utf-8') as f: 
                                     f.close()
-                                #print(f"Overwriting existing file: {output_file_path}")
 
                             # Extract text from the PDF
                             pdf_to_text(pdf_path, output_file_path)
@@ -290,6 +283,8 @@ def main():
                             insert_paper(output_file_path, file_name, cursor, conn)
 
             st.success("Extraction Complete")
+    else:
+        st.write("Please upload a zip file to proceed.")
 
 
 if __name__ == "__main__":
