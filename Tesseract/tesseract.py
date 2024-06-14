@@ -148,15 +148,7 @@ def hash_string(input_string):
 
     return hashed_string
 
-
-'''
-
-    MAIN FUNCTION
-
-'''
-
-
-def setup_mysql_db():
+def get_mysql_credentials():
     # Ask user for MySQL host address, user name, and password
     print("Provide your MySQL credentials.")
     host = input("Enter host (default: 127.0.0.1): ")
@@ -169,16 +161,63 @@ def setup_mysql_db():
         user = "root"
     password = input("Enter password: ")
 
-    # Connect to MySQL server
-    try:
-        conn = mysql.connector.connect(
+    return host, user, password
+
+def connect_to_mysql(host, user, password):
+    conn = mysql.connector.connect(
             host=host,
             user=user,
             password=password
         )
-        cursor = conn.cursor()
-        print("Connected to MySQL server.")
+    cursor = conn.cursor()
+    print("Connected to MySQL server.")
 
+    return conn, cursor
+
+def create_mysql_db_tables(cursor, db_name):
+    # Create Papers table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Papers (
+            paper_id INT AUTO_INCREMENT PRIMARY KEY,
+            title VARCHAR(255) NOT NULL
+        )
+    """)
+
+    # Create Chunks table
+    cursor.execute("""
+        CREATE TABLE IF NOT EXISTS Chunks (
+            chunk_id INT AUTO_INCREMENT PRIMARY KEY,
+            paper_id INT,
+            chunk_order INT NOT NULL,
+            chunk_text VARCHAR(255) NOT NULL,
+            FOREIGN KEY (paper_id) REFERENCES Papers(paper_id)
+        )
+    """)
+
+    # List tables
+    cursor.execute("SHOW TABLES")
+    tables = cursor.fetchall()
+    
+    print(f"Tables in the database '{db_name}':")
+    for table in tables:
+        print(table[0])
+
+
+'''
+
+    MAIN FUNCTION
+
+'''
+
+
+def setup_mysql_db():
+    
+    host, user, password = get_mysql_credentials()
+
+    # Connect to MySQL server
+    try:
+        conn, cursor = connect_to_mysql(host, user, password)
+        
         # Display existing databases
         show_databases(cursor)
 
@@ -201,32 +240,7 @@ def setup_mysql_db():
         conn.database = db_name
         print(f"Connected to the database '{db_name}'.")
 
-        # Create Papers table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS Papers (
-                paper_id INT AUTO_INCREMENT PRIMARY KEY,
-                title VARCHAR(255) NOT NULL
-            )
-        """)
-
-        # Create Chunks table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS Chunks (
-                chunk_id INT AUTO_INCREMENT PRIMARY KEY,
-                paper_id INT,
-                chunk_order INT NOT NULL,
-                chunk_text VARCHAR(255) NOT NULL,
-                FOREIGN KEY (paper_id) REFERENCES Papers(paper_id)
-            )
-        """)
-
-        # List tables
-        cursor.execute("SHOW TABLES")
-        tables = cursor.fetchall()
-        
-        print(f"Tables in the database '{db_name}':")
-        for table in tables:
-            print(table[0])
+        create_mysql_db_tables(cursor, db_name)
 
     except mysql.connector.Error as err:
         if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
