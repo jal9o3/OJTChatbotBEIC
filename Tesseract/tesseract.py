@@ -1,4 +1,5 @@
 import hashlib
+import regex as re
 
 import pytesseract
 from pdf2image import convert_from_path
@@ -331,6 +332,23 @@ def query_collection(chroma_client, collection, cursor, query):
     deeper_results = examine_chunks(query, results["documents"][0][0], cursor, chroma_client)
     print(deeper_results["documents"])
 
+# TODO: function to sanitize file names by replacing spaces with underscores
+def sanitize_file_name(file_name):
+    """Replaces spaces with underscores and removes problematic characters from a file name.
+
+    Args:
+        file_name (str): The file name to sanitize.
+
+    Returns:
+        str: The sanitized file name.
+    """
+    # Remove non-alphanumeric characters except for underscores
+    sanitized_name = re.sub(r'[^a-zA-Z0-9_]', '_', file_name)
+    # Replace spaces with underscores
+    sanitized_name = re.sub(r'\s+', '_', sanitized_name)
+    return sanitized_name
+
+
 def main():
 
     # Create or load a persistent client for ChromaDB
@@ -349,10 +367,12 @@ def main():
         if file_name.endswith(".pdf"): # Check if the file is a pdf
             print(f"Processing file: {file_name}")
             pdf_path = os.path.join(directory_path, file_name) # Specify path to the PDF file
-
-            output_file_name = os.path.splitext(file_name)[0] + ".txt" # Specify output file name
+    
+            output_file_name = sanitize_file_name(os.path.splitext(file_name)[0]) + ".txt" # Specify output file name
             output_file_path = os.path.join(output_directory, output_file_name) # Creates file path
             
+            print(f"\n{output_file_name}\n")
+
             try: # Creates a new file
                 with open(output_file_path, 'x', encoding='utf-8') as f:
                     f.close()
@@ -361,8 +381,9 @@ def main():
                 with open(output_file_path, 'w', encoding='utf-8') as f:
                     f.close()
                 print(f"Overwriting existing file: {output_file_path}")
-            except FileNotFoundError:
-                print(f"ERROR: Skipping file {file_name}")
+            except FileNotFoundError as err:
+                print(f"\nERROR: {err}")
+                print(f"ERROR: Skipping file {file_name}\n")
                 continue
 
             # Extract text from the PDF
