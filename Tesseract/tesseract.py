@@ -268,7 +268,11 @@ def upload_to_mysql_db(conn, cursor, file_name, text):
     conn.commit()
 
     chunk_size = 255
-    chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
+    overlap_size = 50
+    # TODO: the first and last characters of each chunk should overlap with
+    # the previous and next chunks, respectively
+    # chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
+    chunks = [text[i:i + chunk_size] for i in range(0, len(text) - overlap_size, chunk_size - overlap_size)]
 
     chunk_order = 1
     for chunk in chunks:
