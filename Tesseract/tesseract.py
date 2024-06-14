@@ -71,6 +71,11 @@ def remove_images(page_image):
     return inverted_image
 
 def pdf_to_text(pdf_path, file_path):
+    #configuration for Tesseract
+    #psm 1 - Automatic page segmentation with Orientation and Script Detection
+    #oem 3 - Default, mode based on the available
+    my_config = r"--psm 1 --oem 3"
+
     print(f"Starting text extraction from: {pdf_path}")
     pages = convert_from_path(pdf_path) # Convert PDF pages to images
     print(f"Converted {len(pages)} pages to images.")
@@ -91,7 +96,7 @@ def pdf_to_text(pdf_path, file_path):
         print(f"Images removed from page {page_number}")
 
         # Perform OCR on the page image
-        text = pytesseract.image_to_string(text_image)
+        text = pytesseract.image_to_string(text_image, config=my_config)
         print(f"OCR performed on page {page_number}")
 
         with open(file_path, 'a', encoding='utf-8') as f: # Append extracted text to the file
@@ -107,40 +112,25 @@ def pdf_to_text(pdf_path, file_path):
 
 
 def main():
-    '''
-    host = ""
-    user = ""
-    password = ""
-
-    if host not in st.session_state:
-        st.session_state.host = ""
-    if user not in st.session_state:
-        st.session_state.user = ""
-    if password not in st.session_state:
-        st.session_state.password = ""
-
-    # Ask user for MySQL host address, user name, and password
-    print("Provide your MySQL credentials.")
-    st.session_state[host] = input("Enter host (default: 127.0.0.1): ")
-    # Set host to 127.0.0.1 if blank
-    if host == "":
-        host = "127.0.0.1"
-    # Set user to root if blank
-    st.session_state[user] = input("Enter user (default: root): ")
-    if user == "":
-        user = "root"
-    st.session_state[password] = input("Enter password: ")
-    '''
-    host = "127.0.0.1"
-    user = "root"
-    password = "ChrisJohn#27"
+    
+    print("Provide your MySQL credentials.") # Ask user for MySQL host address, user name, and password
+    if "host" not in st.session_state:
+        st.session_state.host = input("Enter host (default: 127.0.0.1): ")
+        if st.session_state.host == "":# Set host to 127.0.0.1 if blank
+            st.session_state.host = "127.0.0.1"
+    if "user" not in st.session_state:
+        st.session_state.user = input("Enter user (default: root): ")
+        if st.session_state.user == "":# Set user to root if blank
+            st.session_state.user = "root"
+    if "password" not in st.session_state:
+        st.session_state.password = input("Enter password: ")
 
     # Connect to MySQL server
     try:
         conn = mysql.connector.connect(
-            host=host,
-            user=user,
-            password=password
+            host=st.session_state.host,
+            user=st.session_state.user,
+            password=st.session_state.password
         )
         cursor = conn.cursor()
         print("Connected to MySQL server.")
@@ -149,30 +139,25 @@ def main():
         show_databases(cursor)
 
         # Ask user for a database name
-        '''
-        db_name = ""
-        if db_name not in st.session_state:
-            st.session_state.db_name = ""
 
-        st.session_state[db_name] = input("Enter the database name: ")
-        '''
-        db_name = "technical_database"
+        if "db_name" not in st.session_state:
+            st.session_state.db_name = input("Enter the database name: ")
 
         # Check if the database exists
-        if database_exists(cursor, db_name):
-            print(f"Database '{db_name}' exists.")
+        if database_exists(cursor, st.session_state.db_name):
+            print(f"Database '{st.session_state.db_name}' exists.")
         else:
             # Create the database if it doesn't exist
             try:
-                cursor.execute(f"CREATE DATABASE {db_name}")
-                print(f"Database '{db_name}' created.")
+                cursor.execute(f"CREATE DATABASE {st.session_state.db_name}")
+                print(f"Database '{st.session_state.db_name}' created.")
             except mysql.connector.Error as err:
                 print(f"Failed creating database: {err}")
                 exit(1)
 
         # Connect to the specified database
-        conn.database = db_name
-        print(f"Connected to the database '{db_name}'.")
+        conn.database = st.session_state.db_name
+        print(f"Connected to the database '{st.session_state.db_name}'.")
 
         # Create Papers table
         cursor.execute("""
@@ -197,7 +182,7 @@ def main():
         cursor.execute("SHOW TABLES")
         tables = cursor.fetchall()
         
-        print(f"Tables in the database '{db_name}':")
+        print(f"Tables in the database '{st.session_state.db_name}':")
         for table in tables:
             print(table[0])
 
@@ -243,44 +228,52 @@ def main():
                 st.write(f"{file_info.filename} ({file_info.file_size} bytes)")
         
             if st.button("Extract Files"):
-                    # Create extraction directory
-                    zip_filename = os.path.splitext(st.session_state.uploaded_file.name)[0]
-                    st.write(zip_filename)
-                    extraction_dir = f"{os.path.join(os.getcwd(),zip_filename)}"
-                    st.write(extraction_dir)
-                    
-                    if not os.path.exists(extraction_dir):# Ensure the extraction directory exists
-                        os.makedirs(extraction_dir)
-                    
-                    # Extract all files to the specified directory
-                    zfile.extractall(path=extraction_dir)
-                    
-                    # Create new directory for the output files
-                    new_directory = "output_text"
-                    output_directory = os.path.join(extraction_dir, new_directory)
-                    if not os.path.exists(output_directory):# Ensure the extraction directory exists
-                        os.makedirs(output_directory)
-                    
-                    for file_name in os.listdir(extraction_dir): # iterate for each file in the directory
-                        if file_name.endswith(".pdf"): # Check if the file is a pdf
-                            st.success(f"Processing file: {file_name}")
-                            pdf_path = os.path.join(extraction_dir, file_name) # Specify path to the PDF file
+                # Create extraction directory
+                zip_filename = os.path.splitext(st.session_state.uploaded_file.name)[0]
+                st.write(zip_filename)
+                extraction_dir = f"{os.path.join(os.getcwd(),zip_filename)}"
+                st.write(extraction_dir)
+                
+                if not os.path.exists(extraction_dir):# Ensure the extraction directory exists
+                    os.makedirs(extraction_dir)
+                
+                # Extract all files to the specified directory
+                zfile.extractall(path=extraction_dir)
+                
+                # Create new directory for the output files
+                new_directory = "output_text"
+                output_directory = os.path.join(extraction_dir, new_directory)
+                if not os.path.exists(output_directory):# Ensure the extraction directory exists
+                    os.makedirs(output_directory)
+                
+                for file_name in os.listdir(extraction_dir): # iterate for each file in the directory
+                    if file_name.endswith(".pdf"): # Check if the file is a pdf
+                        st.success(f"Processing file: {file_name}")
+                        pdf_path = os.path.join(extraction_dir, file_name) # Specify path to the PDF file
 
-                            output_file_name = os.path.splitext(file_name)[0] + ".txt" # Specify output file name
-                            output_file_path = os.path.join(output_directory, output_file_name) # Creates file path
+                        output_file_name = os.path.splitext(file_name)[0] + ".txt" # Specify output file name
+                        output_file_path = os.path.join(output_directory, output_file_name) # Creates file path
 
-                            try: # Creates a new file
-                                with open(output_file_path, 'x', encoding='utf-8') as f: 
-                                    f.close()
-                            except FileExistsError: # If file already exists, write over existing file rendering its contents null
-                                with open(output_file_path, 'w', encoding='utf-8') as f: 
-                                    f.close()
+                        try: # Creates a new file
+                            with open(output_file_path, 'x', encoding='utf-8') as f:
+                                f.close()
+                        except FileExistsError: # If file already exists, write over existing file rendering its contents null
+                            with open(output_file_path, 'w', encoding='utf-8') as f: 
+                                f.close()
 
-                            # Extract text from the PDF
-                            pdf_to_text(pdf_path, output_file_path)
-                            st.success(f"Saved as {output_file_name} at {output_file_path}")
+                        # Extract text from the PDF
+                        pdf_to_text(pdf_path, output_file_path)
+                        st.success(f"Saved as {output_file_name} at {output_file_path}")
 
-                            insert_paper(output_file_path, file_name, cursor, conn)
+                        insert_paper(output_file_path, file_name, cursor, conn)
+                
+                #if os.path.exists(extraction_dir):# Delete extraction Diectory afterwards
+                #    for root, dirs, files in os.walk(extraction_dir, topdown=False):
+                #        for name in files:
+                #            os.remove(os.path.join(root, name))
+                #        for name in dirs:
+                #            os.rmdir(os.path.join(root, name))
+                #    os.rmdir(extraction_dir)
 
             st.success("Extraction Complete")
     else:
