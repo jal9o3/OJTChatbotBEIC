@@ -155,11 +155,8 @@ def hash_string(input_string):
 
 '''
 
-def main():
 
-    # Create or load a persistent client for ChromaDB
-    chroma_client = chromadb.PersistentClient(path="./chroma_persistent_client")
-
+def setup_mysql_db():
     # Ask user for MySQL host address, user name, and password
     print("Provide your MySQL credentials.")
     host = input("Enter host (default: 127.0.0.1): ")
@@ -239,7 +236,11 @@ def main():
         else:
             print(err)
             conn.rollback()
+    
+    return conn, cursor
 
+
+def connect_to_chroma_db(chroma_client):
     # Display existing ChromaDB collections
     collections = chroma_client.list_collections()
     print("Existing ChromaDB collections: ")
@@ -255,9 +256,41 @@ def main():
     # chroma_client.persist()
     print("NOTE: ChromaDB Client is automatically persisted!")
 
-    directory_path = input("Enter folder containing PDF files: ") # Specify pdf file directory
-    print(f"Directory specified: {directory_path}")
-    
+    return collection, collection_name
+
+def upload_to_mysql_db(conn, cursor, file_name, text):
+    # Insert paper record into Papers table
+    cursor.execute("""
+        INSERT INTO Papers (title)
+        VALUES (%s)
+    """, (file_name,))
+    paper_id = cursor.lastrowid
+    conn.commit()
+
+    chunk_size = 255
+    chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
+
+    chunk_order = 1
+    for chunk in chunks:
+        cursor.execute("""
+            INSERT INTO Chunks (paper_id, chunk_order, chunk_text)
+            VALUES (%s, %s, %s)
+        """, (paper_id, chunk_order, chunk))
+        chunk_order += 1
+
+    conn.commit()
+
+def upload_to_chroma_db(collection, collection_name, pdf_path, file_name):
+    print("Adding paper to ChromaDB collection...")
+    # Insert paper record into Technical ChromaDB collection
+    collection.add(
+        documents=file_name,
+        metadatas=[{"source": pdf_path}],
+        ids=[f"id#{hash_string(file_name)}"]
+    )
+    print(f"Saved {file_name} to {collection_name} ChromaDB collection")
+
+def setup_output_directory(directory_path):
     # Create new directory for the output files
     new_directory = "output_text"
     output_directory = os.path.join(directory_path, new_directory)
@@ -265,7 +298,34 @@ def main():
         os.mkdir(output_directory)
         print(f"Created new directory: {output_directory}")
     except FileExistsError: # notify if the directory already exists
-        print(f"The directory '{output_directory}' already exists.")
+        print(f"The directory '{output_directory}' already exists.")   
+
+    return output_directory
+
+def query_collection(chroma_client, collection, cursor, query):
+    results = collection.query(
+        query_texts = [
+            query
+        ],
+        n_results=2
+    )
+    print(results["documents"])
+    deeper_results = examine_chunks(query, results["documents"][0][0], cursor, chroma_client)
+    print(deeper_results["documents"])
+
+def main():
+
+    # Create or load a persistent client for ChromaDB
+    chroma_client = chromadb.PersistentClient(path="./chroma_persistent_client")
+
+    conn, cursor = setup_mysql_db()
+
+    collection, collection_name = connect_to_chroma_db(chroma_client)
+    
+    directory_path = input("Enter folder containing PDF files: ") # Specify pdf file directory
+    print(f"Directory specified: {directory_path}")
+
+    output_directory = setup_output_directory(directory_path)
     
     for file_name in os.listdir(directory_path): # iterate for each file in the directory
         if file_name.endswith(".pdf"): # Check if the file is a pdf
@@ -274,7 +334,7 @@ def main():
 
             output_file_name = os.path.splitext(file_name)[0] + ".txt" # Specify output file name
             output_file_path = os.path.join(output_directory, output_file_name) # Creates file path
-
+            
             try: # Creates a new file
                 with open(output_file_path, 'x', encoding='utf-8') as f:
                     f.close()
@@ -295,50 +355,15 @@ def main():
             with open(output_file_path, 'r', encoding='utf-8') as f:
                 text = f.read()
 
-            # Insert paper record into Papers table
-            cursor.execute("""
-                INSERT INTO Papers (title)
-                VALUES (%s)
-            """, (file_name,))
-            paper_id = cursor.lastrowid
-            conn.commit()
+            upload_to_mysql_db(conn, cursor, file_name, text)
 
-            chunk_size = 255
-            chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
-
-            chunk_order = 1
-            for chunk in chunks:
-                cursor.execute("""
-                    INSERT INTO Chunks (paper_id, chunk_order, chunk_text)
-                    VALUES (%s, %s, %s)
-                """, (paper_id, chunk_order, chunk))
-                chunk_order += 1
-        
-            conn.commit()
-
-            print("Adding paper to ChromaDB collection...")
-            # Insert paper record into Technical ChromaDB collection
-            collection.add(
-                documents=file_name,
-                metadatas=[{"source": pdf_path}],
-                ids=[f"id#{hash_string(file_name)}"]
-            )
-            print(f"Saved {file_name} to {collection_name} ChromaDB collection")
+            upload_to_chroma_db(collection, collection_name, pdf_path, file_name)
 
     print("Extraction Complete")
 
-
     # Attempt a query
     query = input("Query the vector database: ")
-    results = collection.query(
-        query_texts = [
-            query
-        ],
-        n_results=2
-    )
-    print(results["documents"])
-    deeper_results = examine_chunks(query, results["documents"][0][0], cursor, chroma_client)
-    print(deeper_results["documents"])
+    query_collection(chroma_client, collection, cursor, query)
 
 if __name__ == "__main__":
     main()
