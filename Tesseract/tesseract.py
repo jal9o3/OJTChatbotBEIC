@@ -11,11 +11,17 @@ from mysql.connector import errorcode
 
 import chromadb
 
+# Size (characters) of text chunks and their overlaps
+CHUNK_SIZE = 1500
+OVERLAP_SIZE = 500
+
 '''
 
     MYSQL DATABASE FUNCTIONS
 
 '''
+
+
 
 # Function to display existing databases
 def show_databases(cursor):
@@ -185,12 +191,12 @@ def create_mysql_db_tables(cursor, db_name):
     """)
 
     # Create Chunks table
-    cursor.execute("""
+    cursor.execute(f"""
         CREATE TABLE IF NOT EXISTS Chunks (
             chunk_id INT AUTO_INCREMENT PRIMARY KEY,
             paper_id INT,
             chunk_order INT NOT NULL,
-            chunk_text VARCHAR(255) NOT NULL,
+            chunk_text VARCHAR({CHUNK_SIZE}) NOT NULL,
             FOREIGN KEY (paper_id) REFERENCES Papers(paper_id)
         )
     """)
@@ -282,8 +288,8 @@ def upload_to_mysql_db(conn, cursor, file_name, text):
     paper_id = cursor.lastrowid
     conn.commit()
 
-    chunk_size = 255
-    overlap_size = 50
+    chunk_size = CHUNK_SIZE
+    overlap_size = OVERLAP_SIZE
     # TODO: the first and last characters of each chunk should overlap with
     # the previous and next chunks, respectively
     # chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
@@ -326,11 +332,29 @@ def query_collection(chroma_client, collection, cursor, query):
         query_texts = [
             query
         ],
-        n_results=2
+        n_results=3
     )
     print(results["documents"])
-    deeper_results = examine_chunks(query, results["documents"][0][0], cursor, chroma_client)
-    print(deeper_results["documents"])
+    # TODO: return tuple of deeper results for the top three titles
+    # deeper_results = examine_chunks(query, results["documents"][0][0], cursor, chroma_client)
+    # print(deeper_results["documents"])
+    
+    # Initialize an empty tuple to store deeper results
+    deeper_results_tuple = ()
+    
+    # Loop through the top three documents
+    for title in results["documents"][0][:3]:
+        # Get deeper results for each title
+        deeper_results = examine_chunks(query, title, cursor, chroma_client)
+        # print(deeper_results["documents"])
+        for document in deeper_results["documents"]:
+            print(document)
+        
+        # Add the deeper results to the tuple
+        deeper_results_tuple += (deeper_results["documents"],)
+    
+    # Return the tuple of deeper results for the top three titles
+    return deeper_results_tuple
 
 # TODO: function to sanitize file names by replacing spaces with underscores
 def sanitize_file_name(file_name):
