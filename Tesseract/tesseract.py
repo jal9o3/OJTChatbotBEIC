@@ -356,7 +356,6 @@ def query_collection(chroma_client, collection, cursor, query):
     # Return the tuple of deeper results for the top three titles
     return deeper_results_tuple
 
-# TODO: function to sanitize file names by replacing spaces with underscores
 def sanitize_file_name(file_name):
     """Replaces spaces with underscores and removes problematic characters from a file name.
 

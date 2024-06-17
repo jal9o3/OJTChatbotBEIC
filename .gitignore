@@ -4,3 +4,4 @@ FORJANNNNN.ipynb
 db.sqlite3
 api_test.py
 __pycache__/
+.env
