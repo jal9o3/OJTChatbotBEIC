@@ -1,4 +1,5 @@
 import mysql.connector
+from mysql.connector import errorcode
 
 import environ
 
@@ -20,10 +21,13 @@ def connect_to_mysql(host, user, password):
 def setup_mysql_db():
     
     # host, user, password = get_mysql_credentials()
-    host = "127.0.0.1"
+    # host = "127.0.0.1"
+    # user = "root"
+    host = "172.17.0.2"
     user = "root"
     
-    password = env('DATABASE_PASSWORD')
+    # password = env('DATABASE_PASSWORD')
+    password = env('DOCKER_DBPASS')
     # Connect to MySQL server
     try:
         conn, cursor = connect_to_mysql(host, user, password)
