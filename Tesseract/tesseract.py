@@ -1,17 +1,17 @@
 import pytesseract
 from pdf2image import convert_from_path
 import os
-from PIL import Image
+import cv2 as cv
+import numpy as np
 
 import mysql.connector
 from mysql.connector import errorcode
 
 import streamlit as st
-from zipfile import ZipFile
 import io
 
 
-    #DATABASE FUNCTIONS---------------------
+# DATABASE FUNCTIONS---------------------
 
 
 # Function to display existing databases
@@ -57,18 +57,144 @@ def insert_paper(output_file_path, file_name, cursor, conn):
 
 #EXTRACTION FUNCTIONS------------------
 
+#       Preprocessing Functions---------------------
 
-def remove_images(page_image):
+# Remove Images
+def remove_images(image):
+    #lower and upper limit of binarizing
+    lower = 210
+    upper = 230
     # Convert the image to grayscale
-    gray_image = page_image.convert('L')
+    gray_image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
 
     # Perform thresholding to convert grayscale image to binary (black and white)
-    binary_image = gray_image.point(lambda pixel: 255 if pixel > 200 else 0, '1')
+    thresh, binarized = cv.threshold(gray_image, lower, upper, cv.THRESH_BINARY)
 
     # Invert the binary image (so that text becomes white on black background)
-    inverted_image = Image.eval(binary_image, lambda pixel: 255 - pixel)
+    inverted_image = cv.bitwise_not(binarized)
 
     return inverted_image
+
+# Remove Noise
+def remove_noise(image):
+    iteration = 1
+    
+    kernel = np.ones((1, 1), np.uint8)
+    image = cv.dilate(image, kernel, iteration)
+    
+    kernel = np.ones((1, 1), np.uint8)
+    image = cv.erode(image, kernel, iteration)
+    
+    image = cv.morphologyEx(image, cv.MORPH_CLOSE, kernel)
+    image = cv.medianBlur(image, 3)
+    
+    return image
+
+# Dilate and Erode
+def thick_font(image):
+
+    image = cv.bitwise_not(image)
+    kernel = np.ones((2,2),np.uint8)
+    image = cv.dilate(image, kernel, iterations=1)
+    image = cv.bitwise_not(image)
+    
+    return image
+
+def thin_font(image):
+    import numpy as np
+    image = cv.bitwise_not(image)
+    kernel = np.ones((2,2),np.uint8)
+    image = cv.erode(image, kernel, iterations=1)
+    image = cv.bitwise_not(image)
+    return image
+
+#Crop Images
+def crop_image(image):
+    height, width = image.shape[:2]
+    
+    top_crop = 0.05
+    bottom_crop = 0.05
+    left_crop = 0
+    right_crop = 0
+
+    top = int(height * top_crop)
+    bottom = height - int(height * bottom_crop)
+    left = int(width * left_crop)
+    right = width - int(width * right_crop)
+
+    cropped_image = image[top:bottom, left:right]
+    
+    return cropped_image
+
+#Remove Borders automatically
+def remove_borders(image):
+    contours, heiarchy = cv.findContours(image, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
+    cntsSorted = sorted(contours, key=lambda x:cv.contourArea(x))
+    cnt = cntsSorted[-1]
+    x, y, w, h = cv.boundingRect(cnt)
+    crop = image[y:y+h, x:x+w]
+    
+    return (crop)
+
+# Add Borders
+def add_borders(image):
+    color = [255, 255, 255]
+    top, bottom, left, right = [150]*4
+
+    image_with_border = cv.copyMakeBorder(image, top, bottom, left, right, cv.BORDER_CONSTANT, value=color)
+
+    return image_with_border
+
+# Rotation and Deskewing
+def getSkewAngle(cvImage) -> float:
+    # Prep image, copy, convert to gray scale, blur, and threshold
+    newImage = cvImage.copy()
+    gray = cv.cvtColor(newImage, cv.COLOR_BGR2GRAY)
+    blur = cv.GaussianBlur(gray, (9, 9), 0)
+    thresh = cv.threshold(blur, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)[1]
+
+    # Apply dilate to merge text into meaningful lines/paragraphs.
+    # Use larger kernel on X axis to merge characters into single line, cancelling out any spaces.
+    # But use smaller kernel on Y axis to separate between different blocks of text
+    kernel = cv.getStructuringElement(cv.MORPH_RECT, (30, 5))
+    dilate = cv.dilate(thresh, kernel, iterations=2)
+
+    # Find all contours
+    contours, hierarchy = cv.findContours(dilate, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
+    contours = sorted(contours, key = cv.contourArea, reverse = True)
+    for c in contours:
+        rect = cv.boundingRect(c)
+        x,y,w,h = rect
+        cv.rectangle(newImage,(x,y),(x+w,y+h),(0,255,0),2)
+
+    # Find largest contour and surround in min area box
+    largestContour = contours[0]
+    print (len(contours))
+    minAreaRect = cv.minAreaRect(largestContour)
+    cv.imwrite("temp/boxes.jpg", newImage)
+    # Determine the angle. Convert it to the value that was originally used to obtain skewed image
+    angle = minAreaRect[-1]
+    if angle < -45:
+        angle = 90 + angle
+    return -1.0 * angle
+
+# Rotate the image around its center
+def rotateImage(cvImage, angle: float):
+    newImage = cvImage.copy()
+    (h, w) = newImage.shape[:2]
+    center = (w // 2, h // 2)
+    M = cv.getRotationMatrix2D(center, angle, 1.0)
+    newImage = cv.warpAffine(newImage, M, (w, h), flags=cv.INTER_CUBIC, borderMode=cv.BORDER_REPLICATE)
+    return newImage
+
+# Deskew image
+def deskew(cvImage):
+    angle = getSkewAngle(cvImage)
+    return rotateImage(cvImage, -1.0 * angle)
+
+
+#       Main Extraction Function-----------------
+
 
 def pdf_to_text(pdf_path, file_path):
     #configuration for Tesseract
@@ -83,13 +209,11 @@ def pdf_to_text(pdf_path, file_path):
     # Iterate through each page image and perform OCR
     for page_number, page_image in enumerate(pages, start=1):
         print(f"Processing page {page_number} of {pdf_path}")
-        width, height = page_image.size
 
+        # Convert PIL image to OpenCV image
+        page_image = cv.cvtColor(np.array(page_image), cv.COLOR_RGB2BGR)
         # Crop header and footnote
-        top_crop = int(0.05 * height)
-        bottom_crop = int(0.95 * height)
-        cropped_image = page_image.crop((0, top_crop, width, bottom_crop))
-        print(f"Cropped page {page_number}: top {top_crop}px, bottom {bottom_crop}px")
+        cropped_image = crop_image(page_image)
 
         # Remove images from the page
         text_image = remove_images(cropped_image)
@@ -110,9 +234,12 @@ def pdf_to_text(pdf_path, file_path):
     #MAIN FUNCTION--------------------------
 
 
+# MAIN----------------
+
 
 def main():
     
+
     print("Provide your MySQL credentials.") # Ask user for MySQL host address, user name, and password
     if "host" not in st.session_state:
         st.session_state.host = input("Enter host (default: 127.0.0.1): ")
@@ -196,56 +323,54 @@ def main():
             conn.rollback()
 
 
-    st.title("Tesseract Extractor")
-    st.write("Extract PDFs and add them directly to the database")
-    st.write("")
-    st.write("Extract a diectory of PDFs:")
+
+
 
     if 'uploaded_file' not in st.session_state:
         st.session_state.uploaded_file = None
-    
-    if 'file_bytes' not in st.session_state:
-        st.session_state.file_bytes = None
 
     for item in st.session_state.items():
-        item
+        print("Beginning of Session:")
+        print(f"{item}")
 
-    #if st.button("Upload zip file:"):
-    st.session_state.uploaded_file = st.file_uploader("Choose a zip file")
+    # Create diectory for the uploaded files
+    uploaded_files = "uploaded_pdf"
+    extraction_dir = f"{os.path.join(os.getcwd(), uploaded_files)}"
+    if not os.path.exists(extraction_dir):# Ensure the extraction directory exists
+        os.makedirs(extraction_dir)
+
+    # Create new directory for the output files
+    new_directory = "output_text"
+    output_directory = os.path.join(extraction_dir, new_directory)
+    if not os.path.exists(output_directory):# Ensure the extraction directory exists
+        os.makedirs(output_directory)
+
+    st.markdown("<h1 style='text-align: center;'>Tesseract Extractor</h1>", unsafe_allow_html=True)
+    st.markdown("<p style='text-align: center;'>Extract PDFs and add them directly to the database.</p>", unsafe_allow_html=True)
+    st.write("")
+
+    col1, col2 = st.columns(2)
+
+    with col1:
+        st.write("Extract PDFs:")
+
+        st.session_state.uploaded_file = st.file_uploader("Choose a file", type = "pdf", accept_multiple_files = True)
+        st.success(f"{len(st.session_state.uploaded_file)} file(s) uploaded")
+
+        if st.session_state.uploaded_file is not None: 
+            
+            for uploaded_file in st.session_state.uploaded_file:
+                pdf_path = os.path.join(extraction_dir, uploaded_file.name)
     
-    if st.session_state.uploaded_file is not None: 
-        st.success("File Uploaded")
-        st.session_state.file_bytes = io.BytesIO(st.session_state.uploaded_file.read())
+                # Save the file
+                with open(pdf_path, "wb") as f:
+                    f.write(uploaded_file.getbuffer())
 
-        for item in st.session_state.items():
-            item
-
-        # Extract the zip file
-        with ZipFile(st.session_state.file_bytes) as zfile:
-            # List all files in the zip
-            st.write("Files in the zip:")
-            for file_info in zfile.infolist():
-                st.write(f"{file_info.filename} ({file_info.file_size} bytes)")
-        
+            for item in st.session_state.items():
+                print("Before Extraction:")
+                print(f"{item}")
+                
             if st.button("Extract Files"):
-                # Create extraction directory
-                zip_filename = os.path.splitext(st.session_state.uploaded_file.name)[0]
-                st.write(zip_filename)
-                extraction_dir = f"{os.path.join(os.getcwd(),zip_filename)}"
-                st.write(extraction_dir)
-                
-                if not os.path.exists(extraction_dir):# Ensure the extraction directory exists
-                    os.makedirs(extraction_dir)
-                
-                # Extract all files to the specified directory
-                zfile.extractall(path=extraction_dir)
-                
-                # Create new directory for the output files
-                new_directory = "output_text"
-                output_directory = os.path.join(extraction_dir, new_directory)
-                if not os.path.exists(output_directory):# Ensure the extraction directory exists
-                    os.makedirs(output_directory)
-                
                 for file_name in os.listdir(extraction_dir): # iterate for each file in the directory
                     if file_name.endswith(".pdf"): # Check if the file is a pdf
                         st.success(f"Processing file: {file_name}")
@@ -267,17 +392,17 @@ def main():
 
                         insert_paper(output_file_path, file_name, cursor, conn)
                 
-                #if os.path.exists(extraction_dir):# Delete extraction Diectory afterwards
+                #if os.path.exists(extraction_dir):# Delete files in extraction Diectory afterwards
                 #    for root, dirs, files in os.walk(extraction_dir, topdown=False):
                 #        for name in files:
                 #            os.remove(os.path.join(root, name))
                 #        for name in dirs:
                 #            os.rmdir(os.path.join(root, name))
-                #    os.rmdir(extraction_dir)
 
-            st.success("Extraction Complete")
-    else:
-        st.write("Please upload a zip file to proceed.")
+                st.success("Extraction Complete")
+                st.session_state.uploaded_file = None
+        else:
+            st.write("Please upload a pdf file to proceed.")
 
 
 if __name__ == "__main__":

@@ -1,7 +1,9 @@
 
-N.M. Hernandez’, P.J. Lucafias', J.C. Graciosa', C. Mamador’, L. Caezar', I. Panganiban’, C. Yu', K.G.
-Maver’*, M.G. Maver”
-' Traya Energies, 7 KGM geoconsulting
+ML P17
+
+N.M. Hernandez’, P.J. Lucafias', J.C. Graciosa', C. Mamador', L. Caezar', I. Panganiban!, C. Yu', K.G.
+Maver’*, M.G. Maver’
+'Traya Energies, 7 KGM geoconsulting
 
 Summary
 
@@ -19,6 +21,8 @@ extract relevant information and visualize it for the user, so they can easily d
 colleagues or agnostically port it to other platforms as input.
 
 First EAGE/PESGB Workshop on Machine Learning
+
+ANA ANAT... ANIO tT ..43.. mH
 
 
 Introduction
@@ -63,7 +67,9 @@ cloud sever applications for data security, integrity and shareability. Carefull
 learning sequence for automated text and image analysis include: optical character recognition, deep
 convolutional neural network and image clustering.
 
-Machine Learning
+First EAGE/PESGB Workshop on Machine Learning
+
+ANA ANAT... ANIO tT ..43.. mH
 
 
 The platform capitalizes on the machine learning algorithms that automatically process the
@@ -92,12 +98,12 @@ scanning electron microscope images within each document (Simonyan ef al., 2014)
 
 For the visualization of the images an at-Distributed Stochastic Neighbor Embedding (t-SNE)
 algorithm is used to quantify the similarity of each image, which has been developed to visualize
-high-dimensional datasets and reveal clustering within the datasets (van der Maaten e¢ al., 2008).
+high-dimensional datasets and reveal clustering within the datasets (van der Maaten et al., 2008).
 
 The output from the machine learning sequence is then exposed to the users through the platform to
 ease the work of identifying important information and perform analysis in a more efficient way. The
 extracted information is outputted in an agnostic format, which can be efficiently loaded to other
-platforms or used as is, ie. X, Y or Latitude/Longitude, formation tops in csv or excel format,
+platforms or used as is, ic. X, Y or Latitude/Longitude, formation tops in csv or excel format,
 digitized maps as shapefile for loading into GIS software.
 
 Discussion and conclusion
@@ -120,5 +126,7 @@ Recognition. arXiv preprint arXiv: 1409.1556
 van der Maaten, L.J.P. & Hinton G.E., 2008]: Visualizing High-Dimensional Data using t-SNE.
 Journal of Machine Learning Research, 9, 2576-2605.
 
-on Machine Learning
+First EAGE/PESGB Workshop on Machine Learning
+
+ANA ANAT... ANIO tT ..43.. mH
 

@@ -3,7 +3,7 @@ Supporting the UN 2050 Net Zero goals by reading
 
 the earth better
 
-Nina Marie Hernandez", Kim Gunn Maver and Charmyne Mamador present the ED2
+Nina Marie Hernandez", Kim Gunn Maver and Charmyne Mamador present the ED2K
 initiative, providing multivariate earth data to support UN climate change goals.
 
 Introduction
@@ -12,7 +12,7 @@ Against the backdrop of the current global pandemic, the UN
 2050 net zero goals call for global greenhouse emissions to be cut
 by half by 2030 and reach net zero no later than 2050 to achieve
 the goal of limiting global warming to 1.5 Celsius above pre-in-
-dustrial levels. The EU has pledged to become the first carbon
+dustrial levels. The EU has pledged to become the first carbon.
 neutral continent by 2050, and more than 110 other countries
 have pledged carbon neutrality by this time. Several energy com-
 panies have laid out their medium-to-long-term plans towards
@@ -53,7 +53,7 @@ new tools to search and retrieve the diversity of information that
 one is looking for across any technical discipline.
 
 ‘raya Energies
-“Corresponding author, E-mail: nmh@irayaenergies.com
+* Corresponding author, E-mail: nmh@irayaenergies.com
 DOI: 10.3997/1365-2397.fb2021045
 
 With Big Data analytics applied to the entire data corpus of
@@ -76,15 +76,27 @@ The ingested documents are now available as structured
 information for analysis, which is possible in different ways:
 
 + Metadata extraction of relevant information such as locations,
+
 names etc.
+
 Efficient inter and intra-search of the global text corpus for
+
 quantitative textual analysis of document contents to create
+
 automated and standardized geoscience or engineering content
+
 summary.
+
 Automated heatmaps to visualize density of information
+
 within a basin or country.
-Image extraction of similar image classes for efficient identifi-
+
++ Image extraction of similar image classes for efficient identifi-
 cation of analogues, duplicates and clusters.
+
+.
+
+.
 
 Some key functionality that has a significant impact on utilizing
 the scientific publications is that not only are images classified
@@ -94,47 +106,69 @@ than just a normal search-and-find option. The search results of
 this database are exportable as .csv files making statistical work
 and analysis instantly possible across data points.
 
-tary corporate data meets published
+Proprietary corporate data meets published
+scientific knowledge.
 
-ic knowledge.
 Recognizing that energy companies hold valuable information in
 their repositories accumulated throughout many decades of oper-
 ations, the data kept internally can now be easily integrated with
 published geoscience and engineering data. The combination of
 
 
+mp (219 Source Tray allows access of mulaple databases
+including public data, infsrinaton.
+and CarthDor public ations
+a search Revorts .
+eantenee | SD
+sce rs e-
+inal_Well_maport pas
+ance, ver
+Srewtuae ore) =”
 
-Final_well_Report_Bas
+Final Well_Report_Basic_Vol_2_of 2. 10003551.pdt
+lit tr tain WE fewer Energy Py Li ve: Grommets Cyt Mo: ACH
+{auras transfered na AES7ae masetvePreusute:2047-20R3 Pal RoRAOd Py
+
+$90-10807 sampling Deptt: 1
+Final_Well_Report_Basic_vol_2_of_2_10003551.pdt on sou
+{cbene Ker Mone Shek AuNEEnecRy Py Lid Hel 1-1 cxtma Naz Re
+
+etoe transfered 1 ACS 1423-09 N {2047-2089 pea Bevereie
+“Terperrtue: WO“89°7 Sampling Oeoe: 1378
+
+MAP
 
 KNOWLEDGE GRAPH
 
 Figure 1 Data source tray in the new database allows
 access to multiple databases, including, but not
 limited to, public data, proprietary data, and EarthDoc
-corpus. Reference: Geoscience Australia, NOPIMS
+corpus. Reference: Geoscience Australia, NOPIMS.
 
 Figure 2 Earth readability tools are available in the
-new database dashboard (Rahim et al., 2012).
+new database dashboard (Rahim ef al., 2012).
 
-(© Fiber Optic Technology for Reservou Survediance,
+1a Fiber Opte Technology for Reservar Surveillance,
 
-@ Operatonal Excelence in Qatar's Fest Successful
-' ber Ope Sensing for mnproves Wellbare
-Jo integrated Approach a Optenze Matera Selechon
+Operational Excellence in Qatar's Fist Successful
+©, Finas Opt Sensing for enproved Welbore
+Inwgroie Approaen to Opemize Moral teeeoane= nnn
 
-Engineanng Suceess mo Hartline Operations
+Engmaenng Success mts Wireine Operations i.
 
-© few totalugent Completion Welt Design For.
+© Dew Ineetigert Completion Well Design For.
 
-(@ Masere Hyaraune Fracture Sumulabon on South
+(@ Massive nydraube Fracture Semulanon wn South,
 
-© integrated Ape
+(2 Integrated Ave.
 
-(© Seratgrapluc Architecture of the Latest Jurassic
+oo
 
-(© Natural Fracture interaction with Hydraule aEQ4§Rf Jurassic to Early Barrer
+(© Stratigraphic Architecture ofthe Latest Jowassic
 
-‘© Breaking Ou Recovery Lent in Malaysian.
+(© fatural Fracture interaction with Hydraulic G2ESHEEE Jucassic bo Earty Barren an Parken
+
+© Breaking On Recovery Lanet m Malaysian.
 
 database results in a two-way enrichment process between public
 and private information. Scientific studies from peers in related
@@ -148,7 +182,7 @@ itory that is commonly considered as proprietary corporate data,
 is combined with published EarthDoc contents. (Data source:
 NOPIMS)
 
-@ Pus.ications Figure 3 Visualization of knowledge graph illustrates
+@ Pugtications Figure 3 Visualization of knowledge graph illustrates
 
 related geological and engineering concepts.
 
@@ -163,7 +197,6 @@ The full ED2K corpus is geotagged to more than 800
 geological basins around the world. The geotagging is one of the
 most complex machine learning tasks in this implementation,
 because the scientific articles contain both location of the
-
 
 
 geological area of interest, as well as the location of confer-
@@ -187,7 +220,7 @@ use of the highly valuable subsurface information and facilitates
 cross-discipline usage.
 
 Many of the new cross-function usages of the existing
-scientific publication repository are geothermal energy, hydrogen
+scientific publication repository are geothermal energy, hydrogen.
 energy, CCS and windmill foundation derisking.
 
 A query for ‘carbon capture and storage’ generates an
@@ -196,10 +229,9 @@ geographical distribution of the resulting publications either
 based on country or basin.
 
 Figure 5 maps out the major carbon capture projects around
-the world vis-a-vis needs requirement, Europe and US show high
+the world vis-a-vis needs requirement. Europe and US show high
 activity in CCS initiatives, which are driven by government poli-
 cy. Comparing Figure 4 and Figure 5 (left), it may be incidental,
-
 although not entirely surprising that where there is a significant
 amount of data to aid technical and management decision mak-
 ing, CCS implementations are also active.
@@ -207,6 +239,8 @@ ing, CCS implementations are also active.
 MAP KNOWLEDGE GRAPH
 
 Results Density
+
+countries @
 
 The new database contains climate change and greenhouse
 gases industry discussion materials spanning over three decades.
@@ -220,7 +254,7 @@ establishing a geological storage hub (Espie, 2000) and various
 potential site feasibility studies (Gregersen et. al, 2000), costs
 (Wildenborg et. al, 2000), use of seismic monitoring (Benson,
 2003), (Gosselet et. al., 2006), pilot and numerical simulations
-(Domitrovic et. al., 2005), (Battistelli et.al, 2005), reservoir
+(Domitrovie et. al., 2005), (Battistelli et.al, 2005), reservoir
 performance (Broad et.al, 2007) and improving facilities perfor-
 mance to reduce operating costs in CO, and H,S contaminated
 fields (Swatton et. al, 2009).
@@ -230,7 +264,7 @@ seismic methods, reservoir modelling techniques and laboratory
 experiments (Bolourinejad, 2013} many more complex analyses
 on the subject of carbon storage were performed. Combined with
 enhanced oil recovery experiments (EOR), the amount of data
-modelling CO, behavior underground has multiplied ten-fold.
+modelling CO, behavior underground has multiplied ten-fold,
 
 In areas where it is not possible to implement subsurface
 carbon capture, utilization strategies are discussed by Harsh, A.
@@ -246,13 +280,12 @@ This includes, among others, ending continuous gas flaring
 
 Figure 4 Indicative geolocation of global knowledge
 about ‘carbon capture and storage’ between 2008
-to 2020.
+fo 2020.
 
 Figure 5 Location of major carbon capture projects
-around the world (leff) and the requirement index
+around the world (left) and the requirement index
 based on fossil fuel production and consumption
-(tight). Reference: Global CCS Institute.
-
+(right). Reference: Global CCS Institute.
 
 
 and minimizing gas venting, improving energy efficiency in
@@ -282,6 +315,8 @@ available, it will be immediately accessible, trackable and put
 into context with other relevant information and geographically.
 For example, the geothermal gradient is a key parameter of
 interest in relation to geothermal energy. The temperature data in
+
+GHEE = © 0 wo mmo we
 
 the new database has been acquired by energy companies mostly
 for the purpose of understanding the hydrocarbon generation
@@ -318,17 +353,14 @@ behaviours in enhanced oil recovery operations of
 mature fields can be transferable to carbon storage
 design and monitoring.
 
-7 | | | | | | | | | Figure 7 Combination of carbonate petrography data
+ser tach ES S| | | | | | | Figure 7 Combination of carbonate petrography data
 
 and information extracted from well reports.
 
 
-
 Results Density
 
-ow EE High
-
-Figure 8 Locations of relatively ‘high geothermal gradient areas’ based on existing
+Figure 8 Locations of relatively *high geothermal gradient areas’ based on existing
 corpus, data acquired by oil and gas companies. Data excludes information from
 geothermal companies.
 
@@ -350,7 +382,7 @@ References
 
 Global CCS Institute (https://www.globalcesinstitute.com). CCS Facil-
 ities Database (https://co2re.co/) Geoscience Australia, NOPIMS
-(http://www.ga.gov.aw/nopims).
+(http://www.ga.gov.au/nopims).
 
 Bolourinejad, P. and Herber, R. [2013]. Experimental and Modeling Study
 of Salt Precipitation during Injection of CO2 Contaminated with H2S
@@ -364,25 +396,25 @@ cipitation around CO2 Injection Wells in Depleted Gas Reservoirs,
 
 Broad, J., Ab Majid, M.N., Ariffin, T., Hussain, A. and Basher, A.B.
 [2007]. Deposition of “Asphaltenes” during CO2 Injection and
-Implications for EOS Description and Reservoir Performance, IPT
-2007: International Petroleum Technology Conference, Dubai, Unit-
+Implications for EOS Description and Reservoir Performance, IPTC
+2007: Intemational Petroleum Technology Conference, Dubai, Unit-
 ed Arab Emirates.
 
 Domitrovic, D., Tuschl, M. and Sunjerga, S. [2005]. CO2 Pilot Injection
 at Ivanic Oil Field — Numerical Simulation, IOR 2005 - 13th Euro-
 pean Symposium on Improved Oil Recovery, Budapest, Hungary.
 
-Gosselet, A.C. and Singh, §. [2006]. Elastic Full Waveform Inversion
-for CO2 Sequestration monitoring - ID Synthetic Data Investiga-
+Gosselet, A.C. and Singh, S. [2006]. Elastic Full Waveform Inversion
+for CO2 Sequestration monitoring - 1D Synthetic Data Investiga-
 tions,68th EAGE Conference and Exhibition incorporating SPE
 EUROPEC 2006
 
 Gregersen, U.N., Johannessen, P., Kirby, G., Chadwick, A. and Holloway,
-S. [2000]. Regional Study of the Neogene Deposits in the Southem
+S. [2000]. Regional Study of the Neogene Deposits in the Southem.
 Viking Graben Area - a Site for Potential CO2 Storage,62nd EAGE
 Conference and Exhibition - Special Session on CO2, Glasgow, UK.
 
-Harsh, A.H. and Anne, V.A. [2014]. Carbon Dioxide Capture, Utilization
+Harsh, A.H. and Anne, V.A. [2014]. Carbon Dioxide Capture, Utilization.
 and Storage (CCUS),76th EAGE Conference and Exhibition 2014,
 Amsterdam, Netherlands.
 
@@ -395,30 +427,26 @@ Emissions in Upstream Operations in a Carbon-Constrained World,
 IPTC 2008: International Petroleum Technology Conference, Kuala
 Lumpur, Malaysia
 
-Rahim, M., Azran, A., Press, D., Lee, K-H., Phuat, C.T., Anis, L.,
-Darman, N. and Othman, M. [2012]. An Integrated Reservoir Sim-
+Rahim, M., Azran, A., Press, D., Lee, K.H., Phuat, C.T., Anis, L.,
+Danman, N. and Othman, M. [2012]. An Integrated Reservoir Sim-
 ulation-Geomechanical Study on Feasibility of CO2 Storage in M4
-Carbonate Reservoir, Malaysia, IPTC 2012: Intemational Petroleum
+Carbonate Reservoir, Malaysia, IPTC 2012: International Petroleum
 Technology Conference, Bangkok, Thailand.
 
 Raistrick, M. [2008]. Carbon capture and storage projects to challenge
 governments, scientists, and engineers, First Break.
 
-Wildenborg, A. G.H.and van der Meer L. [1996]. Potential
+Wildenborg, A.N., Breunese, J.G.H.and van der Meer L, [1996]. Potential
 of CO2-disposal in deep reservoirs and aquifers of the Nether-
-Jands,58th EAGE Conference and Exhibition, Netherlands.
+lands,58th EAGE Conference and Exhibition, Netherlands.
 
-Wildenborg, A., Floris, FD., van Wees, J. and Hendriks, C. [2000].
+Wildenborg, A., Floris, F.D., van Wees, J. and Hendriks, C. [2000].
 Costs of CO2 Sequestration by Underground Storage,62nd EAGE
 Conference and Exhibition - Special Session on CO2, Glasgow,
-UK.
+UK,
 
 Swatton, M.J.R., van Soest-Vercammen, E. and Klein Nagelvoort, R.
-
-, Breune:
-
 [2009]. Innovation and Integration in LNG Technology Solutions,
 IPTC 2009: International Petroleum Technology Conference, Doha,
 Qatar.
-
 
