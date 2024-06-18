@@ -2,6 +2,5 @@ chroma_persistent_client/
 reset_records.py
 FORJANNNNN.ipynb
 db.sqlite3
-api_test.py
 __pycache__/
 .env
