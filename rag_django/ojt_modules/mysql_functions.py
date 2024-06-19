@@ -20,14 +20,20 @@ def connect_to_mysql(host, user, password):
 
 def setup_mysql_db():
     
-    # host, user, password = get_mysql_credentials()
-    # host = "127.0.0.1"
-    # user = "root"
-    host = "172.17.0.2"
-    user = "root"
+    dockerized = env.bool('DOCKERIZED')
+    print(f'Dockerized: {dockerized}')
     
-    # password = env('DATABASE_PASSWORD')
-    password = env('DOCKER_DBPASS')
+    # host, user, password = get_mysql_credentials()
+    
+    if not dockerized:
+        host = "127.0.0.1"
+        user = "root"
+        password = env('DATABASE_PASSWORD')
+    else:
+        host = env('DOCKER_DBHOST')
+        user = env('DOCKER_DBPASS')
+        password = env('DOCKER_DBPASS')
+        
     # Connect to MySQL server
     try:
         conn, cursor = connect_to_mysql(host, user, password)
