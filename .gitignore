@@ -4,3 +4,4 @@ FORJANNNNN.ipynb
 db.sqlite3
 __pycache__/
 .env
+/rag_api/
