@@ -1,0 +1,13 @@
+version: '3'
+services:
+  web:
+    image: rag_api
+    ports:
+      - "8000:8000"
+    depends_on:
+      - db
+  db:
+    image: new-mysql
+    environment:
+      MYSQL_DATABASE: technical
+      MYSQL_PASSWORD: root
