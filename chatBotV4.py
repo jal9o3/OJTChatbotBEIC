@@ -1,34 +1,33 @@
-# Chatbot Model
-import numpy as np
-from transformers import AutoTokenizer, AutoModelForCausalLM,pipeline
-import re
-
-from sentence_transformers import SentenceTransformer
+from transformers import AutoTokenizer, AutoModelForCausalLM, pipeline
 import torch
 
-# Retrieval Augmented Generation
 from langchain_community.embeddings import HuggingFaceBgeEmbeddings
 from langchain_community.vectorstores import Chroma
+
 import streamlit as st
 
-torch.random.manual_seed(0)
+from transformers import BitsAndBytesConfig
+from torch import bfloat16
 
-# Ensure no gradients are calculated
+st.set_page_config(page_title="Testing ChatBot", layout="wide")
 torch.set_grad_enabled(False)
 
 
 @st.cache_resource
 def load_model():
-    print("Loading Model...")
+    print("Loading Model")
+
+    model_name = "microsoft/Phi-3-mini-4k-instruct"
 
     # Load model in FP16 precision to save memory
     model = AutoModelForCausalLM.from_pretrained(
-        "microsoft/Phi-3-mini-4k-instruct",
+        model_name,
         device_map="cuda",
         torch_dtype=torch.float16,  # change to auto
         trust_remote_code=True,
     )
-    tokenizer = AutoTokenizer.from_pretrained("microsoft/Phi-3-mini-4k-instruct")
+
+    tokenizer = AutoTokenizer.from_pretrained(model_name)
 
     pipe = pipeline(
         "text-generation",
@@ -38,7 +37,31 @@ def load_model():
 
     return pipe
 
+    # # Our 4-bit configuration to load the LLM with less GPU memory
+    # bnb_config = BitsAndBytesConfig(
+    #     load_in_4bit=True,  # 4-bit quantization
+    #     bnb_4bit_quant_type='nf4',  # Normalized float 4
+    #     bnb_4bit_use_double_quant=True,  # Second quantization after the first
+    #     bnb_4bit_compute_dtype=bfloat16  # Computation type
+    # )
+    #
+    # tokenizer = AutoTokenizer.from_pretrained(model_name)
+    # model = AutoModelForCausalLM.from_pretrained(
+    #     model_name,
+    #     quantization_config=bnb_config,
+    #     device_map='auto',
+    #     trust_remote_code=True
+    # )
+    #
+    # # Create a pipeline
+    # pipe = pipeline(model=model,
+    #                 tokenizer=tokenizer,
+    #                 task='text-generation')
+    #
+    # return pipe
 
+
+@st.cache_resource
 def get_embedding():
     model_name = "sentence-transformers/all-MiniLM-L6-v2"
     encode_kwargs = {"normalize_embeddings": True}
@@ -55,8 +78,11 @@ def get_embedding():
     return hf
 
 
-def retrieve_context(query_text: str):
+if "retrieved_text" not in st.session_state:
+    st.session_state.retrieved_text = ""
 
+
+def retrieve_context(prompt: str, k):
     database_path = "Database"
 
     # Prepare the DB
@@ -67,34 +93,42 @@ def retrieve_context(query_text: str):
     )
 
     # Search the DB.
-    results = db.similarity_search_with_score(query_text, k=5)
+    results = db.similarity_search_with_score(prompt, k)
 
     # Filter results with score <= 1
-    filtered_results = [(chunk, score) for chunk, score in results if score <= 1]
+    filtered_results = [(chunk, score) for chunk, score in results if score <= 1.4]
+
+    text_result = ""
+    for result in filtered_results:
+        text_result += f"METADATA: {result[0].metadata['source']}\nSCORE: {result[1]}\nContent: {result[0].page_content}\n\n====================================\n\n"
+
+    st.session_state.retrieved_text = text_result
 
     content = ""
     for i in filtered_results:
         content += f"{i[0].page_content} \n =================== \n"
 
-    PROMPT_TEMPLATE = f"""
-    You are a helpful Assistant,
-    you have to be professional on how you answer, provide only the answer that is asked nothing else.
+    prompt_template = f"""
+        You are a helpful Assistant,
+        you have to be professional on how you answer, provide only the answer that is asked nothing else.
 
-    Answer the question based on the content (if empty, just converse normally):
+        Answer the question based on the content (if empty, just converse normally):
+        If context is provided, 
 
-    Content: {content}
+        Content: {content}
 
-    Answer this question based on the content above: {query_text}
-    """
+        Answer this question based on the content above: {prompt}
+        """
 
-    return PROMPT_TEMPLATE
+    return prompt_template
+
 
 def main(pipe):
-
-    # Import CSS
+    # --- CSS ---
     with open('style.css') as f:
         st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
+    # --- Generation Args ---
     generation_args = {
         "max_new_tokens": 100,
         "return_full_text": False,
@@ -102,70 +136,88 @@ def main(pipe):
         "do_sample": True,
     }
 
-    # Set Title
-    st.title("Trial Chat Bot")
+    # --- Sidebar ---
+    with st.sidebar:
+        st.title("Settings")
 
-    # Initialize Chat History
+        st.markdown("**Retrieval Augmented Generation**")
+        with st.container():
+            col1, col2 = st.columns(2)
+            with col1:
+                st.write("##")
+                rag_active = st.toggle("RAG")
+            with col2:
+                # chunks = st.number_input("Chunks", min_value=2, max_value=5)
+                chunks = st.selectbox("No. of Chunks", [1, 2, 3, 4, 5, 6, 7, 8, 9, 10], disabled=not rag_active)
+
+    # --- Chat ---
+    st.title("Chat")
+
+    # Chat History
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
-    # Initialize Prompt History
+    # Prompt History (for AI)
     if "prompt_message" not in st.session_state:
         st.session_state.prompt_message = []
 
-    # Display chat messages from history on app rerun
+    # Show Chat History
     for message in st.session_state.messages:
-        with st.chat_message(message["role"]):
-            st.markdown(message["content"])
+        with st.chat_message(message['role']):
+            st.markdown(message['content'])
 
-    # User Input
+    # Start of Conversation
     prompt = st.chat_input("What is up?")
 
     if prompt:
-        if prompt == "/history":
-            with st.chat_message("user"):
-                st.markdown(prompt)
+        # User Prompt
+        with st.chat_message("user"):
+            st.markdown(prompt)
 
-            for con in st.session_state.messages:
-                st.markdown(f"{con["role"]} : {con["content"]}")
-
-        elif prompt == "/prompt_history":
-            with st.chat_message("user"):
-                st.markdown(prompt)
-
-            for con in st.session_state.prompt_message:
-                st.markdown(f"{con["role"]} : {con["content"]}")
-
-        else:
-            torch.cuda.empty_cache()
-
-            # Display message in chat message container (USER)
-            with st.chat_message("user"):
-                st.markdown(prompt)
-
-            # Add to chat history
-            user_input = {"role": "user", "content": prompt}
-            st.session_state.messages.append(user_input)
+        # RAG Implementation
+        if rag_active:
+            st.session_state.retrieved_text = retrieve_context(prompt, chunks)
 
             # Add to prompt history
-            user_prompt = {"role": "user", "content": retrieve_context(prompt)}
+            user_prompt = {"role": "user", "content": retrieve_context(prompt, chunks)}
+            st.session_state.prompt_message.append(user_prompt)
+        else:
+            # Add to prompt history
+            user_prompt = {"role": "user", "content": prompt}
             st.session_state.prompt_message.append(user_prompt)
 
-            # Display message in chat message container (ASSISTANT)
-            with st.chat_message("assistant"):
-                with st.spinner(text="Typing..."):
-                    output = pipe(st.session_state.prompt_message, **generation_args)
-                    response = output[0]['generated_text']
+        # Add to chat history
+        user_input = {"role": "user", "content": prompt}
+        st.session_state.messages.append(user_input)
 
-                    # Display the response
-                    st.markdown(response)
+        # Assistant Response
+        with st.chat_message("assistant"):
+            with st.spinner("Typing..."):
+                output = pipe(st.session_state.prompt_message, **generation_args)
+                response = output[0]['generated_text']
 
-                # Add to chat history
-            assistant_input = {"role": "assistant", "content": response}
-            st.session_state.messages.append(assistant_input)
-            st.session_state.prompt_message.append(assistant_input)
+                st.markdown(response)
+
+        # Add to chat history
+        assistant_input = {"role": "assistant", "content": response}
+        st.session_state.messages.append(assistant_input)
+        st.session_state.prompt_message.append(assistant_input)
+
+        # st.session_state.messages.append({"role": "assistant", "content": f"Echo: {prompt}"})
+
+    # --- Update Sidebar ---
+    with st.sidebar:
+        if not rag_active:
+            st.session_state.retrieved_text = ""
+            st.text_area("Returned Chunks",
+                         disabled=True,
+                         height=550)
+        else:
+            st.text_area("Returned Chunks",
+                         f"{st.session_state.retrieved_text}",
+                         disabled=True,
+                         height=550)
 
 
 if __name__ == "__main__":
-    pipe = load_model()
-    main(pipe)
+    main(load_model())
