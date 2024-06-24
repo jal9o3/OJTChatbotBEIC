@@ -1,3 +1,5 @@
+import socket
+
 import mysql.connector
 from mysql.connector import errorcode
 
@@ -30,7 +32,10 @@ def setup_mysql_db():
         user = "root"
         password = env('DATABASE_PASSWORD')
     else:
-        host = env('DOCKER_DBHOST')
+        ip_address = socket.gethostbyname("db")
+        print(f"Host IP: {ip_address}")
+        host = ip_address
+        # host = env('DOCKER_DBHOST')
         user = env('DOCKER_DBPASS')
         password = env('DOCKER_DBPASS')
         

@@ -21,7 +21,7 @@ ADD . /app/
 
 # install packages specified in requirements.txt
 RUN pip install --upgrade pip
-RUN pip install -r requirements.txt
+RUN pip install -r requirements.txt --default-timeout=1000
 
 # expose the port server is running on
 EXPOSE 8000
