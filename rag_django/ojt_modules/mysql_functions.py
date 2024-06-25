@@ -28,14 +28,13 @@ def setup_mysql_db():
     # host, user, password = get_mysql_credentials()
     
     if not dockerized:
-        host = "127.0.0.1"
+        host = env('LOCAL_DBHOST')
         user = "root"
-        password = env('DATABASE_PASSWORD')
+        password = env('LOCAL_DBPASS')
     else:
         ip_address = socket.gethostbyname("db")
         print(f"Host IP: {ip_address}")
         host = ip_address
-        # host = env('DOCKER_DBHOST')
         user = env('DOCKER_DBPASS')
         password = env('DOCKER_DBPASS')
         
