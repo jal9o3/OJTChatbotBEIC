@@ -97,7 +97,8 @@ def query_collection(chroma_client, collection, cursor, query):
             print(document)
         
         # Add the deeper results to the tuple
-        deeper_results_tuple += (deeper_results["documents"],)
+        # deeper_results_tuple += (deeper_results["documents"],)
+        deeper_results_tuple += (deeper_results,)
         
     print("Done examining chunks.")
     
