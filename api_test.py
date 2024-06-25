@@ -13,8 +13,8 @@ query = replace_forward_slashes(query)
 encoded_query = quote(query, safe='')
 print("Encoded Query: " + encoded_query)
 
-response = requests.get('http://127.0.0.1:8000/query/' + encoded_query)
-# response = requests.get('http://0.0.0.0:8000/query/' + encoded_query)
+response = requests.get(f'http://127.0.0.1:8000/query/{encoded_query}/2/')
+# response = requests.get(f'http://0.0.0.0:8000/query/{encoded_query}/2/')
 
 if response.status_code == 200:
     data = response.json()

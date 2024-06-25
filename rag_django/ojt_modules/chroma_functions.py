@@ -67,7 +67,7 @@ def examine_chunks(query, paper_title, cursor, chroma_client):
     return results
 
 
-def query_collection(chroma_client, collection, cursor, query):
+def query_collection(chroma_client, collection, cursor, query, n_results):
     # List every document in collection
     print("Listing documents...")
     documents = collection.get()
@@ -78,7 +78,7 @@ def query_collection(chroma_client, collection, cursor, query):
         query_texts = [
             query
         ],
-        n_results=3
+        n_results=n_results
     )
     print(results["documents"])
     # TODO: return tuple of deeper results for the top three titles
