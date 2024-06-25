@@ -13,5 +13,5 @@ services:
       MYSQL_DATABASE: technical
       MYSQL_PASSWORD: root
     ports:
-      - "3306:3306"
+      - "3306"
     # network_mode: host
