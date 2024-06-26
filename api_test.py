@@ -7,7 +7,7 @@ def replace_forward_slashes(input_string):
 # query = "hello!:mfs// lmao"
 # query = "hello!:mfs lmao"
 # query = "hello there Everyone!"
-query = "bonaparte basin"
+query = "Give me the references for the paper 'A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques'."
 
 query = replace_forward_slashes(query)
 encoded_query = quote(query, safe='')
