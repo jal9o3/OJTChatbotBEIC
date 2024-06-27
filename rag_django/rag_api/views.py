@@ -16,8 +16,7 @@ from rest_framework.views import APIView
 
 from .serializers import FileUploadSerializer
 
-from ojt_modules import chroma_functions
-from ojt_modules import mysql_functions
+from ojt_modules import chroma_functions, mysql_functions, utility_functions
 
 # Create your views here.
 
@@ -49,8 +48,10 @@ class FileUploadAPIView(APIView):
             # serializer.validated_data["file"] gives the file name
             file_name = serializer.validated_data["file"].name
             split_file_name = file_name.split('.')
-            # TODO: upload txt file to MySQL databases
-            with open(f"media/{file_name}", 'r', encoding='utf-8') as f:
+            # Sanitize the file name before extension
+            split_file_name[0] = utility_functions.sanitize_file_name(split_file_name[0])
+            # Upload txt file to MySQL and ChromaDB databases
+            with open(f"media/{split_file_name[0]}.txt", 'r', encoding='utf-8') as f:
                 text = f.read()
 
             print("Uploading .txt to MySQL...")
