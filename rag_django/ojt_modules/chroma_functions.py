@@ -4,7 +4,7 @@ import chromadb
 
 import mysql.connector
 
-CHUNK_LIMIT = 50
+CHUNK_LIMIT = 95
 
 def connect_to_chroma_db(chroma_client):
     # Display existing ChromaDB collections
@@ -38,6 +38,10 @@ def examine_chunks(query, paper_title, cursor, chroma_client):
     # Get the chunks for the paper
     cursor.execute("SELECT * FROM chunks WHERE paper_id = %s ORDER BY chunk_order", (paper[0],))
     chunks = cursor.fetchall()
+
+    # Check if temp_collection exists and delete if it does (to avoid errors)
+    if "temp_collection" in [c.name for c in chroma_client.list_collections()]:
+        chroma_client.delete_collection(name="temp_collection")
 
     # Convert to ChromaDB collection
     collection = chroma_client.create_collection("temp_collection")
