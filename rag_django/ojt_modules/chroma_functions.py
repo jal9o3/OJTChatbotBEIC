@@ -4,6 +4,8 @@ import chromadb
 
 import mysql.connector
 
+CHUNK_LIMIT = 50
+
 def connect_to_chroma_db(chroma_client):
     # Display existing ChromaDB collections
     collections = chroma_client.list_collections()
@@ -44,11 +46,18 @@ def examine_chunks(query, paper_title, cursor, chroma_client):
 
     print("Adding paper to ChromaDB collection...")
     # Insert paper record into Technical ChromaDB collection
-    collection.add(
-        documents=[chunk[3] for chunk in chunks],
-        metadatas=[{"source": paper_title} for i in range(len(chunks))],
-        ids=[f"id{i}" for i in range(len(chunks))]
-    )
+    # collection.add(
+    #     documents=[chunk[3] for chunk in chunks],
+    #     metadatas=[{"source": paper_title} for i in range(len(chunks))],
+    #     ids=[f"id{i}" for i in range(len(chunks))]
+    # )
+    # TODO: attempt an approach to save memory
+    for i, chunk in enumerate(chunks[:CHUNK_LIMIT]):
+        collection.add(
+            documents=[chunk[3]],
+            metadatas=[{"source": paper_title}],
+            ids=[f"id{i}"]
+        )
     print(f"Saved {paper_title} to temp_collection ChromaDB collection")
 
     # Pass the query to the collection

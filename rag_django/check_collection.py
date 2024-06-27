@@ -1,7 +1,15 @@
 import chromadb
 
+import os, sys
+
 def main():
-    client = chromadb.PersistentClient(path="./chroma_persistent_client")
+    print(os.getcwd())
+    
+    client = chromadb.PersistentClient(path="C:\\Users\\lenovo\\Desktop\\OJTChatbotBEIC\\rag_django\\chroma_persistent_client")
+
+    # Uncomment this in case 'examine chunk' code fails
+    # client.delete_collection(name="temp_collection")
+    # sys.exit()
 
     # Display existing ChromaDB collections
     collections = client.list_collections()
