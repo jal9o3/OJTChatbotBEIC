@@ -3,16 +3,20 @@ from pdf2image import convert_from_path
 import os
 import cv2 as cv
 import numpy as np
+import pandas
+from io import BytesIO
+from PIL import Image
 
 import mysql.connector
 from mysql.connector import errorcode
 
 import streamlit as st
-import io
 
 
 # DATABASE FUNCTIONS---------------------
 
+
+#       Other Database Functions
 
 # Function to display existing databases
 def show_databases(cursor):
@@ -53,6 +57,83 @@ def insert_paper(output_file_path, file_name, cursor, conn):
         chunk_order += 1
 
     conn.commit()
+
+
+#       Main Database Function
+
+
+def connect_SQL(host, user, password):
+    # Connect to MySQL server
+    try:
+        conn = mysql.connector.connect(
+            host=host,
+            user=user,
+            password=password
+        )
+        cursor = conn.cursor()
+        print("Connected to MySQL server.")
+
+        # Display existing databases
+        show_databases(cursor)
+
+        # Ask user for a database name
+
+        db_name = "iraya_database"
+        #db_name = input("Enter the database name: ")
+
+        # Check if the database exists
+        if database_exists(cursor, db_name):
+            print(f"Database '{db_name}' exists.")
+        else:
+            # Create the database if it doesn't exist
+            try:
+                cursor.execute(f"CREATE DATABASE {db_name}")
+                print(f"Database '{db_name}' created.")
+            except mysql.connector.Error as err:
+                print(f"Failed creating database: {err}")
+                exit(1)
+
+        # Connect to the specified database
+        conn.database = db_name
+        print(f"Connected to the database '{db_name}'.")
+
+        # Create Papers table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS Papers (
+                paper_id INT AUTO_INCREMENT PRIMARY KEY,
+                title VARCHAR(255) NOT NULL
+            )
+        """)
+
+        # Create Chunks table
+        cursor.execute("""
+            CREATE TABLE IF NOT EXISTS Chunks (
+                chunk_id INT AUTO_INCREMENT PRIMARY KEY,
+                paper_id INT,
+                chunk_order INT NOT NULL,
+                chunk_text VARCHAR(255) NOT NULL,
+                FOREIGN KEY (paper_id) REFERENCES Papers(paper_id)
+            )
+        """)
+
+        # List tables
+        cursor.execute("SHOW TABLES")
+        tables = cursor.fetchall()
+        
+        print(f"Tables in the database '{db_name}':")
+        for table in tables:
+            print(table[0])
+
+        return cursor, conn
+
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            print("Something is wrong with your user name or password")
+        elif err.errno == errorcode.ER_BAD_DB_ERROR:
+            print("Database does not exist")
+        else:
+            print(err)
+            conn.rollback()
 
 
 #EXTRACTION FUNCTIONS------------------
@@ -193,217 +274,344 @@ def deskew(cvImage):
     return rotateImage(cvImage, -1.0 * angle)
 
 
-#       Main Extraction Function-----------------
+#       Main Extraction Functions-----------------
 
 
-def pdf_to_text(pdf_path, file_path):
+
+def images_to_text(pdf_images, text_file_path):
     #configuration for Tesseract
     #psm 1 - Automatic page segmentation with Orientation and Script Detection
     #oem 3 - Default, mode based on the available
     my_config = r"--psm 1 --oem 3"
 
-    print(f"Starting text extraction from: {pdf_path}")
-    pages = convert_from_path(pdf_path) # Convert PDF pages to images
-    print(f"Converted {len(pages)} pages to images.")
-
     # Iterate through each page image and perform OCR
-    for page_number, page_image in enumerate(pages, start=1):
-        print(f"Processing page {page_number} of {pdf_path}")
+    for page_number, page_image in enumerate(os.listdir(pdf_images), start = 1): # iterate for each file in the directory
+        image_file = os.path.join(pdf_images, page_image)
+        if page_image.endswith(".png"): # Check if the file is a pdf
+            #for page_number, page_image in enumerate(pages, start=1):
+            pdf_name = os.path.splitext(pdf_images)[0]
+            print(f"Processing page {page_number} of {pdf_name}")
 
-        # Convert PIL image to OpenCV image
-        page_image = cv.cvtColor(np.array(page_image), cv.COLOR_RGB2BGR)
-        # Crop header and footnote
-        cropped_image = crop_image(page_image)
+            # Convert PIL image to OpenCV image
+            
+            image = cv.imread(image_file)
+            # Crop header and footnote
+            #cropped_image = crop_image(image)
 
-        # Remove images from the page
-        text_image = remove_images(cropped_image)
-        print(f"Images removed from page {page_number}")
+            # Remove images from the page
+            #text_image = remove_images(cropped_image)
+            #print(f"Images removed from page {page_number}")
 
-        # Perform OCR on the page image
-        text = pytesseract.image_to_string(text_image, config=my_config)
-        print(f"OCR performed on page {page_number}")
+            #thick_font_img = thick_font(cropped_image)
 
-        with open(file_path, 'a', encoding='utf-8') as f: # Append extracted text to the file
-            f.write(f"\n{text}\n")
-        print(f"Appended text of page {page_number} to {file_path}")
+            
+            image_path = os.path.join(pdf_images, f"{page_number}.png") # path of the image
+            cv.imwrite(image_path, image)
 
-    print(f"Completed text extraction from: {pdf_path}")
+            # Perform OCR on the page image
+            text = pytesseract.image_to_string(image,lang = 'enga+fil', config=my_config)
+            print(f"OCR performed on page {page_number}")
+
+            with open(text_file_path, 'a', encoding='utf-8') as f: # Append extracted text to the file
+                f.write(f"\n{text}\n")
+            print(f"Appended text of page {page_number} to {text_file_path}")
+
+    print(f"Completed text extraction from: {pdf_images}")
 
 
 
     #MAIN FUNCTION--------------------------
 
+def remove_contents(dir):
+    if os.path.exists(dir):# Delete files in extraction Diectory afterwards
+        for root, dirs, files in os.walk(dir, topdown=False):
+            for name in files:
+                os.remove(os.path.join(root, name))
+            for name in dirs:
+                os.rmdir(os.path.join(root, name))
+
+def make_dir(parent_dir, name):
+    new_dir = os.path.join(parent_dir, name)
+    if not os.path.exists(new_dir):# Ensure the directory exists
+        os.makedirs(new_dir)
+
+    return new_dir
+
+@st.cache_data
+def extract_image(extraction_dir, image_dir, uploaded_file):
+    if uploaded_file is not None: 
+        # Save the pdfs
+        for uploaded_file in uploaded_file:
+            pdf_path = os.path.join(extraction_dir, uploaded_file.name)
+
+            # Save the file
+            with open(pdf_path, "wb") as f:
+                f.write(uploaded_file.getbuffer())
+
+        # Convert pdfs to images
+        for file_name in os.listdir(extraction_dir): # iterate for each file in the directory
+            if file_name.endswith(".pdf"): # Check if the file is a pdf
+                
+                pdf_path = os.path.join(extraction_dir, file_name) # Specify path to the PDF file
+
+                # Create directory for output image file specific to the pdf
+                pdf_image_dir = os.path.join(image_dir, os.path.splitext(file_name)[0]) # directory containning the images of the pdf
+                if not os.path.exists(pdf_image_dir):# Ensure the extraction directory exists
+                    os.makedirs(pdf_image_dir)
+
+                #print(f"Starting image convertion from: {pdf_path}")
+                pages = convert_from_path(pdf_path) # Convert PDF pages to images
+                #print(f"Converted {len(pages)} pages to images.")
+
+                # Iterate through each page image and save
+                for page_number, page_image in enumerate(pages, start=1):
+                    try:
+                        image_path = os.path.join(pdf_image_dir, f"{page_number}.png") # path of the image
+                        page_image.save(image_path)
+                    except Exception as e:
+                        return st.error(f"Error saving file: {e}")
+    else:
+        st.write("Please upload a pdf file to proceed.")
+
+#@st.experimental_dialog("Provide your MySQL credentials.", width="small")
+#def get_credentials():
+    # Ask user for MySQL host address, user name, and password
+                    
+#    host = st.text_input("Enter host (default: 127.0.0.1): ")
+#    if host == "":# Set host to 127.0.0.1 if blank
+#        host = "127.0.0.1"
+    
+#    user = st.text_input("Enter user (default: root): ")
+#    if user == "":# Set user to root if blank
+#        user = "root"
+    
+#    password = st.text_input("Enter password: ", type = "password")
+
+    #if "host" not in st.session_state:
+    #    st.session_state.host = input("Enter host (default: 127.0.0.1): ")
+    #    if st.session_state.host == "":# Set host to 127.0.0.1 if blank
+    #        st.session_state.host = "127.0.0.1"
+    #if "user" not in st.session_state:
+    #    st.session_state.user = input("Enter user (default: root): ")
+    #    if st.session_state.user == "":# Set user to root if blank
+    #        st.session_state.user = "root"
+    #if "password" not in st.session_state:
+    #    st.session_state.password = input("Enter password: ")
+
+#    return
+
+def extract():
+    st.session_state.extract = True
+
+def upload():
+    st.session_state.upload = True
 
 # MAIN----------------
 
-
 def main():
+
+    st.set_page_config(page_title="Tesseract OCR Extractor", layout="wide")
     
-
-    print("Provide your MySQL credentials.") # Ask user for MySQL host address, user name, and password
-    if "host" not in st.session_state:
-        st.session_state.host = input("Enter host (default: 127.0.0.1): ")
-        if st.session_state.host == "":# Set host to 127.0.0.1 if blank
-            st.session_state.host = "127.0.0.1"
-    if "user" not in st.session_state:
-        st.session_state.user = input("Enter user (default: root): ")
-        if st.session_state.user == "":# Set user to root if blank
-            st.session_state.user = "root"
-    if "password" not in st.session_state:
-        st.session_state.password = input("Enter password: ")
-
-    # Connect to MySQL server
-    try:
-        conn = mysql.connector.connect(
-            host=st.session_state.host,
-            user=st.session_state.user,
-            password=st.session_state.password
-        )
-        cursor = conn.cursor()
-        print("Connected to MySQL server.")
-
-        # Display existing databases
-        show_databases(cursor)
-
-        # Ask user for a database name
-
-        if "db_name" not in st.session_state:
-            st.session_state.db_name = input("Enter the database name: ")
-
-        # Check if the database exists
-        if database_exists(cursor, st.session_state.db_name):
-            print(f"Database '{st.session_state.db_name}' exists.")
-        else:
-            # Create the database if it doesn't exist
-            try:
-                cursor.execute(f"CREATE DATABASE {st.session_state.db_name}")
-                print(f"Database '{st.session_state.db_name}' created.")
-            except mysql.connector.Error as err:
-                print(f"Failed creating database: {err}")
-                exit(1)
-
-        # Connect to the specified database
-        conn.database = st.session_state.db_name
-        print(f"Connected to the database '{st.session_state.db_name}'.")
-
-        # Create Papers table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS Papers (
-                paper_id INT AUTO_INCREMENT PRIMARY KEY,
-                title VARCHAR(255) NOT NULL
-            )
-        """)
-
-        # Create Chunks table
-        cursor.execute("""
-            CREATE TABLE IF NOT EXISTS Chunks (
-                chunk_id INT AUTO_INCREMENT PRIMARY KEY,
-                paper_id INT,
-                chunk_order INT NOT NULL,
-                chunk_text VARCHAR(255) NOT NULL,
-                FOREIGN KEY (paper_id) REFERENCES Papers(paper_id)
-            )
-        """)
-
-        # List tables
-        cursor.execute("SHOW TABLES")
-        tables = cursor.fetchall()
-        
-        print(f"Tables in the database '{st.session_state.db_name}':")
-        for table in tables:
-            print(table[0])
-
-    except mysql.connector.Error as err:
-        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
-            print("Something is wrong with your user name or password")
-        elif err.errno == errorcode.ER_BAD_DB_ERROR:
-            print("Database does not exist")
-        else:
-            print(err)
-            conn.rollback()
-
-
-
-
+    if 'extract' not in st.session_state:
+        st.session_state.extract = False
+    
+    if 'upload' not in st.session_state:
+        st.session_state.upload = False
+    
+    if 'extract_done' not in st.session_state:
+        st.session_state.extract_done = False
+    
+    if 'upload_done' not in st.session_state:
+        st.session_state.upload_done = False
 
     if 'uploaded_file' not in st.session_state:
         st.session_state.uploaded_file = None
 
-    for item in st.session_state.items():
-        print("Beginning of Session:")
+    #Checking session states
+    print("Beginning of Session:")
+    for item in st.session_state.items():        
         print(f"{item}")
 
     # Create diectory for the uploaded files
-    uploaded_files = "uploaded_pdf"
-    extraction_dir = f"{os.path.join(os.getcwd(), uploaded_files)}"
-    if not os.path.exists(extraction_dir):# Ensure the extraction directory exists
-        os.makedirs(extraction_dir)
+    extraction_dir = make_dir(os.getcwd(), "uploaded_pdfs")
 
     # Create new directory for the output files
-    new_directory = "output_text"
-    output_directory = os.path.join(extraction_dir, new_directory)
-    if not os.path.exists(output_directory):# Ensure the extraction directory exists
-        os.makedirs(output_directory)
+    text_dir = make_dir(os.getcwd(), "output_text")
+
+    # Create directory for output image file
+    image_dir = make_dir(os.getcwd(), "output_image")
+
+    # Create directory for output image file
+    preprocessed_dir = make_dir(os.getcwd(), "preprocessed_image")
 
     st.markdown("<h1 style='text-align: center;'>Tesseract Extractor</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center;'>Extract PDFs and add them directly to the database.</p>", unsafe_allow_html=True)
     st.write("")
 
-    col1, col2 = st.columns(2)
+    upload_con = st.container()
+    image_view, text_view = st.columns(2)
 
-    with col1:
+
+    with upload_con:
         st.write("Extract PDFs:")
 
         st.session_state.uploaded_file = st.file_uploader("Choose a file", type = "pdf", accept_multiple_files = True)
         st.success(f"{len(st.session_state.uploaded_file)} file(s) uploaded")
 
-        if st.session_state.uploaded_file is not None: 
-            
-            for uploaded_file in st.session_state.uploaded_file:
-                pdf_path = os.path.join(extraction_dir, uploaded_file.name)
-    
-                # Save the file
-                with open(pdf_path, "wb") as f:
-                    f.write(uploaded_file.getbuffer())
+        if not st.session_state.uploaded_file:
+            remove_contents(extraction_dir)
+            remove_contents(text_dir)
+            remove_contents(image_dir)
+            remove_contents(preprocessed_dir)
+            extract_image.clear()
+            st.session_state.extract_done = False
+            st.session_state.upload_done = False
+            st.session_state.extract = False
+            st.session_state.upload = False
 
-            for item in st.session_state.items():
-                print("Before Extraction:")
-                print(f"{item}")
-                
-            if st.button("Extract Files"):
-                for file_name in os.listdir(extraction_dir): # iterate for each file in the directory
-                    if file_name.endswith(".pdf"): # Check if the file is a pdf
-                        st.success(f"Processing file: {file_name}")
-                        pdf_path = os.path.join(extraction_dir, file_name) # Specify path to the PDF file
 
-                        output_file_name = os.path.splitext(file_name)[0] + ".txt" # Specify output file name
-                        output_file_path = os.path.join(output_directory, output_file_name) # Creates file path
+        #Checking Session States
+        print("Before Image Extraction:")
+        for item in st.session_state.items():
+            print(f"{item}")
 
-                        try: # Creates a new file
-                            with open(output_file_path, 'x', encoding='utf-8') as f:
-                                f.close()
-                        except FileExistsError: # If file already exists, write over existing file rendering its contents null
-                            with open(output_file_path, 'w', encoding='utf-8') as f: 
-                                f.close()
+        extract_image(extraction_dir, image_dir, st.session_state.uploaded_file)
 
-                        # Extract text from the PDF
-                        pdf_to_text(pdf_path, output_file_path)
-                        st.success(f"Saved as {output_file_name} at {output_file_path}")
+        
+    with image_view:
 
-                        insert_paper(output_file_path, file_name, cursor, conn)
-                
-                #if os.path.exists(extraction_dir):# Delete files in extraction Diectory afterwards
-                #    for root, dirs, files in os.walk(extraction_dir, topdown=False):
-                #        for name in files:
-                #            os.remove(os.path.join(root, name))
-                #        for name in dirs:
-                #            os.rmdir(os.path.join(root, name))
+        st.write("View pdfs:")
 
-                st.success("Extraction Complete")
-                st.session_state.uploaded_file = None
+        #Checking Session States
+        print("Before Extraction:")
+        for item in st.session_state.items():
+            print(f"{item}")
+
+        
+        b_col, m_col = st.columns([0.2, 0.8])
+        
+        with b_col:
+            if st.button("Extract Files", on_click = extract) or st.session_state.extract == True:
+                with m_col:
+                    m_con = st.container(height = 75)
+                if st.session_state.extract_done == False:
+                    for file_name in os.listdir(image_dir): # iterate for each file in the directory
+                        document_pages = os.path.join(image_dir, file_name) # path being examined (most likely the path with pdf images)
+                        if os.path.isdir(document_pages): # if document_pages is a dir
+                            with m_con:
+                                st.success(f"Processing file: {file_name}")
+
+                            text_file_name = os.path.splitext(file_name)[0] + ".txt" # Specify output file name
+                            text_file_path = os.path.join(text_dir, text_file_name) # Creates file path
+
+                            try: # Creates a new file
+                                with open(text_file_path, 'x', encoding='utf-8') as f:
+                                    f.close()
+                            except FileExistsError: # If file already exists, write over existing file rendering its contents null
+                                with open(text_file_path, 'w', encoding='utf-8') as f: 
+                                    f.close()
+
+                            # Extract text from the PDF
+                            images_to_text(document_pages, text_file_path)
+                            
+                            with m_con:
+                                st.success(f"Saved as {text_file_name} at {text_file_path}")
+                    st.session_state.extract_done = True
+
+            if st.session_state.extract_done == True:
+                with m_con:
+                        st.success("Extraction Complete")
+
+                print("After Extraction:")
+                for item in st.session_state.items():
+                    print(f"{item}")
+
+        # List all subdirectories in the parent directory
+        if os.path.exists(image_dir):
+            pdf_images = [dir for dir in os.listdir(image_dir) if os.path.isdir(os.path.join(image_dir, dir))]
         else:
-            st.write("Please upload a pdf file to proceed.")
+            print(f"The directory {image_dir} does not exist or is inaccessible.")
+            pdf_images = []
 
+        selected_pdf = st.selectbox("Select a PDF:", pdf_images)
+
+        if selected_pdf:
+            pdf_images_dir = os.path.join(image_dir, selected_pdf)
+            image_files = [os.path.splitext(file)[0] for file in os.listdir(pdf_images_dir) if file.endswith('.png')]
+
+            if image_files:
+                image_files_sorted = sorted(image_files, key = int)
+                selected_image = st.selectbox("Select page", image_files_sorted)
+                
+                # Display the selected image
+                if selected_image:
+                    selected_image = f"{selected_image}.png"
+
+                    image_path = os.path.join(pdf_images_dir, selected_image)
+                    st.image(image_path, caption=selected_image, use_column_width=True)
+            else:
+                st.warning(f"No image files found in the directory: {pdf_images}")
+        
+        
+
+    with text_view:
+        st.write("View Text:")
+
+        b_col, m_col = st.columns([0.2, 0.8])
+        
+
+        with b_col:
+            if st.button("Upload Files", on_click = upload) or st.session_state.upload == True:
+                with m_col:
+                    m_con = st.container(height = 75)
+                if st.session_state.upload_done == False:
+                    
+                    #host, user, password = get_credentials()
+
+                    host = input("Enter host (default: 127.0.0.1): ")
+                    if host == "":# Set host to 127.0.0.1 if blank
+                        host = "127.0.0.1"
+                    
+                    user = input("Enter user (default: root): ")
+                    if user == "":# Set user to root if blank
+                        user = "root"
+                    
+                    password = input("Enter password: ")
+
+                    cursor, conn = connect_SQL(host, user, password)
+
+                    for file_name in os.listdir(text_dir): # iterate for each file in the directory
+                        if file_name.endswith(".txt"):
+
+                            file_path = os.path.join(text_dir, file_name)
+
+                            insert_paper(file_path, file_name, cursor, conn)
+                            
+                            with m_con:
+                                st.success(f"{file_name} uploaded")
+                
+                    st.session_state.upload_done = True
+                
+                #if st.session_state.upload_done == True:
+                #    remove_contents(text_dir)
+                #    remove_contents(extraction_dir)
+                #    remove_contents(image_dir)
+
+        if st.session_state.extract_done == True:
+            # List all text files in the directory
+            text_files = [file for file in os.listdir(text_dir) if file.endswith('.txt')]
+
+            # Select a file from the dropdown
+            selected_file = st.selectbox("Select a text file", text_files)
+
+            if selected_file:
+                # Read the selected file
+                file_path = os.path.join(text_dir, selected_file)
+                with open(file_path, "r", encoding="utf-8") as file:
+                    file_content = file.read()
+                
+                # Display the file content in a text area
+                st.text_area("File Content", file_content, height=500)
 
 if __name__ == "__main__":
     main()
