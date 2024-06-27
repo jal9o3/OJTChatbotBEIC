@@ -6,6 +6,7 @@ import numpy as np
 import pandas
 from io import BytesIO
 from PIL import Image
+import time
 
 import mysql.connector
 from mysql.connector import errorcode
@@ -61,9 +62,7 @@ def insert_paper(output_file_path, file_name, cursor, conn):
 
 #       Main Database Function
 
-
 def connect_SQL(host, user, password):
-    # Connect to MySQL server
     try:
         conn = mysql.connector.connect(
             host=host,
@@ -71,14 +70,31 @@ def connect_SQL(host, user, password):
             password=password
         )
         cursor = conn.cursor()
-        print("Connected to MySQL server.")
+        show_message("Connected to MySQL server.")
 
+        p_check = True
+
+        return conn, cursor, p_check
+    
+    except mysql.connector.Error as err:
+        if err.errno == errorcode.ER_ACCESS_DENIED_ERROR:
+            show_message("Something is wrong with your user name or password")
+        else:
+            show_message(err)
+            conn.rollback()
+        
+        return conn, cursor, p_check
+
+def connect_db(conn, cursor, db_name):
+    # Connect to MySQL server
+    try:
+        
         # Display existing databases
         show_databases(cursor)
 
         # Ask user for a database name
 
-        db_name = "iraya_database"
+        #db_name = "iraya_database"
         #db_name = input("Enter the database name: ")
 
         # Check if the database exists
@@ -276,7 +292,28 @@ def deskew(cvImage):
 
 #       Main Extraction Functions-----------------
 
+def show_message(message, duration=2):
+    message_html = f"""
+    <div style="
+        position: fixed;
+        bottom: 20px;
+        left: 50%;
+        transform: translateX(-50%);
+        background-color: #16394F;
+        padding: 10px;
+        border-radius: 5px;
+        box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        z-index: 1000;
+    ">
+        {message}
+    </div>
+    """
 
+    placeholder = st.empty()
+    with placeholder:
+        st.markdown(message_html, unsafe_allow_html=True)
+    time.sleep(duration)
+    placeholder.empty()
 
 def images_to_text(pdf_images, text_file_path):
     #configuration for Tesseract
@@ -373,32 +410,49 @@ def extract_image(extraction_dir, image_dir, uploaded_file):
     else:
         st.write("Please upload a pdf file to proceed.")
 
-#@st.experimental_dialog("Provide your MySQL credentials.", width="small")
-#def get_credentials():
+@st.experimental_dialog("Provide your MySQL credentials.", width="large")
+def get_credentials():
     # Ask user for MySQL host address, user name, and password
                     
-#    host = st.text_input("Enter host (default: 127.0.0.1): ")
-#    if host == "":# Set host to 127.0.0.1 if blank
-#        host = "127.0.0.1"
+    #st.session_state.host = st.text_input("Enter host (default: 127.0.0.1): ")
+    #if host == "":# Set host to 127.0.0.1 if blank
+    #    host = "127.0.0.1"
     
-#    user = st.text_input("Enter user (default: root): ")
-#    if user == "":# Set user to root if blank
-#        user = "root"
+    #st.session_state.user = st.text_input("Enter user (default: root): ")
+    #if user == "":# Set user to root if blank
+    #    user = "root"
     
-#    password = st.text_input("Enter password: ", type = "password")
+    #st.session_state.password = st.text_input("Enter password: ", type = "password")
 
-    #if "host" not in st.session_state:
-    #    st.session_state.host = input("Enter host (default: 127.0.0.1): ")
-    #    if st.session_state.host == "":# Set host to 127.0.0.1 if blank
-    #        st.session_state.host = "127.0.0.1"
-    #if "user" not in st.session_state:
-    #    st.session_state.user = input("Enter user (default: root): ")
-    #    if st.session_state.user == "":# Set user to root if blank
-    #        st.session_state.user = "root"
-    #if "password" not in st.session_state:
-    #    st.session_state.password = input("Enter password: ")
 
-#    return
+
+    db_name = st.text_input("Connect to Database:", placeholder = "iraya_database")
+    host = st.text_input("Enter host: ", placeholder = "default: 127.0.0.1")
+    user = st.text_input("Enter user: ", placeholder = "root")
+    password = st.text_input("Enter password: ", type = "password")
+
+    if st.button("Submit"):
+        if host == "":# Set host to 127.0.0.1 if blank
+            host = "127.0.0.1"
+        
+        if user == "":# Set user to root if blank
+            user = "root"
+
+        if db_name == "":# Set host to 127.0.0.1 if blank
+            db_name = "iraya_database"
+        
+        _,_,p_check = connect_SQL(host, user, password)
+        
+        if p_check:
+            st.session_state.db_name = db_name
+            st.session_state.host = host
+            st.session_state.user = user
+            st.session_state.password = password
+            
+        else:
+            st.error("Wrong Password")
+        
+        st.rerun()
 
 def extract():
     st.session_state.extract = True
@@ -410,19 +464,37 @@ def upload():
 
 def main():
 
-    st.set_page_config(page_title="Tesseract OCR Extractor", layout="wide")
+    # Database session_states
+
+    if "db_name" not in st.session_state:
+        st.session_state.db_name = ""
+
+    if "host" not in st.session_state:
+        st.session_state.host = ""
+
+    if "user" not in st.session_state:
+        st.session_state.user = ""
+        
+    if "password" not in st.session_state:
+        st.session_state.password = ""
     
+    # Button session_states
+
     if 'extract' not in st.session_state:
         st.session_state.extract = False
     
     if 'upload' not in st.session_state:
         st.session_state.upload = False
     
+    # Operation session_states
+
     if 'extract_done' not in st.session_state:
         st.session_state.extract_done = False
     
     if 'upload_done' not in st.session_state:
         st.session_state.upload_done = False
+
+    # File Upload session_states
 
     if 'uploaded_file' not in st.session_state:
         st.session_state.uploaded_file = None
@@ -444,11 +516,15 @@ def main():
     # Create directory for output image file
     preprocessed_dir = make_dir(os.getcwd(), "preprocessed_image")
 
+
+    # Layout
+    st.set_page_config(page_title="Tesseract OCR Extractor", layout="wide") 
     st.markdown("<h1 style='text-align: center;'>Tesseract Extractor</h1>", unsafe_allow_html=True)
     st.markdown("<p style='text-align: center;'>Extract PDFs and add them directly to the database.</p>", unsafe_allow_html=True)
     st.write("")
 
     upload_con = st.container()
+    preprocess_col, upload_col = st.columns(2)
     image_view, text_view = st.columns(2)
 
 
@@ -468,6 +544,10 @@ def main():
             st.session_state.upload_done = False
             st.session_state.extract = False
             st.session_state.upload = False
+            st.session_state.db_name = ""
+            st.session_state.host = ""
+            st.session_state.user = ""
+            st.session_state.password = ""
 
 
         #Checking Session States
@@ -478,7 +558,7 @@ def main():
         extract_image(extraction_dir, image_dir, st.session_state.uploaded_file)
 
         
-    with image_view:
+    with preprocess_col:
 
         st.write("View pdfs:")
 
@@ -526,6 +606,7 @@ def main():
                 for item in st.session_state.items():
                     print(f"{item}")
 
+    
         # List all subdirectories in the parent directory
         if os.path.exists(image_dir):
             pdf_images = [dir for dir in os.listdir(image_dir) if os.path.isdir(os.path.join(image_dir, dir))]
@@ -548,47 +629,44 @@ def main():
                     selected_image = f"{selected_image}.png"
 
                     image_path = os.path.join(pdf_images_dir, selected_image)
-                    st.image(image_path, caption=selected_image, use_column_width=True)
+                    with image_view:
+                        st.write("Page View")
+                        st.image(image_path, caption=selected_image, use_column_width=True)
             else:
                 st.warning(f"No image files found in the directory: {pdf_images}")
         
         
 
-    with text_view:
+    with upload_col:
         st.write("View Text:")
 
         b_col, m_col = st.columns([0.2, 0.8])
         
-
         with b_col:
             if st.button("Upload Files", on_click = upload) or st.session_state.upload == True:
                 with m_col:
                     m_con = st.container(height = 75)
                 if st.session_state.upload_done == False:
                     
-                    #host, user, password = get_credentials()
+                    get_credentials()
 
-                    host = input("Enter host (default: 127.0.0.1): ")
-                    if host == "":# Set host to 127.0.0.1 if blank
-                        host = "127.0.0.1"
+                    conn, cursor, _ = connect_SQL(st.session_state.host, st.session_state.user, st.session_state.password)
                     
-                    user = input("Enter user (default: root): ")
-                    if user == "":# Set user to root if blank
-                        user = "root"
-                    
-                    password = input("Enter password: ")
-
-                    cursor, conn = connect_SQL(host, user, password)
+                    connect_db(conn, cursor, st.session_state.db_name)
 
                     for file_name in os.listdir(text_dir): # iterate for each file in the directory
                         if file_name.endswith(".txt"):
+                            with m_con:
+                                st.success(f"Uploading {file_name}")
 
                             file_path = os.path.join(text_dir, file_name)
 
                             insert_paper(file_path, file_name, cursor, conn)
                             
                             with m_con:
-                                st.success(f"{file_name} uploaded")
+                                st.success(f"{file_name} Uploaded")
+                    with m_con:
+                                st.success("All Files Uploaded")
                 
                     st.session_state.upload_done = True
                 
@@ -610,8 +688,11 @@ def main():
                 with open(file_path, "r", encoding="utf-8") as file:
                     file_content = file.read()
                 
-                # Display the file content in a text area
-                st.text_area("File Content", file_content, height=500)
+                with text_view:
+                    # Display the file content in a text area
+                    st.text_area("File Content", file_content, height = 700)
+        
+        
 
 if __name__ == "__main__":
     main()
