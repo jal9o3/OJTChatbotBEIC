@@ -38,21 +38,30 @@ class FileUploadAPIView(APIView):
     serializer_class = FileUploadSerializer
 
     def post(self, request, *args, **kwargs):
-        print("File Upload view opened.")
+        chroma_client = chromadb.PersistentClient(path="./chroma_persistent_client")
+        conn, cursor = mysql_functions.setup_mysql_db()
+        collection, collection_name = chroma_functions.connect_to_chroma_db(chroma_client)
+        
         serializer = self.serializer_class(data=request.data)
-        print("Serializer:")
-        print(serializer)
-        print("Request:")
-        print(request)
-        print("Request Data:")
-        print(request.data)
-        print("Checking if valid...")
         if serializer.is_valid():
-            # You can access the file like this from serializer:
-            # uploaded_file = serializer.validated_data["file"]
-            print("Saving...")
             serializer.save()
-            print("Saved!")
+            # TODO: filter out everything except txt files
+            # serializer.validated_data["file"] gives the file name
+            file_name = serializer.validated_data["file"].name
+            split_file_name = file_name.split('.')
+            # TODO: upload txt file to MySQL databases
+            with open(f"media/{file_name}", 'r', encoding='utf-8') as f:
+                text = f.read()
+
+            print("Uploading .txt to MySQL...")
+            mysql_functions.upload_to_mysql_db(conn, cursor, split_file_name[0], text)
+
+            # the file_name (title) is what's added to the chromadb collection,
+            # pdf path is reconstructed
+            print("Saving title to ChromaDB...")
+            chroma_functions.upload_to_chroma_db(collection, collection_name, 
+                                                 f'{split_file_name[0]}.pdf', 
+                                                 split_file_name[0])
             return Response(
                 serializer.data,
                 status=status.HTTP_201_CREATED

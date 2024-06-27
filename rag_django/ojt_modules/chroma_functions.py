@@ -1,3 +1,5 @@
+import hashlib
+
 import chromadb
 
 import mysql.connector
@@ -92,6 +94,7 @@ def query_collection(chroma_client, collection, cursor, query, n_results):
     for title in results["documents"][0][:3]:
         # Get deeper results for each title
         deeper_results = examine_chunks(query, title, cursor, chroma_client)
+        print(deeper_results)
         # print(deeper_results["documents"])
         for document in deeper_results["documents"]:
             print(document)
@@ -104,3 +107,25 @@ def query_collection(chroma_client, collection, cursor, query, n_results):
     
     # Return the tuple of deeper results for the top three titles
     return deeper_results_tuple
+
+def hash_string(input_string):
+    # Create a new sha256 hash object
+    hash_object = hashlib.sha256()
+
+    # Update the hash object with the bytes of the string
+    hash_object.update(input_string.encode())
+
+    # Get the hexadecimal representation of the hash
+    hashed_string = hash_object.hexdigest()
+
+    return hashed_string
+
+def upload_to_chroma_db(collection, collection_name, pdf_path, file_name):
+    print("Adding paper to ChromaDB collection...")
+    # Insert paper record into Technical ChromaDB collection
+    collection.add(
+        documents=file_name,
+        metadatas=[{"source": pdf_path}],
+        ids=[f"id#{hash_string(file_name)}"]
+    )
+    print(f"Saved {file_name} to {collection_name} ChromaDB collection")

@@ -8,6 +8,10 @@ import environ
 env = environ.Env()
 environ.Env.read_env()
 
+# Size (characters) of text chunks and their overlaps
+CHUNK_SIZE = 1500
+OVERLAP_SIZE = 500
+
 def connect_to_mysql(host, user, password):
     conn = mysql.connector.connect(
             host=host,
@@ -77,3 +81,29 @@ def setup_mysql_db():
             conn.rollback()
     
     return conn, cursor
+
+def upload_to_mysql_db(conn, cursor, file_name, text):
+    # Insert paper record into Papers table
+    cursor.execute("""
+        INSERT INTO Papers (title)
+        VALUES (%s)
+    """, (file_name,))
+    paper_id = cursor.lastrowid
+    conn.commit()
+
+    chunk_size = CHUNK_SIZE
+    overlap_size = OVERLAP_SIZE
+    # TODO: the first and last characters of each chunk should overlap with
+    # the previous and next chunks, respectively
+    # chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
+    chunks = [text[i:i + chunk_size] for i in range(0, len(text) - overlap_size, chunk_size - overlap_size)]
+
+    chunk_order = 1
+    for chunk in chunks:
+        cursor.execute("""
+            INSERT INTO Chunks (paper_id, chunk_order, chunk_text)
+            VALUES (%s, %s, %s)
+        """, (paper_id, chunk_order, chunk))
+        chunk_order += 1
+
+    conn.commit()
