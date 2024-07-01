@@ -33,16 +33,16 @@ def database_exists(cursor, db_name):
     return cursor.fetchone() is not None
 
 #Inserts the extracted text from the pdf to the database
-def insert_paper(output_file_path, file_name, cursor, conn):
+def insert_paper(file_path, file, cursor, conn):
     # Read extracted text
-    with open(output_file_path, 'r', encoding='utf-8') as f:
+    with open(file_path, 'r', encoding='utf-8') as f:
         text = f.read()
 
     # Insert paper record into Papers table
     cursor.execute("""
         INSERT INTO Papers (title)
         VALUES (%s)
-    """, (file_name,))
+    """, (file,))
     paper_id = cursor.lastrowid
     conn.commit()
 
@@ -315,7 +315,7 @@ def show_message(message, duration=2):
     time.sleep(duration)
     placeholder.empty()
 
-def images_to_text(pdf_images, text_file_path):
+def images_to_text(pdf_images, text_path):
     #configuration for Tesseract
     #psm 1 - Automatic page segmentation with Orientation and Script Detection
     #oem 3 - Default, mode based on the available
@@ -349,9 +349,9 @@ def images_to_text(pdf_images, text_file_path):
             text = pytesseract.image_to_string(image,lang = 'enga+fil', config=my_config)
             print(f"OCR performed on page {page_number}")
 
-            with open(text_file_path, 'a', encoding='utf-8') as f: # Append extracted text to the file
+            with open(text_path, 'a', encoding='utf-8') as f: # Append extracted text to the file
                 f.write(f"\n{text}\n")
-            print(f"Appended text of page {page_number} to {text_file_path}")
+            print(f"Appended text of page {page_number} to {text_path}")
 
     print(f"Completed text extraction from: {pdf_images}")
 
@@ -375,35 +375,35 @@ def make_dir(parent_dir, name):
     return new_dir
 
 @st.cache_data
-def extract_image(extraction_dir, image_dir, uploaded_file):
-    if uploaded_file is not None: 
+def extract_image(extraction_dir, image_dir, file):
+    if file is not None: 
         # Save the pdfs
-        for uploaded_file in uploaded_file:
-            pdf_path = os.path.join(extraction_dir, uploaded_file.name)
+        for file in file:
+            file_path = os.path.join(extraction_dir, file.name)
 
             # Save the file
-            with open(pdf_path, "wb") as f:
-                f.write(uploaded_file.getbuffer())
+            with open(file_path, "wb") as f:
+                f.write(file.getbuffer())
 
         # Convert pdfs to images
         for file_name in os.listdir(extraction_dir): # iterate for each file in the directory
             if file_name.endswith(".pdf"): # Check if the file is a pdf
                 
-                pdf_path = os.path.join(extraction_dir, file_name) # Specify path to the PDF file
+                file_path = os.path.join(extraction_dir, file_name) # Specify path to the PDF file
 
                 # Create directory for output image file specific to the pdf
-                pdf_image_dir = os.path.join(image_dir, os.path.splitext(file_name)[0]) # directory containning the images of the pdf
-                if not os.path.exists(pdf_image_dir):# Ensure the extraction directory exists
-                    os.makedirs(pdf_image_dir)
+                file_image_dir = os.path.join(image_dir, os.path.splitext(file_name)[0]) # directory containning the images of the pdf
+                if not os.path.exists(file_image_dir):# Ensure the extraction directory exists
+                    os.makedirs(file_image_dir)
 
                 #print(f"Starting image convertion from: {pdf_path}")
-                pages = convert_from_path(pdf_path) # Convert PDF pages to images
+                pages = convert_from_path(file_path) # Convert PDF pages to images
                 #print(f"Converted {len(pages)} pages to images.")
 
                 # Iterate through each page image and save
                 for page_number, page_image in enumerate(pages, start=1):
                     try:
-                        image_path = os.path.join(pdf_image_dir, f"{page_number}.png") # path of the image
+                        image_path = os.path.join(file_image_dir, f"{page_number}.png") # path of the image
                         page_image.save(image_path)
                     except Exception as e:
                         return st.error(f"Error saving file: {e}")
@@ -555,6 +555,7 @@ def main():
         for item in st.session_state.items():
             print(f"{item}")
 
+
         extract_image(extraction_dir, image_dir, st.session_state.uploaded_file)
 
         
@@ -568,17 +569,17 @@ def main():
             print(f"{item}")
 
         
-        b_col, m_col = st.columns([0.2, 0.8])
+        button_col, message_col = st.columns([0.2, 0.8])
         
-        with b_col:
+        with button_col:
             if st.button("Extract Files", on_click = extract) or st.session_state.extract == True:
-                with m_col:
-                    m_con = st.container(height = 75)
+                with message_col:
+                    message_con = st.container(height = 75)
                 if st.session_state.extract_done == False:
                     for file_name in os.listdir(image_dir): # iterate for each file in the directory
                         document_pages = os.path.join(image_dir, file_name) # path being examined (most likely the path with pdf images)
                         if os.path.isdir(document_pages): # if document_pages is a dir
-                            with m_con:
+                            with message_con:
                                 st.success(f"Processing file: {file_name}")
 
                             text_file_name = os.path.splitext(file_name)[0] + ".txt" # Specify output file name
@@ -594,12 +595,12 @@ def main():
                             # Extract text from the PDF
                             images_to_text(document_pages, text_file_path)
                             
-                            with m_con:
+                            with message_con:
                                 st.success(f"Saved as {text_file_name} at {text_file_path}")
                     st.session_state.extract_done = True
 
             if st.session_state.extract_done == True:
-                with m_con:
+                with message_con:
                         st.success("Extraction Complete")
 
                 print("After Extraction:")
@@ -640,12 +641,12 @@ def main():
     with upload_col:
         st.write("View Text:")
 
-        b_col, m_col = st.columns([0.2, 0.8])
+        button_col, message_col = st.columns([0.2, 0.8])
         
-        with b_col:
+        with button_col:
             if st.button("Upload Files", on_click = upload) or st.session_state.upload == True:
-                with m_col:
-                    m_con = st.container(height = 75)
+                with message_col:
+                    message_con = st.container(height = 75)
                 if st.session_state.upload_done == False:
                     
                     get_credentials()
@@ -656,16 +657,16 @@ def main():
 
                     for file_name in os.listdir(text_dir): # iterate for each file in the directory
                         if file_name.endswith(".txt"):
-                            with m_con:
+                            with message_con:
                                 st.success(f"Uploading {file_name}")
 
                             file_path = os.path.join(text_dir, file_name)
 
                             insert_paper(file_path, file_name, cursor, conn)
                             
-                            with m_con:
+                            with message_con:
                                 st.success(f"{file_name} Uploaded")
-                    with m_con:
+                    with message_con:
                                 st.success("All Files Uploaded")
                 
                     st.session_state.upload_done = True

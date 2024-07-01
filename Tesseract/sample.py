@@ -122,7 +122,7 @@ def get_credentials():
 
 def main():
     if st.button("Creds"):get_credentials():
-        st.write(f"{host, user, password, db_name}")
+    st.write(f"{host, user, password, db_name}")
 
 
 """
