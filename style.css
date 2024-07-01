@@ -1,27 +1,88 @@
 /* --- Start Select Paper ---*/
-
-div[class="st-ai st-az st-b0 st-b1 st-b2 st-b3 st-ax st-b4 st-b5 st-d3 st-b7 st-b8 st-b9 st-ba"]{
-    align-items: center;
-    padding: 1rem;
+header{
+    height: 30px;
 }
 
-div[class="st-bb st-bc st-bd st-be st-bf st-bg st-al st-bh st-am st-bi st-bj st-bk st-d3 st-d4 st-bm st-b8 st-b9 st-bn st-bo st-bp st-bq st-br st-bs st-bt st-bu"]{
-    width: 100%;
-    height: 90vh;
+div[data-testid="stModal"] div[tabindex="-1"]{
+    width: 90%;
+    margin-top: -5px;
     overflow: scroll;
 }
 
-div[data-baseweb="popover"]{
-    margin-top: 100px;
+div[data-testid="column"]{
+    overflow: hidden;
 }
 
-div[class="st-emotion-cache-abycrm e6zijwc0"]{
-    width: 60%;
+div[class="block-container st-emotion-cache-1jicfl2 ea3mdgi5"]{
+    padding-left: 10%;
+    padding-right: 10%;
+    padding-top: 2%;
+    overflow: hidden;
 }
 
-div[class="st-emotion-cache-axnyet e1f1d6gn0"]:hover{
+div[class="st-emotion-cache-1wmy9hl e1f1d6gn1"] [id="selected_doc"]{
+    flex-direction: row;
+
+}
+
+
+div[class="row-widget stButton"]{
+    display: flex;
+    justify-content: end;
+    width: 200px;
+}
+
+div[class="row-widget stButton"] button[kind="secondary"]{
+    background-color: white;
+    height: 20px;
+    width: 200px;
+    color: black;
+}
+
+
+div[class="row-widget stButton"] button[kind="secondary"]:hover{
     background-color: #FF9554;
+    color: white;
+    font-weight: bolder;
 }
+
+button[kind="primary"] {
+    background: none!important;
+    border: none;
+    padding: 0!important;
+    color: black !important;
+    text-decoration: none;
+    cursor: pointer;
+    text-align: left;
+    margin-bottom: -20px;
+}
+
+button[kind="primary"] p{
+    font-weight: 600;
+
+    letter-spacing: -0.005em;
+    padding: 0.5rem 0px 1rem;
+    margin: 0px;
+    line-height: 1.2;
+    font-size: 100%;
+}
+
+button[kind="primary"]:hover {
+    text-decoration: none;
+    color: #FF9554 !important;
+}
+
+button[kind="primary"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    color: #FF9554 !important;
+}
+
+p[class="additional_info"]{
+    color: red;
+    font-size: 14px;
+}
+
 
 /* --- !End Select Paper! ---*/
 
@@ -30,12 +91,9 @@ div[class="st-emotion-cache-axnyet e1f1d6gn0"]:hover{
 @media (max-width: 768px) {
     /* --- Start Select Paper ---*/
 
-    div[class="st-emotion-cache-abycrm e6zijwc0"]{
-        width: 100%;
-    }
-
-    div[class="st-as st-at st-ah st-bc st-d6 st-d8 st-d9 st-d7 st-ek st-el st-ex st-b9 st-d3 st-im st-fd"]{
-        margin-top: 125px;
+    div[class="block-container st-emotion-cache-1jicfl2 ea3mdgi5"]{
+        padding-top: 20px;
+        overflow: scroll;
     }
 
     /* --- !End Select Paper! ---*/
