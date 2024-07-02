@@ -3,18 +3,19 @@ import psycopg2
 
 from constants import PGDB_PASS
 
-# Connect to the database server
-conn = psycopg2.connect(
-    dbname="postgres",  # Connect to the default 'postgres' database
-    user="postgres",
-    password=PGDB_PASS,
-    host="localhost",
-    port=5432,
-)
+# # Connect to the database server
+# conn = psycopg2.connect(
+#     dbname="postgres",  # Connect to the default 'postgres' database
+#     user="postgres",
+#     password=PGDB_PASS,
+#     host="localhost",
+#     port=5432,
+# )
 
-# Create a cursor
-cur = conn.cursor()
+# # Create a cursor
+# cur = conn.cursor()
 
+# Clean this later
 
 def connect_to_or_create_pgdb(pgdb_name, cur):
     # Check if the desired database exists
@@ -24,8 +25,28 @@ def connect_to_or_create_pgdb(pgdb_name, cur):
         # Create the database if it doesn't exist
         cur.execute(f"CREATE DATABASE {pgdb_name}")
 
+def create_table_if_not_exists(table_name, db_name):
+    # Connect to the database server
+    conn = psycopg2.connect(
+    dbname=db_name,
+    user="postgres",
+    password=PGDB_PASS,
+    host="localhost",
+    port=5432,
+    )
 
-def upload_to_pgdb(document, pgdb):
+    cursor = conn.cursor()
+
+    query = f"""
+        CREATE TABLE IF NOT EXISTS {table_name} (
+            id SERIAL PRIMARY KEY,
+            paper_title TEXT
+        );
+    """
+
+    cursor.execute(query)
+
+def upload_to_pgdb(document, pgdb_conn):
     """
     Uploads document metadata and chunks to PostgreSQL database.
 
@@ -44,6 +65,7 @@ def upload_to_pgdb(document, pgdb):
     tags = document['metadata']['tags']
 
     # Create database if it doesn't exist
+    connect_to_or_create_pgdb("knowledge_base", pgdb_conn.cursor())
 
     # Create paper_titles table if it doesn't exist
     # Insert title into paper_titles table and generate primary key
