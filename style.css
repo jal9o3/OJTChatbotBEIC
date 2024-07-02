@@ -1,12 +1,32 @@
 /* --- Start Select Paper ---*/
-header{
+:root {
+    --primary-color: #1B1B1B; /* Dark */
+    --secondary-color: #FFFFFF; /* White */
+    --accent-color: #FF9554; /* Orange */
+    --lighter: #313131
+}
+
+
+div[data-testid="stApp"]{
+    background-color: var(--primary-color);
+
+}
+
+h1,h1,h3{
+    color: var(--secondary-color);
+}
+
+header[data-testid="stHeader"]{
     height: 30px;
+    background-color: var(--primary-color);
 }
 
 div[data-testid="stModal"] div[tabindex="-1"]{
     width: 90%;
     margin-top: -5px;
     overflow: scroll;
+    background-color: var(--lighter);
+    box-shadow: 10px 10px 10px black;
 }
 
 div[data-testid="column"]{
@@ -22,7 +42,6 @@ div[class="block-container st-emotion-cache-1jicfl2 ea3mdgi5"]{
 
 div[class="st-emotion-cache-1wmy9hl e1f1d6gn1"] [id="selected_doc"]{
     flex-direction: row;
-
 }
 
 
@@ -33,12 +52,24 @@ div[class="row-widget stButton"]{
 }
 
 div[class="row-widget stButton"] button[kind="secondary"]{
-    background-color: white;
+    background-color: var(--primary-color);
     height: 20px;
     width: 200px;
-    color: black;
+    border: 1px solid var(--secondary-color);
 }
 
+div[data-testid="stVerticalBlockBorderWrapper"][class="st-emotion-cache-11pla4g e1f1d6gn0"]{
+    border: 1px solid var(--secondary-color);
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"][class="st-emotion-cache-4uzi61 e1f1d6gn0"]{
+    border: 1px solid var(--secondary-color);;
+}
+
+div[class="row-widget stButton"] button[kind="secondary"]{
+    color: white;
+    font-weight: bolder;
+}
 
 div[class="row-widget stButton"] button[kind="secondary"]:hover{
     background-color: #FF9554;
@@ -50,7 +81,7 @@ button[kind="primary"] {
     background: none!important;
     border: none;
     padding: 0!important;
-    color: black !important;
+    color: var(--secondary-color) !important;
     text-decoration: none;
     cursor: pointer;
     text-align: left;
@@ -59,10 +90,9 @@ button[kind="primary"] {
 
 button[kind="primary"] p{
     font-weight: 600;
-
     letter-spacing: -0.005em;
-    padding: 0.5rem 0px 1rem;
-    margin: 0px;
+    padding: 0.5rem 0 1rem;
+    margin: 0;
     line-height: 1.2;
     font-size: 100%;
 }
@@ -79,10 +109,14 @@ button[kind="primary"]:focus {
 }
 
 p[class="additional_info"]{
-    color: red;
+    color: whitesmoke;
     font-size: 14px;
 }
 
+
+div[data-testid="stMarkdownContainer"][class="st-emotion-cache-uzeiqp e1nzilvr4"]{
+    color: white;
+}
 
 /* --- !End Select Paper! ---*/
 

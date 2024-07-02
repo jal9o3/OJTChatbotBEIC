@@ -1,0 +1,75 @@
+:root {
+    --primary-color: #1B1B1B; /* Dark */
+    --secondary-color: #FFFFFF; /* White */
+    --accent-color: #FF9554; /* Orange */
+    --lighter: #313131
+}
+
+/* App BG Color */
+div[data-testid="stApp"]{
+    background-color: var(--lighter);
+    color: white;
+}
+
+header[data-testid="stHeader"]{
+    height: 30px;
+    background-color: var(--lighter);
+}
+
+div[data-testid="stBottom"] div[class="st-emotion-cache-uhkwx6 ea3mdgi6"]{
+    background-color: var(--lighter);
+}
+
+/* App Text Color */
+h1, h2, h3, p {
+    color: var(--secondary-color);
+}
+
+/* Side Bar Style */
+section[data-testid="stSidebar"]{
+    background-color: var(--primary-color);
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"][id="selected_doc"]{
+    border: 1px solid var(--secondary-color);
+}
+
+div[data-testid="column"]{
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+button[kind="primary"]{
+    width: 100%;
+    background-color: unset;
+    color: black;
+    border-color: #FF9554;
+}
+
+button[kind="primary"]:hover{
+    background-color: #FF9554;
+    color: black;
+}
+
+button[kind="secondary"]{
+    background-color: var(--primary-color);
+    border: 1px solid var(--secondary-color)
+}
+
+button[kind="secondary"]:hover{
+    background-color: var(--accent-color);
+    color: black;
+}
+
+summary[class="st-emotion-cache-p5msec eqpbllx1"]{
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px 10px 0 0;
+}
+
+div[data-testid="stExpanderDetails"]{
+    border: 1px solid var(--secondary-color);
+    border-radius: 0 0 10px 10px;
+}
+
+
