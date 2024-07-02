@@ -17,7 +17,18 @@ from constants import PGDB_PASS
 
 # Clean this later
 
-def connect_to_or_create_pgdb(pgdb_name, cur):
+def connect_to_or_create_pgdb(pgdb_name):
+    # Connect to the database server
+    conn = psycopg2.connect(
+    dbname="postgres",
+    user="postgres",
+    password=PGDB_PASS,
+    host="localhost",
+    port=5432,
+    )
+    conn.autocommit = True
+
+    cur = conn.cursor()
     # Check if the desired database exists
     cur.execute("SELECT datname FROM pg_database;")
     databases = cur.fetchall()
@@ -45,6 +56,21 @@ def create_table_if_not_exists(table_name, db_name):
     """
 
     cursor.execute(query)
+    conn.commit()
+
+def drop_database(db_name):
+    # Connect to the database server
+    conn = psycopg2.connect(
+        dbname="postgres",  # Connect to the default 'postgres' database
+        user="postgres",
+        password=PGDB_PASS,
+        host="localhost",
+        port=5432,
+    )
+    conn.autocommit = True
+    with conn.cursor() as cur:
+        cur.execute(f"DROP DATABASE {db_name};")
+
 
 def upload_to_pgdb(document, pgdb_conn):
     """
