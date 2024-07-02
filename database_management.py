@@ -11,13 +11,12 @@ conn = psycopg2.connect(
     host="localhost",
     port=5432,
 )
-# conn.autocommit = True  # Set autocommit mode
 
 # Create a cursor
 cur = conn.cursor()
 
 
-def connect_to_or_create_pgdb(pgdb_name, conn, cur):
+def connect_to_or_create_pgdb(pgdb_name, cur):
     # Check if the desired database exists
     cur.execute("SELECT datname FROM pg_database;")
     databases = cur.fetchall()
@@ -59,7 +58,7 @@ def upload_to_pgdb(document, pgdb):
     # Execute the query for each chunk, using the generated primary key from paper_titles as foreign key
 
     # Commit changes to the database
-    postgres_db.commit()
+    # postgres_db.commit()
 
 # Usage example:
 # postgres_db = create_postgres_connection()  # Create your PostgreSQL connection

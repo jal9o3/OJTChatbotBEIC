@@ -19,7 +19,7 @@ class TestConnectToOrCreatePgdb(unittest.TestCase):
         conn.autocommit = True
         cur = conn.cursor()
         # Test the function
-        connect_to_or_create_pgdb("test_db", conn, cur)
+        connect_to_or_create_pgdb("test_db", cur)
         cur.execute("SELECT datname FROM pg_database;")
         databases = cur.fetchall()
         # Assert that test_db is in databases
