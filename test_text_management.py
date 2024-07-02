@@ -1,5 +1,5 @@
 import unittest
-from data_management import get_text, get_chunks
+from text_management import get_text, get_chunks
 
 class TestGetText(unittest.TestCase):
     def test_existing_file(self):
