@@ -272,7 +272,6 @@ class TestUploadToPgdb(unittest.TestCase):
                          WHERE paper_id = '{document_id}'
         """)
         result = cur.fetchall()
-        print(result)
         self.assertIsNotNone(result)
         self.assertEqual(result[0][0], calculate_sha256('Chunk 1'))
         self.assertEqual(result[1][0], calculate_sha256('Chunk 2'))
@@ -295,10 +294,15 @@ class TestUploadToPgdb(unittest.TestCase):
         self.assertEqual(result[2][3], calculate_sha256(
             document["metadata"]["paper_title"])
             )
-        # self.assertEqual(result[1], 'Sample Document')
-        # self.assertEqual(result[2], 'John Doe')
-        # self.assertEqual(result[3], ['science', 'technology'])
-        # self.assertEqual(result[4], ['Chunk 1', 'Chunk 2', 'Chunk 3'])
+        
+        cur.execute(f"""
+                         SELECT * FROM paper_titles 
+                         WHERE id = '{document_id}'
+        """)
+        result = cur.fetchone()
+        self.assertEqual(result[1], 'Sample Document')
+        self.assertEqual(result[2], ['J. Doe', 'K. Dall'])
+        self.assertEqual(result[3], ['science', 'technology'])
 
         drop_database("test_db")
         # Clean up: close the cursor and connection
