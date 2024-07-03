@@ -48,10 +48,23 @@ def create_table_if_not_exists(table_name, db_name):
 
     cursor = conn.cursor()
 
-    query = f"""
-        CREATE TABLE IF NOT EXISTS {table_name} (
+    accepted_table_names = [
+        "paper_titles", 
+        "chunks", 
+        "test_table",
+        "temp_table"
+    ]
+
+    columns = ""
+    if table_name == "paper_titles":
+        columns = """
             id SERIAL PRIMARY KEY,
             paper_title TEXT
+        """
+
+    query = f"""
+        CREATE TABLE IF NOT EXISTS {table_name} (
+            {columns}
         );
     """
 
