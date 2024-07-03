@@ -61,6 +61,13 @@ def create_table_if_not_exists(table_name, db_name):
             id SERIAL PRIMARY KEY,
             paper_title TEXT
         """
+    elif table_name == "chunks":
+        columns = """
+            hash_string VARCHAR(255) PRIMARY KEY,
+            chunk TEXT,
+            chunk_order SERIAL,
+            paper_id INTEGER REFERENCES paper_titles(paper_id)
+        """
 
     query = f"""
         CREATE TABLE IF NOT EXISTS {table_name} (
