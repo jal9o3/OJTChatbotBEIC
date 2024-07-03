@@ -56,6 +56,7 @@ def create_table_if_not_exists(table_name, db_name):
     ]
 
     columns = ""
+
     if table_name == "paper_titles":
         columns = """
             id SERIAL PRIMARY KEY,

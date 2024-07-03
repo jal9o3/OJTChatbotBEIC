@@ -78,6 +78,55 @@ class TestCreateTableIfNotExists(unittest.TestCase):
         # Delete test database
         drop_database("test_db")
 
+    def test_create_paper_titles_if_not_exists(self):
+        conn = psycopg2.connect(
+            dbname="postgres",
+            user="postgres",
+            password=PGDB_PASS,
+            host="localhost",
+            port=5432,
+        )
+        cur = conn.cursor()
+        # Create test database
+        connect_to_or_create_pgdb("test_db")
+
+        # Close connection before reconnecting to new test_db
+        cur.close()
+        conn.close()
+
+        conn = psycopg2.connect(
+            dbname="test_db",
+            user="postgres",
+            password=PGDB_PASS,
+            host="localhost",
+            port=5432,
+        )
+        cur = conn.cursor()
+
+        # Test the function
+        create_table_if_not_exists("paper_titles", "test_db")
+        
+        # Execute the query to get table names
+        cur.execute(f"""
+            SELECT table_name
+            FROM information_schema.tables
+            WHERE table_schema = 'public'
+        """)
+
+        # Fetch all table names
+        table_names = cur.fetchall()
+
+        exists = "paper_titles" in [table_name[0] for table_name in table_names]
+
+        # Assert that exists is True
+        self.assertTrue(exists)
+        # Close connection to avoid session conflicts in drop_database
+        cur.close()
+        conn.close()
+        # Delete test database
+        drop_database("test_db")
+
+
 class TestDropDatabase(unittest.TestCase):
     def test_drop_database(self):
         # Connect to the database server
