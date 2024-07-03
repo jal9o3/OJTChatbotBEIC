@@ -120,6 +120,12 @@ class TestCreateTableIfNotExists(unittest.TestCase):
 
         # Assert that exists is True
         self.assertTrue(exists)
+
+        cur.execute("SELECT * FROM paper_titles")
+        column_names = [desc[0] for desc in cur.description]
+        self.assertIn("id", column_names)
+        self.assertIn("paper_title", column_names)
+
         # Close connection to avoid session conflicts in drop_database
         cur.close()
         conn.close()
