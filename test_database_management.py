@@ -272,10 +272,29 @@ class TestUploadToPgdb(unittest.TestCase):
                          WHERE paper_id = '{document_id}'
         """)
         result = cur.fetchall()
+        print(result)
         self.assertIsNotNone(result)
+        self.assertEqual(result[0][0], calculate_sha256('Chunk 1'))
+        self.assertEqual(result[1][0], calculate_sha256('Chunk 2'))
+        self.assertEqual(result[2][0], calculate_sha256('Chunk 3'))
+
         self.assertEqual(result[0][1], 'Chunk 1')
         self.assertEqual(result[1][1], 'Chunk 2')
         self.assertEqual(result[2][1], 'Chunk 3')
+
+        self.assertEqual(result[0][2], 0)
+        self.assertEqual(result[1][2], 1)
+        self.assertEqual(result[2][2], 2)
+
+        self.assertEqual(result[0][3], calculate_sha256(
+            document["metadata"]["paper_title"])
+            )
+        self.assertEqual(result[1][3], calculate_sha256(
+            document["metadata"]["paper_title"])
+            )
+        self.assertEqual(result[2][3], calculate_sha256(
+            document["metadata"]["paper_title"])
+            )
         # self.assertEqual(result[1], 'Sample Document')
         # self.assertEqual(result[2], 'John Doe')
         # self.assertEqual(result[3], ['science', 'technology'])
