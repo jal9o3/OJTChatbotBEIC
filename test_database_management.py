@@ -125,6 +125,9 @@ class TestCreateTableIfNotExists(unittest.TestCase):
         column_names = [desc[0] for desc in cur.description]
         self.assertIn("id", column_names)
         self.assertIn("paper_title", column_names)
+        self.assertIn("author_names", column_names)
+        self.assertIn("tags", column_names)
+        self.assertNotIn("nonexistent_column", column_names)
 
         # Close connection to avoid session conflicts in drop_database
         cur.close()

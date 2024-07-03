@@ -62,7 +62,9 @@ def create_table_if_not_exists(table_name, db_name):
     if table_name == "paper_titles":
         columns = """
             id SERIAL PRIMARY KEY,
-            paper_title TEXT
+            paper_title TEXT,
+            author_names TEXT[], -- An array of author names
+            tags TEXT[] -- An array of tags
         """
     elif table_name == "chunks":
         columns = """
@@ -94,6 +96,7 @@ def drop_database(db_name):
     )
     conn.autocommit = True
     cur = conn.cursor()
+    # Terminates sessions that are accessing the database to prevent conflicts
     query = f"""
         SELECT pg_terminate_backend (pg_stat_activity.pid)
         FROM pg_stat_activity
@@ -129,12 +132,14 @@ def upload_to_pgdb(document, pgdb_conn):
     connect_to_or_create_pgdb("knowledge_base", pgdb_conn.cursor())
 
     # Create paper_titles table if it doesn't exist
+    create_table_if_not_exists("paper_titles", "knowledge_base")
     # Insert title into paper_titles table and generate primary key
 
     # Example query: INSERT INTO paper_titles (title, author) VALUES (%s, %s) RETURNING id
     # Execute the query and get the generated primary key
 
     # Create chunks table if it doesn't exist
+    create_table_if_not_exists("chunks", "knowledge_base")
     # Insert chunks into chunks table
 
     # Example query: INSERT INTO chunks (chunk_text, paper_id, chunk_order) VALUES (%s, %s, %s)
