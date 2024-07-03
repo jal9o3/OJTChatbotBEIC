@@ -131,7 +131,7 @@ def upload_to_pgdb(document, pgdb_conn):
     # Insert each chunk into the table
     for i, chunk in enumerate(chunks):
         # Generate hash_string (you can replace this with your actual hash_string function)
-        hash_string = calculate_sha256(chunk)
+        hash_string = calculate_sha256(chunk) + calculate_sha256(str(i))
 
         cursor.execute("""
             INSERT INTO chunks (hash_string, chunk, chunk_order, paper_id)
