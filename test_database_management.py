@@ -273,9 +273,18 @@ class TestUploadToPgdb(unittest.TestCase):
         """)
         result = cur.fetchall()
         self.assertIsNotNone(result)
-        self.assertEqual(result[0][0], calculate_sha256('Chunk 1'))
-        self.assertEqual(result[1][0], calculate_sha256('Chunk 2'))
-        self.assertEqual(result[2][0], calculate_sha256('Chunk 3'))
+        self.assertEqual(
+            result[0][0], 
+            calculate_sha256('Chunk 1') + calculate_sha256(str(0))
+            )
+        self.assertEqual(
+            result[1][0], 
+            calculate_sha256('Chunk 2') + calculate_sha256(str(1))
+            )
+        self.assertEqual(
+            result[2][0], 
+            calculate_sha256('Chunk 3') + calculate_sha256(str(2))
+            )
 
         self.assertEqual(result[0][1], 'Chunk 1')
         self.assertEqual(result[1][1], 'Chunk 2')
