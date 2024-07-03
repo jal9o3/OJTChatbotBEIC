@@ -1,3 +1,6 @@
+Title: 2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques
+Author: A.N.N. Sazali, N.M. Hernandez, F. Bailard, K.G. Maver
+Tags: Machine Learning, Unstructured Data, Artificial Intelligence, Data Analysis
 
 A CASE STUDY OF UNDERSTANDING THE
 BONAPARTE BASIN USING UNSTRUCTURED DATA

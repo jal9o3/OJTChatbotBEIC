@@ -1,3 +1,6 @@
+Title: 2022 - Sustainable data mining AI_ML-based parameter extraction, data visualization and connectivity to upcycle big-data for basin analysis 
+Author: T. Looi, N.E. Arif, N.M. Hernandez, F. Baillard
+Tags: Artificial Intelligence, Machine Learning, Data Visualization
 
 Balas Premie? Gensrience Event
 

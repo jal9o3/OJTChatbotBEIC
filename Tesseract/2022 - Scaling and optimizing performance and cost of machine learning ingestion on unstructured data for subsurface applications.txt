@@ -1,3 +1,6 @@
+Title: 2022 - Scaling and optimizing performance and cost of machine learning ingestion on unstructured data for subsurface applications
+Author: L.C.L. Panganiban, F. Baillard, N.M. Hernandez
+Tags: Microservice, Machine Learning, Cloud Computing
 
 SCALING AND OPTIMIZING PERFORMANCE AND COST OF MACHINE
 

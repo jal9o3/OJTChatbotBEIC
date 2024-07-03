@@ -1,3 +1,7 @@
+Title: 2021 - An Automated Information Retrieval Platform For Unstructured Well Data Utilizing Smart Machine Learning Algorithms Within A Hybrid Cloud Container
+Author: N.M. Hernandez, P.J. Lucafias, J.C. Graciosa, C. Mamador, L. Caezar, I. Panganiban, C. Yu, K.G.Maver, M.G. Maver
+Tags: Unstructured Data, Machine Learning
+
 
 N.M. Hernandez’, P.J. Lucafias', J.C. Graciosa', C. Mamador’, L. Caezar', I. Panganiban’, C. Yu', K.G.
 Maver’*, M.G. Maver”

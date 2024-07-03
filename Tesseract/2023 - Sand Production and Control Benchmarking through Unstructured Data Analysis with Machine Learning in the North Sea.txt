@@ -1,3 +1,6 @@
+Title: 2023 - Sand Production and Control Benchmarking through Unstructured Data Analysis with Machine Learning in the North Sea
+Author: Iraya Energies
+Tags: Machine Learing, Data Analysis, UNstructured Data
 
 VIENNA | AUSTRIA
 
