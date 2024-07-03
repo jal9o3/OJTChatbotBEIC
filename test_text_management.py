@@ -1,5 +1,5 @@
 import unittest
-from text_management import get_text, get_chunks
+from text_management import get_text, get_chunks, calculate_sha256
 
 class TestGetText(unittest.TestCase):
     def test_existing_file(self):
@@ -27,6 +27,15 @@ class TestGetChunks(unittest.TestCase):
         input_text = "Chunk 1\n\nChunk 2\n\nChunk 3"
         expected_chunks = ["Chunk 1", "Chunk 2", "Chunk 3"]
         self.assertEqual(get_chunks(input_text), expected_chunks)
+
+class TestCalculateSHA256(unittest.TestCase):
+    def test_empty_string(self):
+        self.assertEqual(calculate_sha256(""), 
+            "e3b0c44298fc1c149afbf4c8996fb92427ae41e4649b934ca495991b7852b855")
+    
+    def test_non_empty_string(self):
+        self.assertEqual(calculate_sha256("Hello, world!"), 
+            "315f5bdb76d078c43b8ac0064e4a0164612b1fce77c869345bfc94c75894edd3")
 
 if __name__ == "__main__":
     unittest.main()

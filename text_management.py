@@ -1,3 +1,18 @@
+import hashlib
+
+def calculate_sha256(input_string):
+    """
+    Calculates the SHA-256 hash of the input string.
+    
+    Args:
+        input_string (str): The string to hash.
+    
+    Returns:
+        str: The hexadecimal representation of the SHA-256 hash.
+    """
+    sha256_hash = hashlib.sha256(input_string.encode()).hexdigest()
+    return sha256_hash
+
 def get_text(txt_file_path):
     """
     Reads the contents of a text file and returns the text as a string.

@@ -2,8 +2,10 @@ import unittest
 
 import psycopg2
 
-from database_management import connect_to_or_create_pgdb
-from database_management import create_table_if_not_exists, drop_database
+from database_management import connect_to_or_create_pgdb, drop_database
+from database_management import create_table_if_not_exists, upload_to_pgdb
+
+from text_management import calculate_sha256
 
 from constants import PGDB_PASS
 
@@ -216,6 +218,71 @@ class TestDropDatabase(unittest.TestCase):
         databases = cur.fetchall()
         # Assert that test_db is in databases
         self.assertNotIn("temp_db", [db[0] for db in databases])
+        cur.close()
+        conn.close()
+
+
+class TestUploadToPgdb(unittest.TestCase):
+    def test_upload_to_pgdb(self):
+        # Set up a test database connection
+        connect_to_or_create_pgdb("test_db")
+        conn = psycopg2.connect(
+            dbname='test_db',
+            user='postgres',
+            password=PGDB_PASS,
+            host='localhost',
+            port=5432
+        )
+        cur = conn.cursor()
+
+        # Create test tables
+        create_table_if_not_exists("paper_titles", "test_db")
+        create_table_if_not_exists("chunks", "test_db")
+        
+        conn.commit()
+        
+        # Example document data
+        document = {
+            'metadata': {
+                'paper_title': 'Sample Document',
+                'author_names': ['J. Doe', 'K. Dall'],
+                'tags': ['science', 'technology']
+            },
+            'chunks': ['Chunk 1', 'Chunk 2', 'Chunk 3']
+        }
+
+        # Call your function
+        upload_to_pgdb(document, conn)
+
+        # Restart the connection
+        # (upload_to_pgdb closes connection for safety)
+        conn = psycopg2.connect(
+            dbname='test_db',
+            user='postgres',
+            password=PGDB_PASS,
+            host='localhost',
+            port=5432
+        )
+        cur = conn.cursor()
+
+        document_id = calculate_sha256(document["metadata"]["paper_title"])
+        # Verify that the data was inserted correctly
+        cur.execute(f"""
+                         SELECT * FROM chunks 
+                         WHERE paper_id = '{document_id}'
+        """)
+        result = cur.fetchall()
+        self.assertIsNotNone(result)
+        self.assertEqual(result[0][1], 'Chunk 1')
+        self.assertEqual(result[1][1], 'Chunk 2')
+        self.assertEqual(result[2][1], 'Chunk 3')
+        # self.assertEqual(result[1], 'Sample Document')
+        # self.assertEqual(result[2], 'John Doe')
+        # self.assertEqual(result[3], ['science', 'technology'])
+        # self.assertEqual(result[4], ['Chunk 1', 'Chunk 2', 'Chunk 3'])
+
+        drop_database("test_db")
+        # Clean up: close the cursor and connection
         cur.close()
         conn.close()
 
