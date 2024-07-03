@@ -35,6 +35,8 @@ def connect_to_or_create_pgdb(pgdb_name):
     if pgdb_name not in [db[0] for db in databases]:
         # Create the database if it doesn't exist
         cur.execute(f"CREATE DATABASE {pgdb_name}")
+    cur.close()
+    conn.close()
 
 def create_table_if_not_exists(table_name, db_name):
     # Connect to the database server
@@ -67,7 +69,7 @@ def create_table_if_not_exists(table_name, db_name):
             hash_string VARCHAR(255) PRIMARY KEY,
             chunk TEXT,
             chunk_order SERIAL,
-            paper_id INTEGER REFERENCES paper_titles(paper_id)
+            paper_id INTEGER REFERENCES paper_titles(id)
         """
 
     query = f"""
@@ -78,6 +80,8 @@ def create_table_if_not_exists(table_name, db_name):
 
     cursor.execute(query)
     conn.commit()
+    cursor.close()
+    conn.close()
 
 def drop_database(db_name):
     # Connect to the database server
@@ -89,8 +93,18 @@ def drop_database(db_name):
         port=5432,
     )
     conn.autocommit = True
+    cur = conn.cursor()
+    query = f"""
+        SELECT pg_terminate_backend (pg_stat_activity.pid)
+        FROM pg_stat_activity
+        WHERE pg_stat_activity.datname = '{db_name}';
+    """
+    cur.execute(query)
+
     with conn.cursor() as cur:
         cur.execute(f"DROP DATABASE {db_name};")
+    cur.close()
+    conn.close()
 
 
 def upload_to_pgdb(document, pgdb_conn):
