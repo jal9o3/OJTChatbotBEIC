@@ -15,7 +15,8 @@ class TestGetText(unittest.TestCase):
     def test_nonexistent_file(self):
         # Test the function with a nonexistent file
         result = get_text("nonexistent.txt")
-        self.assertEqual(result, "File not found. Please provide a valid file path.")
+        self.assertEqual(
+            result, "File not found. Please provide a valid file path.")
 
 class TestGetChunks(unittest.TestCase):
     def test_empty_text(self):
