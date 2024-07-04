@@ -13,6 +13,12 @@ from mysql.connector import errorcode
 
 import streamlit as st
 
+import re
+import nltk
+
+# Download the tokenizer from nltk
+nltk.download('punkt')
+
 
 # DATABASE FUNCTIONS---------------------
 
@@ -306,6 +312,31 @@ def preprocess(image):
 
     return image
 
+def preprocess_line(text):
+    
+    # Remove unwanted symbols (keep letters, digits, punctuations, and spaces)
+    text = re.sub(r'[^a-zA-Z0-9\s.,;!?&]', '', text)
+    
+    # Tokenize
+    tokens = nltk.word_tokenize(text)
+    
+    # Join tokens back into a single string
+    preprocessed_text = ' '.join(tokens)
+    
+    return preprocessed_text
+
+def preprocess_text(text):
+    # Split the text into lines
+    lines = text.splitlines()
+
+    # Preprocess each line while preserving formatting
+    preprocessed_lines = [preprocess_line(line) for line in lines]
+
+    # Join preprocessed lines back into a single string with newline characters
+    preprocessed_text = '\n'.join(preprocessed_lines)
+
+    return preprocessed_text
+
 #       Main Extraction Functions-----------------
 
 def images_to_text(pdf_images, processed_images, text_path):
@@ -324,13 +355,11 @@ def images_to_text(pdf_images, processed_images, text_path):
             
             image = cv.imread(image_file)
             
-            
-
             image_path = os.path.join(pdf_images, f"{page_number}.png") # path of the image
             cv.imwrite(image_path, image)
 
             processed_image = preprocess(image)
-            #print(f"Preprocessed Page {page_number}")
+            print(f"Preprocessed Image of Page {page_number}")
 
             processed_path = os.path.join(processed_images, f"{page_number}.png") # path of the image
             cv.imwrite(processed_path, processed_image)
@@ -338,6 +367,8 @@ def images_to_text(pdf_images, processed_images, text_path):
             # Perform OCR on the page image
             text = pytesseract.image_to_string(processed_image,lang = 'enga+fil+equ', config=my_config)
             print(f"OCR performed on page {page_number}")
+            text = preprocess_text(text)
+            print(f"text preprocessing performed on page {page_number}")
 
             with open(text_path, 'a', encoding='utf-8') as f: # Append extracted text to the file
                 f.write(f"\n{text}\n")
