@@ -145,10 +145,4 @@ def upload_to_pgdb(document, pgdb_conn):
     cursor.close()
     pgdb_conn.close()
 
-# Usage example:
-# postgres_db = create_postgres_connection()  # Create your PostgreSQL connection
-# document = {
-#     'metadata': {'title': 'Sample Title', 'author': 'John Doe', 'tags': ['NLP', 'Research']},
-#     'chunks': ['Chunk 1', 'Chunk 2', 'Chunk 3']
-# }
-# upload_to_postgres(document, postgres_db)
+
