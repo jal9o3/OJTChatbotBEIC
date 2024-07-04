@@ -30,6 +30,7 @@ class TestConnectToOrCreatePgdb(unittest.TestCase):
         self.assertIn("test_db", [db[0] for db in databases])
         cur.close()
         conn.close()
+        drop_database("test_db")
 
 class TestCreateTableIfNotExists(unittest.TestCase):
     def test_create_table_if_not_exists(self):
