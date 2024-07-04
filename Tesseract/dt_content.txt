@@ -1,0 +1,7 @@
+documents csv
+    index = default
+    columns:
+        PDF Document Name
+        PDF Document Path
+        Image CSV Path
+        
