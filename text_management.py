@@ -1,4 +1,18 @@
-import hashlib
+import hashlib, random, string
+
+def generate_random_string(size):
+    """
+    
+    Generates a random string of a certain size.
+
+    Args:        
+        size (int): The size of the random string.
+
+        
+    Returns:
+        str: The random string.    
+    """
+    return ''.join(random.choice(string.ascii_letters) for _ in range(size))
 
 def calculate_sha256(input_string):
     """
