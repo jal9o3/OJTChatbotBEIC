@@ -351,50 +351,34 @@ def images_to_text(pdf_images, processed_images, text_path):
 
 def set_session_states(action = "set"):
     # Database session_states
+    db_keys = ["db_name", "host", "user", "password"]
+    button_keys = ["extract", "upload"]
+    operation_keys = ["extract_done", "upload_done"]
+    file_upload_keys = ["uploaded_file"]
+
+    all_keys = db_keys + button_keys + operation_keys + file_upload_keys
+
     if action == "set":
-        if "db_name" not in st.session_state:
-            st.session_state.db_name = ""
+        for key in db_keys:
+            if key not in st.session_state:
+                st.session_state[key] = ""
 
-        if "host" not in st.session_state:
-            st.session_state.host = ""
+        for key in button_keys + operation_keys:
+            if key not in st.session_state:
+                st.session_state[key] = False
 
-        if "user" not in st.session_state:
-            st.session_state.user = ""
-            
-        if "password" not in st.session_state:
-            st.session_state.password = ""
-        
-        # Button session_states
+        for key in file_upload_keys:
+            if key not in st.session_state:
+                st.session_state[key] = None
 
-        if 'extract' not in st.session_state:
-            st.session_state.extract = False
-        
-        if 'upload' not in st.session_state:
-            st.session_state.upload = False
-        
-        # Operation session_states
-
-        if 'extract_done' not in st.session_state:
-            st.session_state.extract_done = False
-        
-        if 'upload_done' not in st.session_state:
-            st.session_state.upload_done = False
-
-        # File Upload session_states
-
-        if 'uploaded_file' not in st.session_state:
-            st.session_state.uploaded_file = None
     elif action == "reset":
-    # Reset session states
-        st.session_state.extract_done = False
-        st.session_state.upload_done = False
-        st.session_state.extract = False
-        st.session_state.upload = False
-        st.session_state.db_name = ""
-        st.session_state.host = ""
-        st.session_state.user = ""
-        st.session_state.password = ""
-        st.session_state.uploaded_file = None
+        for key in all_keys:
+            if key in db_keys:
+                st.session_state[key] = ""
+            elif key in button_keys + operation_keys:
+                st.session_state[key] = False
+            elif key in file_upload_keys:
+                st.session_state[key] = None
 
 def show_message(message, duration=2):
     message_html = f"""
@@ -480,18 +464,6 @@ def extract_image(extraction_dir, image_dir, file):
 @st.experimental_dialog("Provide your MySQL credentials.", width="large")
 def get_credentials():
     # Ask user for MySQL host address, user name, and password
-                    
-    #st.session_state.host = st.text_input("Enter host (default: 127.0.0.1): ")
-    #if host == "":# Set host to 127.0.0.1 if blank
-    #    host = "127.0.0.1"
-    
-    #st.session_state.user = st.text_input("Enter user (default: root): ")
-    #if user == "":# Set user to root if blank
-    #    user = "root"
-    
-    #st.session_state.password = st.text_input("Enter password: ", type = "password")
-
-
 
     db_name = st.text_input("Connect to Database:", placeholder = "iraya_database")
     host = st.text_input("Enter host: ", placeholder = "default: 127.0.0.1")
@@ -526,8 +498,6 @@ def extract():
 
 def upload():
     st.session_state.upload = True
-
-
 
 def metadata(file_path):    
     
