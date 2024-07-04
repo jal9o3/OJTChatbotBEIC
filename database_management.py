@@ -1,7 +1,7 @@
 import psycopg2
 # PGDB --> Postgres Database
 
-from text_management import calculate_sha256
+from text_management import calculate_sha256, generate_random_string
 
 from constants import PGDB_PASS
 
@@ -130,8 +130,13 @@ def upload_to_pgdb(document, pgdb_conn):
     # Insert chunks into chunks table
     # Insert each chunk into the table
     for i, chunk in enumerate(chunks):
-        # Generate hash_string (you can replace this with your actual hash_string function)
-        hash_string = calculate_sha256(chunk) + calculate_sha256(str(i))
+        # Generate hash_string that avoids collisions of identical chunks
+        hash_string = \
+            calculate_sha256(
+            calculate_sha256(chunk) + \
+            calculate_sha256(str(i)) + \
+            calculate_sha256(generate_random_string(7))
+            )
 
         cursor.execute("""
             INSERT INTO chunks (hash_string, chunk, chunk_order, paper_id)
