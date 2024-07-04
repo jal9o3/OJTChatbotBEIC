@@ -38,7 +38,8 @@ def get_text(txt_file_path):
         str: Text content of the file.
     """
     try:
-        with open(txt_file_path, 'r', encoding="utf-8") as file:
+        with open(
+            txt_file_path, 'r', encoding="utf-8", errors='ignore') as file:
             return file.read()
     except FileNotFoundError:
         return "File not found. Please provide a valid file path."
