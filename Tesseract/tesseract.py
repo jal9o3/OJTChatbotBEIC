@@ -13,6 +13,12 @@ from mysql.connector import errorcode
 
 import streamlit as st
 
+import re
+import nltk
+
+# Download the tokenizer from nltk
+nltk.download('punkt')
+
 
 # DATABASE FUNCTIONS---------------------
 
@@ -306,6 +312,31 @@ def preprocess(image):
 
     return image
 
+def preprocess_line(text):
+    
+    # Remove unwanted symbols (keep letters, digits, punctuations, and spaces)
+    text = re.sub(r'[^a-zA-Z0-9\s.,;!?&]', '', text)
+    
+    # Tokenize
+    tokens = nltk.word_tokenize(text)
+    
+    # Join tokens back into a single string
+    preprocessed_text = ' '.join(tokens)
+    
+    return preprocessed_text
+
+def preprocess_text(text):
+    # Split the text into lines
+    lines = text.splitlines()
+
+    # Preprocess each line while preserving formatting
+    preprocessed_lines = [preprocess_line(line) for line in lines]
+
+    # Join preprocessed lines back into a single string with newline characters
+    preprocessed_text = '\n'.join(preprocessed_lines)
+
+    return preprocessed_text
+
 #       Main Extraction Functions-----------------
 
 def images_to_text(pdf_images, processed_images, text_path):
@@ -324,13 +355,11 @@ def images_to_text(pdf_images, processed_images, text_path):
             
             image = cv.imread(image_file)
             
-            
-
             image_path = os.path.join(pdf_images, f"{page_number}.png") # path of the image
             cv.imwrite(image_path, image)
 
             processed_image = preprocess(image)
-            #print(f"Preprocessed Page {page_number}")
+            print(f"Preprocessed Image of Page {page_number}")
 
             processed_path = os.path.join(processed_images, f"{page_number}.png") # path of the image
             cv.imwrite(processed_path, processed_image)
@@ -338,6 +367,8 @@ def images_to_text(pdf_images, processed_images, text_path):
             # Perform OCR on the page image
             text = pytesseract.image_to_string(processed_image,lang = 'enga+fil+equ', config=my_config)
             print(f"OCR performed on page {page_number}")
+            text = preprocess_text(text)
+            print(f"text preprocessing performed on page {page_number}")
 
             with open(text_path, 'a', encoding='utf-8') as f: # Append extracted text to the file
                 f.write(f"\n{text}\n")
@@ -499,68 +530,6 @@ def extract():
 def upload():
     st.session_state.upload = True
 
-def metadata(file_path):    
-    
-
-    #data = {
-        #   "file_path": None,
-    #  "file_name": None,
-    # "title": None,
-    #    "author": None,
-    #   "tags": None 
-    #}
-    #df = pd.DataFrame(data)
-    
-    #new_file_row = {"file_path": file_path, "file_name": file_name}
-    #df = df.append(new_file_row, ignore_index = True)
-
-    #st.write("Input metadata ")
-    #df.loc[df.loc["file_name"] == file_name, "title"] = st.text_input("Title: ", value = file_name, placeholder = "Input Title of the paper")    
-    #df.loc[df.loc["file_name"] == file_name, "author"] = st.text_input("Author: ", value = file_name, placeholder = "Input Author of the paper") 
-    #tags = st.multiselect("Tags: ", value = file_name, placeholder = "Select tags of the paper")     
-    #df['tags'] = df['tags'].tolist() + tags
-    tag_options = ["Machine Learning", "Artificial Intelligence", "Statistical Analysis", "Global Warming"]
-
-    
-    with open(file_path, 'r', encoding='utf-8') as f:
-        file_content = [f.readline() for i in range(3)]
-
-        word_to_ignore = ['Title:', 'Author:', 'Tags:']
-
-        # Process each line and ignore the specific word
-        for i in range(len(file_content)):
-            filtered_line = ' '.join([word for word in file_content[i].split() if word not in word_to_ignore])
-            file_content[i] = filtered_line
-
-        
-        st.write("Input metadata ")
-        title = st.text_input("Title: ", value = file_content[0], placeholder = "Input Title of the paper")    
-        author = st.text_input("Author: ", value = file_content[1], placeholder = "Input Author of the paper") 
-        tags = st.multiselect("Tags: ", options = tag_options, placeholder = "Select tags of the paper")
-
-        for i in range(3):
-            if i == 0:
-                new_info = f"Title: {title}"
-            elif i == 1:
-                new_info = f"Author: {author}"
-            if i == 2:
-                new_info = "Tags: "
-                count = 0
-                for tag in tags:
-                    if count != 0:
-                        new_info = f"{new_info}, {tag}"
-                    elif count == 0:
-                        new_info = f"{new_info}{tag}"
-                    count += 1
-
-            if  0 <= i <= len(file_content):
-                file_content[i] = f"{new_info}\n"
-
-    # Write the modified lines back to the file
-    with open(file_path, 'a', encoding = 'utf-8') as f:
-        f.writelines(file_content)
-        f.close()
-
 #       MAIN Function----------------
 
 def main():
@@ -578,7 +547,7 @@ def main():
     extraction_dir = make_dir(script_directory, "uploaded_pdfs")
 
     # Create metadata directory
-    metadata_dir = make_dir(script_directory, "metadata")
+    #metadata_dir = make_dir(script_directory, "metadata")
 
     # Create new directory for the output files
     text_dir = make_dir(script_directory, "output_text")
@@ -619,24 +588,6 @@ def main():
         print("Before Image Extraction:")
         for item in st.session_state.items():
             print(f"{item}")
-        
-        # Create metadata file
-        for file_name in os.listdir(extraction_dir):
-            text_file_name = os.path.splitext(file_name)[0] + "_metadata.txt" # Specify output file name
-            text_file_path = os.path.join(metadata_dir, text_file_name) # Creates file path
-
-            try: # Creates a new file
-                with open(text_file_path, 'w', encoding='utf-8') as f:
-                    f.write(f"Title: {os.path.splitext(file_name)[0]}\n"
-                            "Author: \n"
-                            "Tags: \n")
-                    f.close()
-            except FileExistsError: # If file already exists,move on
-                with open(text_file_path, 'w', encoding='utf-8') as f:
-                    f.write(f"Title: {os.path.splitext(file_name)[0]}\n"
-                            "Author: \n"
-                            "Tags: \n")
-                    f.close()
                 
         # extract images
         extract_image(extraction_dir, image_dir, st.session_state.uploaded_file)
@@ -778,12 +729,7 @@ def main():
             # List all text files in the directory
             
             if selected_pdf:
-                # Input metadata
-                with meta_prompt:
-                    meta_file = os.path.splitext(selected_pdf)[0] + "_metadata.txt"
-                    meta_path = os.path.join(text_dir, selected_file)
-                    metadata(meta_path)
-
+                
                 file_selected = os.path.splitext(selected_pdf)[0] + ".txt"
                 for file in os.listdir(text_dir):
                     if file == file_selected:
