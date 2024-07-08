@@ -37,6 +37,8 @@ def main():
         'metadata': {
             'paper_title': 'War of the Worlds',
             'author_names': ['H.G. Wells'],
+            # Dummy original PDF filename
+            'filename': 'War of the Worlds.pdf',
             'tags': ['Science Fiction', '1800s']
         },
         'chunks': wotw_chunks
@@ -65,6 +67,7 @@ def main():
         'metadata': {
             'paper_title': 'Automated Information Retrieval',
             'author_names': ['N.M Hernandez', 'P.J. Lucafias', 'J.C. Graciosa'],
+            'filename': 'Automated_Info_Retrieval.pdf',
             'tags': ['Machine Learning', 'Iraya', 'Documents']
         },
         'chunks': auto_ret_chunks
@@ -94,6 +97,7 @@ def main():
             'paper_title': 'A Case Study of Understanding the Bonaparte Basin',
             'author_names': [
                 'A.N.Sazali', 'N.M. Hernandez', 'F. Baillard', 'K.G. Maver'],
+            'filename': 'Bonaparte_Paper.pdf',
             'tags': [
                 'Case Study', 
                 'Machine Learning', 

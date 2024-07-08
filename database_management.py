@@ -52,6 +52,7 @@ def create_table_if_not_exists(table_name, db_name):
             id VARCHAR(255) PRIMARY KEY,
             paper_title TEXT,
             author_names TEXT[], -- An array of author names
+            filename TEXT,
             tags TEXT[] -- An array of tags
         """
     elif table_name == "chunks":

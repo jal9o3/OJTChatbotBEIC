@@ -129,6 +129,7 @@ class TestCreateTableIfNotExists(unittest.TestCase):
         self.assertIn("id", column_names)
         self.assertIn("paper_title", column_names)
         self.assertIn("author_names", column_names)
+        self.assertIn("filename", column_names)
         self.assertIn("tags", column_names)
         self.assertNotIn("nonexistent_column", column_names)
 
@@ -247,6 +248,7 @@ class TestUploadToPgdb(unittest.TestCase):
             'metadata': {
                 'paper_title': 'Sample Document',
                 'author_names': ['J. Doe', 'K. Dall'],
+                'filename': 'Sample Document.pdf',
                 'tags': ['science', 'technology']
             },
             'chunks': ['Chunk 1', 'Chunk 2', 'Chunk 3']
@@ -317,7 +319,8 @@ class TestUploadToPgdb(unittest.TestCase):
         result = cur.fetchone()
         self.assertEqual(result[1], 'Sample Document')
         self.assertEqual(result[2], ['J. Doe', 'K. Dall'])
-        self.assertEqual(result[3], ['science', 'technology'])
+        self.assertEqual(result[3], 'Sample Document.pdf')
+        self.assertEqual(result[4], ['science', 'technology'])
 
         drop_database("test_db")
         # Clean up: close the cursor and connection
