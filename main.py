@@ -2,6 +2,7 @@ import streamlit as st
 import fitz  # PyMuPDF
 from PIL import Image
 from tweaker import st_tweaker
+import chatbot_function as chat
 
 if "document_select" not in st.session_state:
     st.session_state.document_select = True
@@ -16,6 +17,12 @@ if "filter" not in st.session_state:
 
 if 'selected_document' not in st.session_state:
     st.session_state.selected_document = []
+
+if 'chat_documents' not in st.session_state:
+    st.session_state.chat_documents = None
+
+if 'chat_tools' not in st.session_state:
+    st.session_state.chat_tools = []
 
 
 # --- Document Selector ---
@@ -37,48 +44,42 @@ def get_documents():
          "title": "A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques",
          "authors": "Name of Authors",
          "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "source": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
 
         {"id": 1,
          "title": "An Automated Information Retrieval Platform For Unstructured Well Data Utilizing Smart Machine Learning Algorithms Within A Hybrid Cloud Container",
          "authors": "Name of Authors",
          "tags": ["Artificial Intelligence"],
-         "source": "2021 - An Automated Information Retrieval Platform For Unstructured Well Data Utilizing Smart Machine Learning Algorithms Within A Hybrid Cloud Container.pdf"},
+         "file_name": "2021 - An Automated Information Retrieval Platform For Unstructured Well Data Utilizing Smart Machine Learning Algorithms Within A Hybrid Cloud Container.pdf"},
 
         {"id": 2, "title": " Supporting the UN 2050 Net Zero goals by reading the earth better",
          "authors": "Name of Authors",
          "tags": ["Machine Learning"],
-         "source": "2021 - Supporting the UN 2050 Net Zero goals by reading the earth better.pdf"},
+         "file_name": "2021 - Supporting the UN 2050 Net Zero goals by reading the earth better.pdf"},
 
         {"id": 3,
          "title": "Scaling and optimizing performance and cost of machine learning ingestion on unstructured data for subsurface applications",
          "authors": "Name of Authors",
          "tags": ["Artificial Intelligence", "Machine Learning"],
-         "source": "2022 - Scaling and optimizing performance and cost of machine learning ingestion on unstructured data for subsurface applications.pdf"},
-
-        {"id": 4,
-         "title": "Sustainable data mining AI_ML-based parameter extraction, data visualization and connectivity to upcycle big-data for basin analysis ",
-         "authors": "Name of Authors",
-         "tags": ["Machine Learning"],
-         "source": "2022 - Sustainable data mining AI_ML-based parameter extraction, data visualization and connectivity to upcycle big-data for basin analysis .pdf"},
+         "file_name": "2022 - Scaling and optimizing performance and cost of machine learning ingestion on unstructured data for subsurface applications.pdf"},
 
         {"id": 5,
          "title": "Utilizing Machine Learning to Gain Geological Insights through Unstructured Data for  Sustainable Exploration Activities",
          "authors": "Name of Authors",
          "tags": ["Machine Learning"],
-         "source": "2022 - Utilizing Machine Learning to Gain Geological Insights through Unstructured Data for  Sustainable Exploration Activities.pdf"},
+         "file_name": "2022 - Utilizing Machine Learning to Gain Geological Insights through Unstructured Data for  Sustainable Exploration Activities.pdf"},
 
         {"id": 6,
          "title": "Double funnel approach for screening of potential CO2 storage opportunities in the Norwegian Continental Shelf",
          "authors": "Name of Authors",
          "tags": [ "Economy"],
-         "source": "2023 - Double funnel approach for screening of potential CO2 storage opportunities in the Norwegian Continental Shelf.pdf"},
+         "file_name": "2023 - Double funnel approach for screening of potential CO2 storage opportunities in the Norwegian Continental Shelf.pdf"},
 
         {"id": 7,
          "title": "Sand Production and Control Benchmarking through Unstructured Data Analysis with Machine Learning in the North Sea",
          "authors": "Name of Authors",
          "tags": ["Machine Learning"],
-         "source": "2023 - Sand Production and Control Benchmarking through Unstructured Data Analysis with Machine Learning in the North Sea.pdf"}
+         "file_name": "2023 - Sand Production and Control Benchmarking through Unstructured Data Analysis with Machine Learning in the North Sea.pdf"}
     ]
 
     return sample_doc
@@ -90,35 +91,54 @@ def load_documents():
         # --- Load the documents ---
         documents = get_documents()
 
-        # --- Filter Option --- CHANGE TO SELECTBOX
+
         with st_tweaker.container(id="document_action"):
             col1, col2, col3 = st.columns(3)
 
+            # --- Filter Option ---
             with col1:
                 tags = st.multiselect(
                     " ",
                     ["Artificial Intelligence", "Machine Learning", "Economy"],
                     [],placeholder="Filter")
 
+            # --- Search Option ---
+            with col2:
+                search = st.text_input(" ")
+
+            # --- Start Chat Option ---
             with col3:
                 if st_tweaker.button("Start Chat", id="start_chat"):
                     if len(st.session_state.selected_document) == 0:
                         warning()
                     else:
+
+                        st.session_state.chat_documents = chat.load_selected_documents(
+                            st.session_state.selected_document
+                        )
+                        st.session_state.chat_tools = chat.build_tools(
+                            st.session_state.selected_document,
+                            st.session_state.chat_documents
+                        )
                         st.session_state.document_select = False
                         st.rerun()
 
-        # --- Display the documents ---
-        col1, col2, col3 = st.columns(3)
-
         # Use the Tags to Filter
         filtered_documents = [doc for doc in documents if filter_documents(doc, tags)]
+
+        # Search for specific Papers
+        if search:
+            filtered_documents = [doc for doc in filtered_documents if search.lower() in doc['title'].lower()]
+            st.write(f"Results for '{search}':")
 
         # Extract IDs of selected items
         selected_ids = {item['id'] for item in st.session_state.selected_document}
 
         # Store only papers that are in the filtered documents and are not in the selected document list
         show_documents = [doc for doc in filtered_documents if doc['id'] not in selected_ids]
+
+        # --- Display the documents ---
+        col1, col2, col3 = st.columns(3)
 
         for i, doc in enumerate(show_documents):
 
@@ -151,6 +171,7 @@ def load_documents():
                                 load_pdf(doc)
                             st.markdown(f"<p class = ""additional_info"f">{author}</p>", unsafe_allow_html=True)
                             st.markdown(f"<p class = ""additional_info"f">{tags}</p>", unsafe_allow_html=True)
+
 
 
 # --- Filter Documents ---
@@ -195,7 +216,7 @@ def load_pdf(document):
 
     with col1:
 
-        pdf_file_path = f"SamplePDF/{document['source']}"
+        pdf_file_path = f"SamplePDF/{document['file_name']}"
 
         if pdf_file_path:
             doc = fitz.open(pdf_file_path)
@@ -216,7 +237,7 @@ def load_pdf(document):
         st.title(document['title'])
 
         if st.button("Add Paper"):
-            if len(st.session_state.selected_document) == 3:
+            if len(st.session_state.selected_document) == 100:
                 st.markdown("You've reached the maximum number of selected paper (3)")
 
             else:
@@ -256,12 +277,18 @@ def load_chat():
     if "messages" not in st.session_state:
         st.session_state.messages = []
 
+    if "prompts" not in st.session_state:
+        st.session_state.prompts = []
+
     # Sidebar
     with st.sidebar:
         # Return to default (document select)
         if st.button("Return", type="secondary"):
             st.session_state.messages = []
+            st.session_state.prompts = []
             st.session_state.selected_document = []
+            st.session_state.chat_tools = []
+            st.session_state.chat_documents = []
             st.session_state.document_select = True
             st.rerun()
 
@@ -293,11 +320,23 @@ def load_chat():
         user_input = {"role": "user", "content": prompt}
         st.session_state.messages.append(user_input)
 
-        with st.chat_message("assistant"):
-            st.markdown(f"Echo {prompt}")
+        # # Retrieve Context and Built Prompt
+        # new_prompt = chatbot_function.retrieve_context(prompt, 10)
+        # user_prompt = {"role": "user", "content": new_prompt}
+        # st.session_state.prompts.append(user_prompt)
+        #
+        # print(new_prompt)
 
-        ai_response = {"role": "assistant", "content": f"Echo {prompt}"}
+        with st.chat_message("assistant"):
+            # response = chatbot_function.response(st.session_state.prompts)
+            with st.spinner("Thinking"):
+                response = chat.agent(prompt, st.session_state.chat_tools, st.session_state.selected_document)
+                # st.markdown(f"{response}")
+                st.markdown(response)
+
+        ai_response = {"role": "assistant", "content": response}
         st.session_state.messages.append(ai_response)
+        st.session_state.prompts.append(ai_response)
 
 
 def main():
