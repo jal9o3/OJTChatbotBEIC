@@ -5,7 +5,7 @@
 -- Dumped from database version 16.3 (Debian 16.3-1.pgdg120+1)
 -- Dumped by pg_dump version 16.3
 
--- Started on 2024-07-08 09:44:20
+-- Started on 2024-07-08 11:20:38
 
 SET statement_timeout = 0;
 SET lock_timeout = 0;
@@ -19,7 +19,7 @@ SET client_min_messages = warning;
 SET row_security = off;
 
 --
--- TOC entry 3364 (class 1262 OID 24752)
+-- TOC entry 3362 (class 1262 OID 24752)
 -- Name: knowledge_base; Type: DATABASE; Schema: -; Owner: postgres
 --
 
@@ -40,25 +40,6 @@ SET check_function_bodies = false;
 SET xmloption = content;
 SET client_min_messages = warning;
 SET row_security = off;
-
---
--- TOC entry 4 (class 2615 OID 2200)
--- Name: public; Type: SCHEMA; Schema: -; Owner: pg_database_owner
---
-
-CREATE SCHEMA public;
-
-
-ALTER SCHEMA public OWNER TO pg_database_owner;
-
---
--- TOC entry 3365 (class 0 OID 0)
--- Dependencies: 4
--- Name: SCHEMA public; Type: COMMENT; Schema: -; Owner: pg_database_owner
---
-
-COMMENT ON SCHEMA public IS 'standard public schema';
-
 
 SET default_tablespace = '';
 
@@ -96,7 +77,7 @@ CREATE SEQUENCE public.chunks_chunk_order_seq
 ALTER SEQUENCE public.chunks_chunk_order_seq OWNER TO postgres;
 
 --
--- TOC entry 3366 (class 0 OID 0)
+-- TOC entry 3363 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: chunks_chunk_order_seq; Type: SEQUENCE OWNED BY; Schema: public; Owner: postgres
 --
@@ -121,7 +102,7 @@ CREATE TABLE public.paper_titles (
 ALTER TABLE public.paper_titles OWNER TO postgres;
 
 --
--- TOC entry 3207 (class 2604 OID 24764)
+-- TOC entry 3205 (class 2604 OID 24764)
 -- Name: chunks chunk_order; Type: DEFAULT; Schema: public; Owner: postgres
 --
 
@@ -129,7 +110,7 @@ ALTER TABLE ONLY public.chunks ALTER COLUMN chunk_order SET DEFAULT nextval('pub
 
 
 --
--- TOC entry 3358 (class 0 OID 24761)
+-- TOC entry 3356 (class 0 OID 24761)
 -- Dependencies: 217
 -- Data for Name: chunks; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -6133,7 +6114,7 @@ INSERT INTO public.chunks VALUES ('e4f502a7b56fe72595b20e78cb5bbd8d73057c0c29235
 
 
 --
--- TOC entry 3356 (class 0 OID 24753)
+-- TOC entry 3354 (class 0 OID 24753)
 -- Dependencies: 215
 -- Data for Name: paper_titles; Type: TABLE DATA; Schema: public; Owner: postgres
 --
@@ -6144,7 +6125,7 @@ INSERT INTO public.paper_titles VALUES ('d1df5e57a8004a06ef4324a45d48d9574e00034
 
 
 --
--- TOC entry 3367 (class 0 OID 0)
+-- TOC entry 3364 (class 0 OID 0)
 -- Dependencies: 216
 -- Name: chunks_chunk_order_seq; Type: SEQUENCE SET; Schema: public; Owner: postgres
 --
@@ -6153,7 +6134,7 @@ SELECT pg_catalog.setval('public.chunks_chunk_order_seq', 1, false);
 
 
 --
--- TOC entry 3211 (class 2606 OID 24768)
+-- TOC entry 3209 (class 2606 OID 24768)
 -- Name: chunks chunks_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -6162,7 +6143,7 @@ ALTER TABLE ONLY public.chunks
 
 
 --
--- TOC entry 3209 (class 2606 OID 24759)
+-- TOC entry 3207 (class 2606 OID 24759)
 -- Name: paper_titles paper_titles_pkey; Type: CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -6171,7 +6152,7 @@ ALTER TABLE ONLY public.paper_titles
 
 
 --
--- TOC entry 3212 (class 2606 OID 24769)
+-- TOC entry 3210 (class 2606 OID 24769)
 -- Name: chunks chunks_paper_id_fkey; Type: FK CONSTRAINT; Schema: public; Owner: postgres
 --
 
@@ -6179,7 +6160,7 @@ ALTER TABLE ONLY public.chunks
     ADD CONSTRAINT chunks_paper_id_fkey FOREIGN KEY (paper_id) REFERENCES public.paper_titles(id);
 
 
--- Completed on 2024-07-08 09:44:21
+-- Completed on 2024-07-08 11:20:39
 
 --
 -- PostgreSQL database dump complete
