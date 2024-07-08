@@ -22,14 +22,17 @@ def main():
     create_table_if_not_exists("paper_titles", "knowledge_base")
     create_table_if_not_exists("chunks", "knowledge_base")
 
+    # Commit changes to the database
     conn.commit()
 
-    # Upload War of the Worlds    
-
+    # Upload War of the Worlds
+    # Get the .txt file
     wotw_text = get_text(
         r"C:\Users\lenovo\Desktop\OJTChatbotBEIC\War of the Worlds.txt"
         )
+    # Split chunks by double newline (\n\n, or "paragraph")
     wotw_chunks = get_chunks(wotw_text)
+    # Create a dictionary to attach metadata to the chunks of text
     wotw_doc = {
         'metadata': {
             'paper_title': 'War of the Worlds',
@@ -39,10 +42,10 @@ def main():
         'chunks': wotw_chunks
 
     }
+    # Upload the contents of the dictionary to the Postgres database
     upload_to_pgdb(wotw_doc, conn)
 
-    # Reconnect (upload function closes connection for safety)
-
+    # Reconnect to the database (upload function closes connection for safety)
     conn = psycopg2.connect(
         dbname='knowledge_base',
         user='postgres',
@@ -52,6 +55,7 @@ def main():
     )
     cur = conn.cursor()
 
+    # Repeat the .txt upload procedure for a scientific paper
     auto_ret_text = get_text(
         r"C:\Users\lenovo\Desktop\OJTChatbotBEIC\test_papers"
         r"\Automated_Info_Retrieval.txt"
@@ -68,8 +72,8 @@ def main():
     }
     upload_to_pgdb(auto_ret_doc, conn)
 
-    # Reconnect (upload function closes connection for safety)
-
+    # Reconnect to the database again 
+    # (upload function closes connection for safety)
     conn = psycopg2.connect(
         dbname='knowledge_base',
         user='postgres',
@@ -79,6 +83,7 @@ def main():
     )
     cur = conn.cursor()
 
+    # Repeat upload procedure for another paper
     bonaparte_text = get_text(
         r"C:\Users\lenovo\Desktop\OJTChatbotBEIC\test_papers"
         r"\Bonaparte_Paper.txt"
@@ -89,7 +94,12 @@ def main():
             'paper_title': 'A Case Study of Understanding the Bonaparte Basin',
             'author_names': [
                 'A.N.Sazali', 'N.M. Hernandez', 'F. Baillard', 'K.G. Maver'],
-            'tags': ['Case Study', 'Machine Learning', 'Iraya', 'Documents', 'Geology']
+            'tags': [
+                'Case Study', 
+                'Machine Learning', 
+                'Iraya', 
+                'Documents', 
+                'Geology']
         },
         'chunks': bonaparte_chunks
 

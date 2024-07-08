@@ -47,7 +47,7 @@ DROP TABLE paper_titles;
 SELECT * FROM pg_stat_activity WHERE datname = 'knowledge_base';
 
 -- Terminate connection PID
-SELECT pg_terminate_backend (156);
+SELECT pg_terminate_backend (815);
 
 -- Drop knowledge_base database
 DROP DATABASE IF EXISTS knowledge_base;
