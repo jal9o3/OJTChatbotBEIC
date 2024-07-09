@@ -167,8 +167,6 @@ def upload_to_pgdb(document, pgdb_conn):
         # for storage in pgvector
         embedding = get_USE_embedding(chunk).numpy().tolist()
 
-        # embedding = np.array(get_USE_embedding(chunk)[0])
-
         cursor.execute("""
             INSERT INTO chunks (hash_string, chunk, chunk_order, 
                        embedding, paper_id)
