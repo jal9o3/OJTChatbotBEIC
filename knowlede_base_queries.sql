@@ -32,6 +32,13 @@ WHERE c.paper_id = (
 )
 ORDER BY c.chunk_order ASC;
 
+-- adapt previous query
+
+SELECT pt.*
+FROM paper_titles AS pt
+WHERE pt.id = '8c941b1518412bff0d533886d431b90fa0fb36f51275d2f0d145ab17cb94e740';
+
+
 
 -- END OF DEMO QUERIES
 -- MAINTENANCE QUERIES BEGIN HERE
