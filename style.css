@@ -36,8 +36,8 @@ div[data-testid="column"]{
 div[class="block-container st-emotion-cache-1jicfl2 ea3mdgi5"]{
     padding-left: 10%;
     padding-right: 10%;
-    padding-top: 2%;
-    overflow: hidden;
+    padding-top: 1%;
+    overflow: scroll;
 }
 
 div[class="st-emotion-cache-1wmy9hl e1f1d6gn1"] [id="selected_doc"]{
@@ -116,6 +116,10 @@ p[class="additional_info"]{
 
 div[data-testid="stMarkdownContainer"][class="st-emotion-cache-uzeiqp e1nzilvr4"]{
     color: white;
+}
+
+h1[id="select-paper"]{
+    padding-top: 0;
 }
 
 /* --- !End Select Paper! ---*/

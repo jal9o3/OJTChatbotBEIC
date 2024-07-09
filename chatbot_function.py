@@ -3,6 +3,8 @@ from llama_index.llms.ollama import Ollama
 from llama_index.embeddings.huggingface import HuggingFaceEmbedding
 from llama_index.core import Settings
 
+from llama_index.core import PromptTemplate
+
 from llama_index.core import (
     VectorStoreIndex,
     SimpleKeywordTableIndex,
@@ -20,6 +22,39 @@ import os
 from llama_index.core.agent import ReActAgent
 
 from llama_index.core.objects import ObjectIndex
+from prompts import agent_prompt
+
+
+
+def get_documents():
+
+    sample_doc = [
+        {"id": 0,
+         "title": "A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques",
+         "authors": "A.N.N. Sazali, N.M. Hernandez, F. Baillard, K.G. Maver",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 1,
+         "title": "An Automated Information Retrieval Platform For Unstructured Well Data Utilizing Smart Machine Learning Algorithms Within A Hybrid Cloud Container",
+         "authors": "N.M. Hernandez, P.J. Lucafias', J.C. Graciosa', C. Mamador, L. Caezar', I. Panganiban, C. Yu', K.G",
+         "tags": ["Artificial Intelligence"],
+         "file_name": "2021 - An Automated Information Retrieval Platform For Unstructured Well Data Utilizing Smart Machine Learning Algorithms Within A Hybrid Cloud Container.pdf"},
+
+        {"id": 2, "title": " Supporting the UN 2050 Net Zero goals by reading the earth better",
+         "authors": "Nina Marie Hernandez, Kim Gunn Maver and Charmyne Mamador",
+         "tags": ["Machine Learning"],
+         "file_name": "2021 - Supporting the UN 2050 Net Zero goals by reading the earth better.pdf"},
+
+        {"id": 3,
+         "title": "Scaling and optimizing performance and cost of machine learning ingestion on unstructured data for subsurface applications",
+         "authors": "L.C.L. Panganiban, F. Baillard', N.M. Hernandez!",
+         "tags": ["Artificial Intelligence", "Machine Learning"],
+         "file_name": "2022 - Scaling and optimizing performance and cost of machine learning ingestion on unstructured data for subsurface applications.pdf"},
+    ]
+
+    return sample_doc
+
 
 
 # --- Load Selected Documents ---
@@ -40,7 +75,7 @@ def load_selected_documents(selected_documents: list):
 
 # --- Build Agents ---
 def build_tools(selected_documents, document):
-    node_parser = SentenceSplitter()
+    node_parser = SentenceSplitter(chunk_size=2000, chunk_overlap=400)
 
     # Build agents dictionary
     agents = {}
@@ -104,10 +139,12 @@ def build_tools(selected_documents, document):
             llm=function_llm,
             verbose=True,
             system_prompt=f"""\
-    You are a specialized agent designed to answer queries about DOCUMENT {idx+1} {doc['title']}.
-    You must ALWAYS use at least one of the tools provided when answering a question; do NOT rely on prior knowledge.\
-    """,
+                You are a specialized agent designed to answer queries about DOCUMENT {idx+1} {doc['title']}.
+                You must ALWAYS use at least one of the tools provided when answering a question; do NOT rely on prior knowledge.\
+                """,
         )
+
+        # agent.update_prompts({"agent_worker:system_prompt": PromptTemplate(agent_prompt)})
 
         i = f"Document_{idx+1}"
         agents[i] = agent
@@ -139,8 +176,10 @@ def build_tools(selected_documents, document):
 # Load Model and Embeddings
 llm = Ollama(
     model="mistral",
-    base_url="https://116d-34-16-181-107.ngrok-free.app",
-    request_timeout=200.0
+    base_url="https://6e50-34-125-96-70.ngrok-free.app",
+    request_timeout=200.0,
+    temperature=0.2,
+
 )
 
 Settings.llm = llm
@@ -170,14 +209,16 @@ def agent(query, tools, selected_documents):
     top_agent = ReActAgent.from_tools(
         tool_retriever=obj_index.as_retriever(similarity_top_k=3),
         system_prompt=f""" \
-            You are an agent designed to answer queries about a set of research papers.
-            ALWAYS USE THE TOOLS for each query, even if you have prior knowledge. Do not rely on prior knowledge.
-            Here are some tools you can use. Each tool also has a vector_tool and a summery_tool 
-            {content}.
-            """,
+                You are an agent designed to answer queries about a set of research papers.
+                ALWAYS USE THE TOOLS for each query, even if you have prior knowledge. Do not rely on prior knowledge.
+                Here are some tools you can use. Each tool also has a vector_tool and a summary_tool 
+                {content}.
+                """,
         verbose=True,
         context=context
     )
+
+    top_agent.update_prompts({"agent_worker:system_prompt": PromptTemplate(agent_prompt)})
 
     return top_agent.chat(query)
 
@@ -185,53 +226,58 @@ def agent(query, tools, selected_documents):
 # def main():
 #     selected = get_documents()
 #
-#     # for doc in selected:
-#     #     doc['file_name'] = doc['file_name'].replace('.pdf', '.txt')
-#     #     print(doc['file_name'])
+#     for doc in selected:
+#         doc['file_name'] = doc['file_name'].replace('.pdf', '.txt')
+#         print(doc['file_name'])
 #
-#     # documents = load_selected_documents(selected)
-#     #
-#     # tools = build_tools(selected, documents)
+#     documents = load_selected_documents(selected)
 #
-#     # print(tools)
-#     #
-#     # obj_index = ObjectIndex.from_objects(
-#     #     tools,
-#     #     index_cls=VectorStoreIndex,
-#     # )
-#     #
-#     # content = ""
-#     # for idx, doc in enumerate(get_documents()):
-#     #     content += f"tool_Document_{idx+1} that refers to DOCUMENT {idx + 1} with a title of {doc['title']}\n"
-#     #
-#     # context = f"""You are an agent that will help answer queries about a set of documents
-#     # Here are some tool you can use:
-#     # {content}
-#     #
-#     # Each tools also has a vector_tool and a summary_tool
-#     #
-#     # ALWAYS USE THE TOOLS for each query, even if you have prior knowledge. Do not rely on prior knowledge.
-#     # If there are no tools that you can use, just reply with I don't know
-#     # """
-#     #
-#     # top_agent = ReActAgent.from_tools(
-#     #     tool_retriever=obj_index.as_retriever(similarity_top_k=1),
-#     #     system_prompt=f""" \
-#     #     You are an agent designed to answer queries about a set of research papers.
-#     #     ALWAYS USE THE TOOLS for each query, even if you have prior knowledge. Do not rely on prior knowledge.
-#     #     Here are some tools you can use. Each tool also has a vector_tool and a summery_tool
-#     #     {content}.
-#     #     """,
-#     #     verbose=True,
-#     #     context=context
-#     # )
-#     #
+#     tools = build_tools(selected, documents)
+#
+#     print(tools)
+#
+#     obj_index = ObjectIndex.from_objects(
+#         tools,
+#         index_cls=VectorStoreIndex,
+#     )
+#
+#     content = ""
+#     for idx, doc in enumerate(get_documents()):
+#         content += f"tool_Document_{idx+1} that refers to DOCUMENT {idx + 1} with a title of {doc['title']}\n"
+#
+#     context = f"""You are an agent that will help answer queries about a set of documents
+#     Here are some tool you can use:
+#     {content}
+#
+#     Each tools also has a vector_tool and a summary_tool
+#
+#     ALWAYS USE THE TOOLS for each query, even if you have prior knowledge. Do not rely on prior knowledge.
+#     If there are no tools that you can use, just reply with I don't know
+#     """
+#
+#     top_agent = ReActAgent.from_tools(
+#         tool_retriever=obj_index.as_retriever(similarity_top_k=1),
+#         system_prompt=f""" \
+#         You are an agent designed to answer queries about a set of research papers.
+#         ALWAYS USE THE TOOLS for each query, even if you have prior knowledge. Do not rely on prior knowledge.
+#         Here are some tools you can use. Each tool also has a vector_tool and a summary_tool
+#         {content}.
+#         """,
+#         verbose=True,
+#         context=context
+#     )
+#
 #     # while True:
 #     #     query = input("You: ")
 #     #     answer = agent(query, tools)
 #     #     print(answer)
-
-
 #
+#     prompt_dict = top_agent.get_prompts()
+#     for k, v in prompt_dict.items():
+#         print(f"Prompt: {k}\n\nValue: {v.template}")
+#
+#
+#
+# #
 # if __name__ == "__main__":
 #     main()

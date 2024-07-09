@@ -24,6 +24,9 @@ if 'chat_documents' not in st.session_state:
 if 'chat_tools' not in st.session_state:
     st.session_state.chat_tools = []
 
+if 'page' not in st.session_state:
+    st.session_state.page = [0, 9]
+
 
 # --- Document Selector ---
 def select_documents():
@@ -79,11 +82,87 @@ def get_documents():
          "title": "Sand Production and Control Benchmarking through Unstructured Data Analysis with Machine Learning in the North Sea",
          "authors": "Name of Authors",
          "tags": ["Machine Learning"],
-         "file_name": "2023 - Sand Production and Control Benchmarking through Unstructured Data Analysis with Machine Learning in the North Sea.pdf"}
+         "file_name": "2023 - Sand Production and Control Benchmarking through Unstructured Data Analysis with Machine Learning in the North Sea.pdf"},
+
+        {"id": 8,
+         "title": "A dsadsaanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 9,
+         "title": "A Cdsadasing the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 10,
+         "title": "Asdas",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 11,
+         "title": "Asdass",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 12,
+         "title": "Asdasds",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 13,
+         "title": "Asdsadsadas",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 14,
+         "title": "Asdsadsdas",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 15,
+         "title": "Adsadsadassdas",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 16,
+         "title": "Asddsadsadsaas",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 17,
+         "title": "Asddsddddddas",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 18,
+         "title": "Asddsdddddddddddddas",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
+
+        {"id": 19,
+         "title": "Asddsdddddddsasdsadasadsadsas",
+         "authors": "Name of Authors",
+         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
+         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
     ]
 
     return sample_doc
 
+
+def reset():
+    st.session_state.page[0] = 0
+    st.session_state.page[1] = 9
 
 # --- Document Loader ---
 def load_documents():
@@ -100,7 +179,7 @@ def load_documents():
                 tags = st.multiselect(
                     " ",
                     ["Artificial Intelligence", "Machine Learning", "Economy"],
-                    [],placeholder="Filter")
+                    [],placeholder="Filter", on_change=reset)
 
             # --- Search Option ---
             with col2:
@@ -140,7 +219,9 @@ def load_documents():
         # --- Display the documents ---
         col1, col2, col3 = st.columns(3)
 
-        for i, doc in enumerate(show_documents):
+        start = st.session_state.page[0]
+        end = st.session_state.page[1]
+        for i, doc in enumerate(show_documents[start:end]):
 
             col = i % 3
             title = doc['title']
@@ -171,6 +252,25 @@ def load_documents():
                                 load_pdf(doc)
                             st.markdown(f"<p class = ""additional_info"f">{author}</p>", unsafe_allow_html=True)
                             st.markdown(f"<p class = ""additional_info"f">{tags}</p>", unsafe_allow_html=True)
+
+    pageB1, pageB2, pageB3 = st.columns([4,1,1])
+
+    with pageB2:
+        if st.session_state.page[0] == 0:
+            st.button("---", disabled=True)
+        else:
+            if st.button("Back", type='secondary'):
+                st.session_state.page[1] = st.session_state.page[0]
+                st.session_state.page[0] = st.session_state.page[0] - 9
+                st.rerun()
+    with pageB3:
+        if st.session_state.page[1] >= len(filtered_documents):
+            st.button("---", disabled=True)
+        else:
+            if st.button("Next"):
+                st.session_state.page[0] = st.session_state.page[1]
+                st.session_state.page[1] = st.session_state.page[1] + 9
+                st.rerun()
 
 
 
@@ -257,17 +357,17 @@ def warning():
                 'box-shadow: 10px 10px 10px black;}</style>', unsafe_allow_html=True)
 
     st.subheader("No Paper has been selected")
-    st.markdown("Performance may not be as great...")
+    st.markdown("Please select a paper first")
 
     col1, col2 = st.columns(2)
 
-    with col1:
+    with col2:
         if st.button("Return"):
             st.rerun()
-    with col2:
-        if st.button("Continue"):
-            st.session_state.document_select = False
-            st.rerun()
+    # with col2:
+    #     if st.button("Continue"):
+    #         st.session_state.document_select = False
+    #         st.rerun()
 
 
 # --- Load Chat ---
