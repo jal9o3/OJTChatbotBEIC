@@ -396,7 +396,6 @@ def function_time(label, value):
 
     return time_list
 
-
 #       MAIN Function----------------
 
 def main():
@@ -723,6 +722,3 @@ if __name__ == "__main__":
     
     for label, value in time_list:
         print(f"{label}: {value}")
-    
-
-    print(f"")
