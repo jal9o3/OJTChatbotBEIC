@@ -1,7 +1,10 @@
+import numpy as np
+
 import psycopg2
 # PGDB --> Postgres Database
 
 from text_management import calculate_sha256, generate_random_string
+from vector_management import get_USE_embedding
 
 from constants import PGDB_PASS
 
@@ -41,7 +44,7 @@ def connect_to_or_create_pgdb(pgdb_name):
     cur = conn.cursor()
     # Enable the pgvector extension in the database
     # (needs to be only done once per database, hence why it is done here)
-    cur.execute("CREATE EXTENSION vector;")
+    cur.execute("CREATE EXTENSION IF NOT EXISTS vector;")
     # Close connection for safety
     cur.close()
     conn.close()
@@ -80,6 +83,7 @@ def create_table_if_not_exists(table_name, db_name):
             hash_string TEXT PRIMARY KEY,
             chunk TEXT,
             chunk_order SERIAL,
+            embedding vector(512), --column for vector with 512 dimensions (USE)
             paper_id VARCHAR(255) REFERENCES paper_titles(id)
         """
 
@@ -143,7 +147,6 @@ def upload_to_pgdb(document, pgdb_conn):
         VALUES ({', '.join(['%s'] * len(values))})
     """
     cursor.execute(insert_statement, values)
-    
 
     chunks = document['chunks']
     # Create chunks table if it doesn't exist
@@ -158,11 +161,19 @@ def upload_to_pgdb(document, pgdb_conn):
             calculate_sha256(str(i)) + \
             calculate_sha256(generate_random_string(7))
             )
+        
+        # Generate USE embedding of chunk
+        # Convert embedding to numpy format and then to list 
+        # for storage in pgvector
+        embedding = get_USE_embedding(chunk).numpy().tolist()
+
+        # embedding = np.array(get_USE_embedding(chunk)[0])
 
         cursor.execute("""
-            INSERT INTO chunks (hash_string, chunk, chunk_order, paper_id)
-            VALUES (%s, %s, %s, %s)
-            """, (hash_string, chunk, i, paper_id)
+            INSERT INTO chunks (hash_string, chunk, chunk_order, 
+                       embedding, paper_id)
+            VALUES (%s, %s, %s, %s, %s)
+            """, (hash_string, chunk, i, embedding, paper_id)
         )
 
 

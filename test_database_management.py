@@ -189,6 +189,7 @@ class TestCreateTableIfNotExists(unittest.TestCase):
         self.assertIn("hash_string", column_names)
         self.assertIn("chunk", column_names)
         self.assertIn("chunk_order", column_names)
+        self.assertIn("embedding", column_names)
         self.assertIn("paper_id", column_names)
         self.assertNotIn("nonexistent_column", column_names)
 
@@ -294,21 +295,29 @@ class TestUploadToPgdb(unittest.TestCase):
         # collisions. However, the behavior of the generate_random_string 
         # function is testable (see test_text_management.py)
 
+        # Test that chunk text has been stored properly
         self.assertEqual(result[0][1], 'Chunk 1')
         self.assertEqual(result[1][1], 'Chunk 2')
         self.assertEqual(result[2][1], 'Chunk 3')
 
+        # Test that chunk order has been stored properly
         self.assertEqual(result[0][2], 0)
         self.assertEqual(result[1][2], 1)
         self.assertEqual(result[2][2], 2)
 
-        self.assertEqual(result[0][3], calculate_sha256(
+        # Test that embedding column is not empty
+        self.assertIsNotNone(result[0][3])
+        self.assertIsNotNone(result[1][3])
+        self.assertIsNotNone(result[2][3])
+
+        # Test that chunk's paper ID has been hashed and stored properly
+        self.assertEqual(result[0][4], calculate_sha256(
             document["metadata"]["paper_title"])
             )
-        self.assertEqual(result[1][3], calculate_sha256(
+        self.assertEqual(result[1][4], calculate_sha256(
             document["metadata"]["paper_title"])
             )
-        self.assertEqual(result[2][3], calculate_sha256(
+        self.assertEqual(result[2][4], calculate_sha256(
             document["metadata"]["paper_title"])
             )
         
