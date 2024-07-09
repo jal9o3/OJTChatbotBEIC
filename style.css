@@ -22,7 +22,7 @@ header[data-testid="stHeader"]{
 }
 
 div[data-testid="stModal"] div[tabindex="-1"]{
-    width: 90%;
+
     margin-top: -5px;
     overflow: scroll;
     background-color: var(--lighter);

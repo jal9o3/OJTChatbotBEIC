@@ -189,7 +189,7 @@ def load_documents():
             with col3:
                 if st_tweaker.button("Start Chat", id="start_chat"):
                     if len(st.session_state.selected_document) == 0:
-                        warning()
+                        warning(0)
                     else:
 
                         st.session_state.chat_documents = chat.load_selected_documents(
@@ -233,23 +233,39 @@ def load_documents():
                     with col1:
                         with st.container(height=200, border=True):
                             if st.button(f"{title}", type="primary"):
-                                load_pdf(doc)
-                                # st.session_state.selected_document.append(filtered_documents[i])
-                                # st.rerun()
+                                if len(st.session_state.selected_document) == 3:
+                                    warning(1)
+                                else:
+                                    st.session_state.selected_document.append(doc)
+                                    st.rerun()
+                                    # st.session_state.selected_document.append(filtered_documents[i])
+                                    # st.rerun()
                             st.markdown(f"<p class = ""additional_info"f">{author}</p>", unsafe_allow_html=True)
                             st.markdown(f"<p class = ""additional_info"f">{tags}</p>", unsafe_allow_html=True)
                 case 1:
                     with col2:
                         with st.container(height=200, border=True):
                             if st.button(f"{title}", type="primary"):
-                                load_pdf(doc)
+                                if len(st.session_state.selected_document) == 3:
+                                    warning(1)
+                                else:
+                                    st.session_state.selected_document.append(doc)
+                                    st.rerun()
+                                    # st.session_state.selected_document.append(filtered_documents[i])
+                                    # st.rerun()
                             st.markdown(f"<p class = ""additional_info"f">{author}</p>", unsafe_allow_html=True)
                             st.markdown(f"<p class = ""additional_info"f">{tags}</p>", unsafe_allow_html=True)
                 case 2:
                     with col3:
                         with st.container(height=200, border=True):
                             if st.button(f"{title}", type="primary"):
-                                load_pdf(doc)
+                                if len(st.session_state.selected_document) == 3:
+                                    warning(1)
+                                else:
+                                    st.session_state.selected_document.append(doc)
+                                    st.rerun()
+                                    # st.session_state.selected_document.append(filtered_documents[i])
+                                    # st.rerun()
                             st.markdown(f"<p class = ""additional_info"f">{author}</p>", unsafe_allow_html=True)
                             st.markdown(f"<p class = ""additional_info"f">{tags}</p>", unsafe_allow_html=True)
 
@@ -257,7 +273,7 @@ def load_documents():
 
     with pageB2:
         if st.session_state.page[0] == 0:
-            st.button("---", disabled=True)
+            st.button("---", disabled=True, key="Back")
         else:
             if st.button("Back", type='secondary'):
                 st.session_state.page[1] = st.session_state.page[0]
@@ -265,13 +281,12 @@ def load_documents():
                 st.rerun()
     with pageB3:
         if st.session_state.page[1] >= len(filtered_documents):
-            st.button("---", disabled=True)
+            st.button("---", disabled=True, key="Next")
         else:
             if st.button("Next"):
                 st.session_state.page[0] = st.session_state.page[1]
                 st.session_state.page[1] = st.session_state.page[1] + 9
                 st.rerun()
-
 
 
 # --- Filter Documents ---
@@ -346,7 +361,7 @@ def load_pdf(document):
 
 
 @st.experimental_dialog(" ")
-def warning():
+def warning(mode):
     # --- CSS ---
     st.markdown('<style>div[data-testid="stModal"] div[tabindex="-1"]{'
                 'display: flex; '
@@ -356,18 +371,32 @@ def warning():
                 'background-color:var(--lighter);'
                 'box-shadow: 10px 10px 10px black;}</style>', unsafe_allow_html=True)
 
-    st.subheader("No Paper has been selected")
-    st.markdown("Please select a paper first")
+    if mode == 0:
+        st.subheader("No Paper has been selected")
+        st.markdown("Please select a paper first")
 
-    col1, col2 = st.columns(2)
+        col1, col2 = st.columns(2)
 
-    with col2:
-        if st.button("Return"):
-            st.rerun()
-    # with col2:
-    #     if st.button("Continue"):
-    #         st.session_state.document_select = False
-    #         st.rerun()
+        with col2:
+            if st.button("Return"):
+                st.rerun()
+        # with col2:
+        #     if st.button("Continue"):
+        #         st.session_state.document_select = False
+        #         st.rerun()
+    else:
+        st.subheader("Maximum Number of Document Reached")
+        st.markdown("The maximum number of document is 3")
+
+        col1, col2 = st.columns(2)
+
+        with col2:
+            if st.button("Return"):
+                st.rerun()
+        # with col2:
+        #     if st.button("Continue"):
+        #         st.session_state.document_select = False
+        #         st.rerun()
 
 
 # --- Load Chat ---
