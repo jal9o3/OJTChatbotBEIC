@@ -23,6 +23,26 @@ def connect_to_or_create_pgdb(pgdb_name):
     if pgdb_name not in [db[0] for db in databases]:
         # Create the database if it doesn't exist
         cur.execute(f"CREATE DATABASE {pgdb_name}")
+    
+    # Connect to newly created database and enable pgvector extension
+    # Start by closing existing connection
+    cur.close()
+    conn.close()
+    # Connect to the newly created database
+    conn = psycopg2.connect(
+    dbname=pgdb_name,
+    user="postgres",
+    password=PGDB_PASS,
+    host="localhost",
+    port=5432,
+    )
+    conn.autocommit = True
+
+    cur = conn.cursor()
+    # Enable the pgvector extension in the database
+    # (needs to be only done once per database, hence why it is done here)
+    cur.execute("CREATE EXTENSION vector;")
+    # Close connection for safety
     cur.close()
     conn.close()
 
