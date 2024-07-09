@@ -1,27 +1,28 @@
+import streamlit as st
+
 import pytesseract
+
 from pdf2image import convert_from_path
-import os
+from PyPDF2 import PdfReader
+
 import cv2 as cv
 import numpy as np
 import pandas as pd
-from io import BytesIO
 from PIL import Image
+
+import preprocessing
+
+from io import BytesIO
+import os
+
 import time
 
 import mysql.connector
 from mysql.connector import errorcode
 
-import streamlit as st
-
-import re
-import nltk
-
-# Download the tokenizer from nltk
-nltk.download('punkt')
-
+time_list = []
 
 # DATABASE FUNCTIONS---------------------
-
 
 #       Other Database Functions
 
@@ -38,35 +39,39 @@ def database_exists(cursor, db_name):
     cursor.execute("SHOW DATABASES LIKE %s", (db_name,))
     return cursor.fetchone() is not None
 
-#Inserts the extracted text from the pdf to the database
-def insert_paper(file_path, file, cursor, conn):
-    # Read extracted text
-    with open(file_path, 'r', encoding='utf-8') as f:
-        text = f.read()
-
-    # Insert paper record into Papers table
-    cursor.execute("""
-        INSERT INTO Papers (title)
-        VALUES (%s)
-    """, (file,))
-    paper_id = cursor.lastrowid
-    conn.commit()
-
-    chunk_size = 255
-    chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
-
-    chunk_order = 1
-    for chunk in chunks:
-        cursor.execute("""
-            INSERT INTO Chunks (paper_id, chunk_order, chunk_text)
-            VALUES (%s, %s, %s)
-        """, (paper_id, chunk_order, chunk))
-        chunk_order += 1
-
-    conn.commit()
-
-
 #       Main Database Function
+
+@st.experimental_dialog("Provide your MySQL credentials.", width="large")
+def get_credentials():
+    # Ask user for MySQL host address, user name, and password
+
+    db_name = st.text_input("Connect to Database:", placeholder = "iraya_database")
+    host = st.text_input("Enter host: ", placeholder = "default: 127.0.0.1")
+    user = st.text_input("Enter user: ", placeholder = "root")
+    password = st.text_input("Enter password: ", type = "password")
+
+    if st.button("Submit"):
+        if host == "":# Set host to 127.0.0.1 if blank
+            host = "127.0.0.1"
+        
+        if user == "":# Set user to root if blank
+            user = "root"
+
+        if db_name == "":# Set host to 127.0.0.1 if blank
+            db_name = "iraya_database"
+        
+        _,_,p_check = connect_SQL(host, user, password)
+        
+        if p_check:
+            st.session_state.db_name = db_name
+            st.session_state.host = host
+            st.session_state.user = user
+            st.session_state.password = password
+            
+        else:
+            st.error("Wrong Password")
+        
+        st.rerun()
 
 def connect_SQL(host, user, password):
     try:
@@ -157,248 +162,168 @@ def connect_db(conn, cursor, db_name):
             print(err)
             conn.rollback()
 
+#Inserts the extracted text from the pdf to the database
+def insert_paper(file_path, file, cursor, conn):
+    # Read extracted text
+    with open(file_path, 'r', encoding='utf-8') as f:
+        text = f.read()
 
+    # Insert paper record into Papers table
+    cursor.execute("""
+        INSERT INTO Papers (title)
+        VALUES (%s)
+    """, (file,))
+    paper_id = cursor.lastrowid
+    conn.commit()
 
+    chunk_size = 255
+    chunks = [text[i:i + chunk_size] for i in range(0, len(text), chunk_size)]
+
+    chunk_order = 1
+    for chunk in chunks:
+        cursor.execute("""
+            INSERT INTO Chunks (paper_id, chunk_order, chunk_text)
+            VALUES (%s, %s, %s)
+        """, (paper_id, chunk_order, chunk))
+        chunk_order += 1
+
+    conn.commit()
 # EXTRACTION FUNCTIONS------------------
 
-#       Preprocessing Functions---------------------
+@st.cache_data
+def extract_image(upload_dir, image_dir):
+    # Convert pdfs to images
+    for file_name in os.listdir(upload_dir): # iterate for each file in the directory
+        if file_name.endswith(".pdf"): # Check if the file is a pdf
+            
+            file_path = os.path.join(upload_dir, file_name) # Specify path to the PDF file
+            with open(file_path, 'rb') as f:
+                pdf = PdfReader(f)
+                num_pages = len(pdf.pages)
 
-# Remove Images
-def remove_images(image):
-    #lower and upper limit of binarizing
-    lower = 210
-    upper = 230
-    # Convert the image to grayscale
-    gray_image = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
+            # Create directory for output image file specific to the pdf
+            file_image_dir = os.path.join(image_dir, os.path.splitext(file_name)[0]) # directory containning the images of the pdf
+            if not os.path.exists(file_image_dir):# Ensure the extraction directory exists
+                os.makedirs(file_image_dir)
 
-    # Perform thresholding to convert grayscale image to binary (black and white)
-    thresh, binarized = cv.threshold(gray_image, lower, upper, cv.THRESH_BINARY)
-
-    # Invert the binary image (so that text becomes white on black background)
-    inverted_image = cv.bitwise_not(binarized)
-
-    return inverted_image
-
-# Remove Noise
-def remove_noise(image):
-    iteration = 1
-    
-    kernel = np.ones((1, 1), np.uint8)
-    image = cv.dilate(image, kernel, iteration)
-    
-    kernel = np.ones((1, 1), np.uint8)
-    image = cv.erode(image, kernel, iteration)
-    
-    image = cv.morphologyEx(image, cv.MORPH_CLOSE, kernel)
-    image = cv.medianBlur(image, 3)
-    
-    return image
-
-# Dilate and Erode
-def thick_font(image):
-
-    image = cv.bitwise_not(image)
-    kernel = np.ones((2,2),np.uint8)
-    image = cv.dilate(image, kernel, iterations=1)
-    image = cv.bitwise_not(image)
-    
-    return image
-
-def thin_font(image):
-    import numpy as np
-    image = cv.bitwise_not(image)
-    kernel = np.ones((2,2),np.uint8)
-    image = cv.erode(image, kernel, iterations=1)
-    image = cv.bitwise_not(image)
-    return image
-
-#Crop Images
-def crop_image(image):
-    height, width = image.shape[:2]
-    
-    top_crop = 0.05
-    bottom_crop = 0.05
-    left_crop = 0
-    right_crop = 0
-
-    top = int(height * top_crop)
-    bottom = height - int(height * bottom_crop)
-    left = int(width * left_crop)
-    right = width - int(width * right_crop)
-
-    cropped_image = image[top:bottom, left:right]
-    
-    return cropped_image
-
-#Remove Borders automatically
-def remove_borders(image):
-    contours, heiarchy = cv.findContours(image, cv.RETR_EXTERNAL, cv.CHAIN_APPROX_SIMPLE)
-    cntsSorted = sorted(contours, key=lambda x:cv.contourArea(x))
-    cnt = cntsSorted[-1]
-    x, y, w, h = cv.boundingRect(cnt)
-    crop = image[y:y+h, x:x+w]
-    
-    return (crop)
-
-# Add Borders
-def add_borders(image):
-    color = [255, 255, 255]
-    top, bottom, left, right = [150]*4
-
-    image_with_border = cv.copyMakeBorder(image, top, bottom, left, right, cv.BORDER_CONSTANT, value=color)
-
-    return image_with_border
-
-# Rotation and Deskewing
-def getSkewAngle(cvImage) -> float:
-    # Prep image, copy, convert to gray scale, blur, and threshold
-    newImage = cvImage.copy()
-    gray = cv.cvtColor(newImage, cv.COLOR_BGR2GRAY)
-    blur = cv.GaussianBlur(gray, (9, 9), 0)
-    thresh = cv.threshold(blur, 0, 255, cv.THRESH_BINARY_INV + cv.THRESH_OTSU)[1]
-
-    # Apply dilate to merge text into meaningful lines/paragraphs.
-    # Use larger kernel on X axis to merge characters into single line, cancelling out any spaces.
-    # But use smaller kernel on Y axis to separate between different blocks of text
-    kernel = cv.getStructuringElement(cv.MORPH_RECT, (30, 5))
-    dilate = cv.dilate(thresh, kernel, iterations=2)
-
-    # Find all contours
-    contours, hierarchy = cv.findContours(dilate, cv.RETR_LIST, cv.CHAIN_APPROX_SIMPLE)
-    contours = sorted(contours, key = cv.contourArea, reverse = True)
-    for c in contours:
-        rect = cv.boundingRect(c)
-        x,y,w,h = rect
-        cv.rectangle(newImage,(x,y),(x+w,y+h),(0,255,0),2)
-
-    # Find largest contour and surround in min area box
-    largestContour = contours[0]
-    print (len(contours))
-    minAreaRect = cv.minAreaRect(largestContour)
-    cv.imwrite("temp/boxes.jpg", newImage)
-    # Determine the angle. Convert it to the value that was originally used to obtain skewed image
-    angle = minAreaRect[-1]
-    if angle < -45:
-        angle = 90 + angle
-    return -1.0 * angle
-
-# Rotate the image around its center
-def rotateImage(cvImage, angle: float):
-    newImage = cvImage.copy()
-    (h, w) = newImage.shape[:2]
-    center = (w // 2, h // 2)
-    M = cv.getRotationMatrix2D(center, angle, 1.0)
-    newImage = cv.warpAffine(newImage, M, (w, h), flags=cv.INTER_CUBIC, borderMode=cv.BORDER_REPLICATE)
-    return newImage
-
-# Deskew image
-def deskew(cvImage):
-    angle = getSkewAngle(cvImage)
-    return rotateImage(cvImage, -1.0 * angle)
-
-#       Main Preprocessing Function-------------
+            # Iterate through each page image and save
+            for page_number in range(1, num_pages + 1):
+                page_image = convert_from_path(file_path, first_page=page_number, last_page=page_number) # Convert PDF pages to images
+                try:
+                    image_path = os.path.join(file_image_dir, f"{page_number}.png") # path of the image
+                    page_image[0].save(image_path)
+                except Exception as e:
+                    st.error(f"Error saving file: {e}")
+    st.session_state.image_converted = True
 
 def preprocess(image):
 
-    # Crop header and footnote
-    image = crop_image(image)
+    if st.session_state.remove_images == True:
+        # Remove images from the page
+        image = preprocessing.remove_images(image)
 
-    # Remove images from the page
-    image = remove_images(image)
-    
-    image = thick_font(image)
+    if st.session_state.remove_noise == True:
+        # Remove noise from the page
+        image = preprocessing.remove_noise(image)
 
-    
+    if st.session_state.thick_font == True:
+        # Thicken the font of the text in the image
+        image = preprocessing.thick_font(image)
+
+    if st.session_state.thin_font == True:
+        # thin out the font of the text in the image
+        image = preprocessing.thin_font(image)
+
+    if st.session_state.remove_borders == True:
+        # Remove the borders of the image
+        image = preprocessing.remove_borders(image)
+
+    if st.session_state.add_borders == True:
+        # Add borders to the image
+        image = preprocessing.add_borders(image)
+
+    if st.session_state.crop_image == True:
+        # Remove images from the page
+        image = preprocessing.crop_image(image)
+
+    if st.session_state.deskew == True:
+        # Remove images from the page
+        image = preprocessing.deskew(image)
 
     return image
 
-def preprocess_line(text):
-    
-    # Remove unwanted symbols (keep letters, digits, punctuations, and spaces)
-    text = re.sub(r'[^a-zA-Z0-9\s.,;!?&]', '', text)
-    
-    # Tokenize
-    tokens = nltk.word_tokenize(text)
-    
-    # Join tokens back into a single string
-    preprocessed_text = ' '.join(tokens)
-    
-    return preprocessed_text
+#       Main Extraction Functions
 
-def preprocess_text(text):
-    # Split the text into lines
-    lines = text.splitlines()
-
-    # Preprocess each line while preserving formatting
-    preprocessed_lines = [preprocess_line(line) for line in lines]
-
-    # Join preprocessed lines back into a single string with newline characters
-    preprocessed_text = '\n'.join(preprocessed_lines)
-
-    return preprocessed_text
-
-#       Main Extraction Functions-----------------
-
-def images_to_text(pdf_images, processed_images, text_path):
+def images_to_text(pdf_images_dir, text_path):
     #configuration for Tesseract
     #psm 1 - Automatic page segmentation with Orientation and Script Detection
     #oem 3 - Default, mode based on the available
     my_config = r"--psm 1 --oem 3"
 
+    image_files = [os.path.splitext(file)[0] for file in os.listdir(pdf_images_dir) if file.endswith('.png')]
+    image_files_sorted = sorted(image_files, key = int)
+
     # Iterate through each page image and perform OCR
-    for page_number, page_image in enumerate(os.listdir(pdf_images), start = 1): # iterate for each file in the directory
-        image_file = os.path.join(pdf_images, page_image)
-        if page_image.endswith(".png"): # Check if the file is a pdf
-            #for page_number, page_image in enumerate(pages, start=1):
-            pdf_name = os.path.splitext(pdf_images)[0]
-            print(f"Processing page {page_number} of {pdf_name}")
-            
-            image = cv.imread(image_file)
-            
-            image_path = os.path.join(pdf_images, f"{page_number}.png") # path of the image
-            cv.imwrite(image_path, image)
+    for page_number, page_image in enumerate(image_files_sorted, start = 1): # iterate for each file in the image directory starting with 1
+        image_path = os.path.join(pdf_images_dir, f"{page_image}.png") # path of the image
+        pdf_name = pdf_images_dir
+        print(f"Processing page {page_number} of {pdf_name}")
+        
+        image = cv.imread(image_path) # Read the image
+        
+        # Perform OCR on the page image
+        text = pytesseract.image_to_string(image,lang = 'enga+fil+equ', config=my_config)
+        print(f"OCR performed on page {page_number}")
+        
+        # Perform Text Preprocessing
+        text = preprocessing.body_text(text)
+        print(f"text preprocessing performed on page {page_number}")
 
-            processed_image = preprocess(image)
-            print(f"Preprocessed Image of Page {page_number}")
+        with open(text_path, 'a', encoding='utf-8') as f: # Append extracted text to the file
+            f.write(f"\n\n-----Page {page_number}-----\n\n{text}")
+        print(f"Appended text of page {page_number} to {text_path}")
 
-            processed_path = os.path.join(processed_images, f"{page_number}.png") # path of the image
-            cv.imwrite(processed_path, processed_image)
-
-            # Perform OCR on the page image
-            text = pytesseract.image_to_string(processed_image,lang = 'enga+fil+equ', config=my_config)
-            print(f"OCR performed on page {page_number}")
-            text = preprocess_text(text)
-            print(f"text preprocessing performed on page {page_number}")
-
-            with open(text_path, 'a', encoding='utf-8') as f: # Append extracted text to the file
-                f.write(f"\n{text}\n")
-            print(f"Appended text of page {page_number} to {text_path}")
-
-    print(f"Completed text extraction from: {pdf_images}")
+    print(f"Completed text extraction from: {pdf_images_dir}")
 
 # Main--------------------
 
 #       Other Functions of Main-------------------
 
+def image_processing_options():
+    options = [
+                {"label": "Remove Images", "key": "remove_images"},
+                {"label": "Remove Noise", "key": "remove_noise"},
+                {"label": "Thicken Font", "key": "thick_font"},
+                {"label": "Thin Out Font", "key": "thin_font"},
+                {"label": "Remove Borders", "key": "remove_borders"},
+                {"label": "Add Borders", "key": "add_borders"},
+                {"label": "Crop Image", "key": "crop_image"},
+                {"label": "Deskew", "key": "deskew"}
+            ]
+    return options
+
 def set_session_states(action = "set"):
+    options = image_processing_options()
+
     # Database session_states
     db_keys = ["db_name", "host", "user", "password"]
-    button_keys = ["extract", "upload"]
-    operation_keys = ["extract_done", "upload_done"]
-    file_upload_keys = ["uploaded_file"]
+    button_keys = ["extract", "upload", "process_change"]
+    operation_keys = ["extract_done", "upload_done", "process_done", "image_converted"]
+    list_keys = ["uploaded_file"]
+    image_processing_keys = [option["key"] for option in options]
 
-    all_keys = db_keys + button_keys + operation_keys + file_upload_keys
+    all_keys = db_keys + button_keys + operation_keys + list_keys + image_processing_keys
 
     if action == "set":
         for key in db_keys:
             if key not in st.session_state:
                 st.session_state[key] = ""
 
-        for key in button_keys + operation_keys:
+        for key in button_keys + operation_keys + image_processing_keys:
             if key not in st.session_state:
                 st.session_state[key] = False
 
-        for key in file_upload_keys:
+        for key in list_keys:
             if key not in st.session_state:
                 st.session_state[key] = None
 
@@ -406,12 +331,21 @@ def set_session_states(action = "set"):
         for key in all_keys:
             if key in db_keys:
                 st.session_state[key] = ""
-            elif key in button_keys + operation_keys:
+            elif key in button_keys + operation_keys + image_processing_keys:
                 st.session_state[key] = False
-            elif key in file_upload_keys:
+            elif key in list_keys:
                 st.session_state[key] = None
+    
+def extract():
+    st.session_state.extract = True
 
-def show_message(message, duration=2):
+def upload():
+    st.session_state.upload = True
+
+def process_change():
+    st.session_state.process_change = True
+
+def show_message(message, duration=0.5):
     message_html = f"""
     <div style="
         position: fixed;
@@ -456,79 +390,11 @@ def make_dir(parent_dir, name):
 
     return new_dir
 
-@st.cache_data
-def extract_image(extraction_dir, image_dir, file):
-    if file is not None: 
-        # Save the pdfs
-        for file in file:
-            file_path = os.path.join(extraction_dir, file.name)
+def function_time(label, value):
+    global time_list
+    time_list.append((label, value))
 
-            # Save the file
-            with open(file_path, "wb") as f:
-                f.write(file.getbuffer())
-
-        # Convert pdfs to images
-        for file_name in os.listdir(extraction_dir): # iterate for each file in the directory
-            if file_name.endswith(".pdf"): # Check if the file is a pdf
-                
-                file_path = os.path.join(extraction_dir, file_name) # Specify path to the PDF file
-
-                # Create directory for output image file specific to the pdf
-                file_image_dir = os.path.join(image_dir, os.path.splitext(file_name)[0]) # directory containning the images of the pdf
-                if not os.path.exists(file_image_dir):# Ensure the extraction directory exists
-                    os.makedirs(file_image_dir)
-
-                #print(f"Starting image convertion from: {pdf_path}")
-                pages = convert_from_path(file_path) # Convert PDF pages to images
-                #print(f"Converted {len(pages)} pages to images.")
-
-                # Iterate through each page image and save
-                for page_number, page_image in enumerate(pages, start=1):
-                    try:
-                        image_path = os.path.join(file_image_dir, f"{page_number}.png") # path of the image
-                        page_image.save(image_path)
-                    except Exception as e:
-                        return st.error(f"Error saving file: {e}")
-    else:
-        st.write("Please upload a pdf file to proceed.")
-
-@st.experimental_dialog("Provide your MySQL credentials.", width="large")
-def get_credentials():
-    # Ask user for MySQL host address, user name, and password
-
-    db_name = st.text_input("Connect to Database:", placeholder = "iraya_database")
-    host = st.text_input("Enter host: ", placeholder = "default: 127.0.0.1")
-    user = st.text_input("Enter user: ", placeholder = "root")
-    password = st.text_input("Enter password: ", type = "password")
-
-    if st.button("Submit"):
-        if host == "":# Set host to 127.0.0.1 if blank
-            host = "127.0.0.1"
-        
-        if user == "":# Set user to root if blank
-            user = "root"
-
-        if db_name == "":# Set host to 127.0.0.1 if blank
-            db_name = "iraya_database"
-        
-        _,_,p_check = connect_SQL(host, user, password)
-        
-        if p_check:
-            st.session_state.db_name = db_name
-            st.session_state.host = host
-            st.session_state.user = user
-            st.session_state.password = password
-            
-        else:
-            st.error("Wrong Password")
-        
-        st.rerun()
-
-def extract():
-    st.session_state.extract = True
-
-def upload():
-    st.session_state.upload = True
+    return time_list
 
 #       MAIN Function----------------
 
@@ -541,13 +407,11 @@ def main():
     for item in st.session_state.items():
         print(f"{item}")
 
+    # gets the directory were the script is located
     script_directory = os.path.dirname(os.path.abspath(__file__))
 
     # Create diectory for the uploaded files
-    extraction_dir = make_dir(script_directory, "uploaded_pdfs")
-
-    # Create metadata directory
-    #metadata_dir = make_dir(script_directory, "metadata")
+    upload_dir = make_dir(script_directory, "uploaded_pdfs")
 
     # Create new directory for the output files
     text_dir = make_dir(script_directory, "output_text")
@@ -564,41 +428,114 @@ def main():
     st.markdown("<p style='text-align: center;'>Extract PDFs and add them directly to the database.</p>", unsafe_allow_html=True)
     st.write("")
 
-    upload_con = st.container()
-    preprocess_col, upload_col = st.columns(2)
-    image_view, text_view = st.columns(2)
+    upload_con = st.container() # for upload processes
+    extract_col, upload_col = st.columns(2) # extract_col = for extraction processes; upload_col = for database uploading processes
+    image_view, text_view = st.columns(2) # for viewing what will be processed
+
 
 
     with upload_con:
         st.write("Extract PDFs:")
-
+        # Uploading of pdf files; the widget can accept multiple pdfs
         st.session_state.uploaded_file = st.file_uploader("Choose a file", type = "pdf", accept_multiple_files = True)
         st.success(f"{len(st.session_state.uploaded_file)} file(s) uploaded")
 
-        if not st.session_state.uploaded_file:
-            remove_contents(extraction_dir)
+        if not st.session_state.uploaded_file: # reset directories adn session states when there are no uploaded files.
+            remove_contents(upload_dir)
             remove_contents(text_dir)
             remove_contents(image_dir)
             remove_contents(preprocessed_dir)
-            extract_image.clear()
+            extract_image.clear() # clears the images from the cache
             set_session_states("reset")
 
-
-        #Checking Session States
+        # Checking Session States
         print("Before Image Extraction:")
         for item in st.session_state.items():
             print(f"{item}")
                 
-        # extract images
-        extract_image(extraction_dir, image_dir, st.session_state.uploaded_file)
+        if st.session_state.uploaded_file is not None: 
+            if st.button("Confirm Upload"):
+                # Save the pdfs
+                for file in st.session_state.uploaded_file:
+                    file_path = os.path.join(upload_dir, file.name)
 
+                    # Save the file
+                    with open(file_path, "wb") as f:
+                        f.write(file.getbuffer())
+
+                start_time_image = time.time()
+                # Extract images from the pdfs
+                extract_image(upload_dir, image_dir)
+                end_time_image = time.time()
+                image_time = end_time_image - start_time_image
+                function_time("Image Time", image_time)
+                
+        else:
+            st.write("Please upload a pdf file to proceed.")
         
         
-    with preprocess_col:
+    
+    if st.session_state.image_converted == True:
+        with st.sidebar:
+            st.title("Perform Image Prepocessing")
+            options = image_processing_options()
+
+            for option in options:
+                st.session_state[option["key"]] = st.sidebar.checkbox(option["label"], on_change = process_change)
+            
+            if st.button("Preprocess Images", disabled = not st.session_state.process_change):
+                show_message("Preprocessing")
+                for file_name in os.listdir(image_dir): # iterate for each file in the directory
+                    document_pages = os.path.join(image_dir, file_name) # path being examined
+
+                    if os.path.isdir(document_pages): # if document_pages is a dir, proceed to preprocessing
+                        # directory containing the preprocessed images of the pdf
+                        processed_image_dir = os.path.join(preprocessed_dir, file_name) 
+                        if not os.path.exists(processed_image_dir):# Ensure the directory exists
+                            os.makedirs(processed_image_dir)
+                        
+                        show_message(f"Processing file: {file_name}")
+                        
+                        start_time_process = time.time()
+                        # iterate for each file in the image directory starting with 1
+                        for page_number, page_image in enumerate(os.listdir(document_pages), start = 1): 
+                            if page_image.endswith(".png"): # Check if the file is a png
+                                image_path = os.path.join(document_pages, page_image) # path of the image
+                                
+                                pdf_name = os.path.splitext(document_pages)[0]
+                                print(f"Preprocessing page {page_number} of {pdf_name}")
+                                
+                                image = cv.imread(image_path) # Read the image
+                                
+                                processed_image = preprocess(image) # Perform preprocessing on the images
+                                print(f"Preprocessed Image of Page {page_number}")
+
+                                processed_path = os.path.join(processed_image_dir, page_image) # path of the preprocessed image
+                                cv.imwrite(processed_path, processed_image)
+                        
+                        st.session_state.process_done = True
+                        
+                        end_time_process = time.time()
+                        process_time = end_time_process - start_time_process
+                        function_time("Process Time", process_time)
+
+                
+
+                st.session_state.process_change = False
+            
+            if st.button("Undo Changes"):
+                st.session_state.process_done = False
+                remove_contents(preprocessed_dir)
+                
+                for option in options:
+                    st.session_state[option["key"]] = False
+                show_message("Undo Changes")
+                    
+    with extract_col:
 
         st.write("View pdfs:")
 
-        #Checking Session States
+        # Checking Session States
         print("Before Extraction:")
         for item in st.session_state.items():
             print(f"{item}")
@@ -607,42 +544,52 @@ def main():
         button_col, message_col = st.columns([0.2, 0.8])
         
         with button_col:
-            if st.button("Extract Files", on_click = extract) or st.session_state.extract == True:
+            # Performs the text extraction when clicked
+            if st.button("Extract Files", on_click = extract) or st.session_state.extract:
                 with message_col:
                     message_con = st.container(height = 75)
                 
-                with message_con:
+                with message_con: # Message for when there are no uploaded files
                     if not st.session_state.uploaded_file:
                         st.error("Please Upload A File")
-
-                if st.session_state.extract_done == False and st.session_state.uploaded_file:
-                    for file_name in os.listdir(image_dir): # iterate for each file in the directory
-                        document_pages = os.path.join(image_dir, file_name) # path being examined (the path with pdf images)
+                
+                # When extracting, itirate through the pdf image directories and output a text file in the text directory
+                if st.session_state.extract_done == False and st.session_state.image_converted:
+                    if st.session_state.process_done == True:
+                        extraction_dir = preprocessed_dir
+                    else:
+                        extraction_dir = image_dir
+                    
+                    start_time_extract = time.time()
+                    for file_name in os.listdir(extraction_dir): # iterate for each file in the directory
+                        document_pages = os.path.join(extraction_dir, file_name) # path being examined
                         
-                        processed_image_dir = os.path.join(preprocessed_dir, os.path.splitext(file_name)[0]) # directory containing the preprocessed images of the pdf
-                        if not os.path.exists(processed_image_dir):# Ensure the directory exists
-                            os.makedirs(processed_image_dir)
-                        
-                        if os.path.isdir(document_pages): # if document_pages is a dir
+                        if os.path.isdir(document_pages): # if document_pages is a dir, create text file and extract
                             with message_con:
                                 st.success(f"Processing file: {file_name}")
 
                             text_file_name = os.path.splitext(file_name)[0] + ".txt" # Specify output file name
-                            text_file_path = os.path.join(text_dir, text_file_name) # Creates file path
+                            text_file_path = os.path.join(text_dir, text_file_name) # Creates output file path
 
                             try: # Creates a new file
                                 with open(text_file_path, 'x', encoding='utf-8') as f:
                                     f.close()
-                            except FileExistsError: # If file already exists, write over
+                            except FileExistsError: # If file already exists, write over the old file
                                 with open(text_file_path, 'w', encoding='utf-8') as f: 
                                     f.close()
 
                             # Extract text from the PDF
-                            images_to_text(document_pages, processed_image_dir, text_file_path)
+                            images_to_text(document_pages, text_file_path)
                             
                             with message_con:
                                 st.success(f"Saved as {text_file_name} at {text_file_path}")
+                    
                     st.session_state.extract_done = True
+                    end_time_extract = time.time()
+                    extract_time = end_time_extract - start_time_extract
+                    function_time("Extract Time", extract_time)
+                
+                
 
             if st.session_state.extract_done == True:
                 with message_con:
@@ -652,20 +599,27 @@ def main():
                 for item in st.session_state.items():
                     print(f"{item}")
 
-    
+        start_time_preview_image = time.time()
         # Preview PDFs    
-        # List all subdirectories in the parent directory
-        if os.path.exists(image_dir):
-            pdf_images = [dir for dir in os.listdir(image_dir) if os.path.isdir(os.path.join(image_dir, dir))]
+        if st.session_state.process_done == True:
+            selection_dir = preprocessed_dir
         else:
-            print(f"The directory {image_dir} does not exist or is inaccessible.")
+            selection_dir = image_dir
+        
+        # List all subdirectories in the parent directory
+        if os.path.exists(selection_dir):
+            pdf_images = [dir for dir in os.listdir(selection_dir) 
+                          if os.path.isdir(os.path.join(selection_dir, dir))]
+        else:
+            print(f"The directory {selection_dir} does not exist or is inaccessible.")
             pdf_images = []
 
         selected_pdf = st.selectbox("Select a PDF:", pdf_images)
 
         if selected_pdf:
-            pdf_images_dir = os.path.join(image_dir, selected_pdf)
-            image_files = [os.path.splitext(file)[0] for file in os.listdir(pdf_images_dir) if file.endswith('.png')]
+            pdf_images_dir = os.path.join(selection_dir, selected_pdf)
+            image_files = [os.path.splitext(file)[0] for file in os.listdir(pdf_images_dir) 
+                           if file.endswith('.png')]
 
             if image_files:
                 image_files_sorted = sorted(image_files, key = int)
@@ -681,17 +635,18 @@ def main():
                         st.image(image_path, caption=selected_image, use_column_width=True)
             else:
                 st.warning(f"No image files found in the directory: {pdf_images}")
+        end_time_preview_image = time.time()
+        preview_image_time = end_time_preview_image - start_time_preview_image
+        function_time("Preview Image Time", preview_image_time)
         
-        
-
     with upload_col:
         st.write("View Text:")
 
         button_col, message_col = st.columns([0.2, 0.8])
-        meta_prompt = st.container()
+        #meta_prompt = st.container()
         
         with button_col:
-            if st.button("Upload Files", on_click = upload) or st.session_state.upload == True:
+            if st.button("Upload Files", on_click = upload, disabled = not st.session_state.extract_done) or st.session_state.upload == True:
                 with message_col:
                     message_con = st.container(height = 75)
                 if st.session_state.upload_done == False:
@@ -702,6 +657,7 @@ def main():
                     
                     connect_db(conn, cursor, st.session_state.db_name)
 
+                    start_time_upload = time.time()
                     for file_name in os.listdir(text_dir): # iterate for each file in the directory
                         if file_name.endswith(".txt"):
                             with message_con:
@@ -717,19 +673,24 @@ def main():
                                 st.success("All Files Uploaded")
                 
                     st.session_state.upload_done = True
+                    end_time_upload = time.time()
+                    upload_time = end_time_upload - start_time_upload
+                    function_time("Upload Time", upload_time)
                 
+                
+
                 #if st.session_state.upload_done == True:
                 #    remove_contents(text_dir)
-                #    remove_contents(extraction_dir)
+                #    remove_contents(upload_dir)
                 #    remove_contents(image_dir)
 
-    
+        start_time_preview_text = time.time()
          # Preview text files
 
             # List all text files in the directory
-            
+        if st.session_state.extract_done == True:
             if selected_pdf:
-                
+            
                 file_selected = os.path.splitext(selected_pdf)[0] + ".txt"
                 for file in os.listdir(text_dir):
                     if file == file_selected:
@@ -737,10 +698,7 @@ def main():
             
                 file_path = os.path.join(text_dir, selected_file)
 
-                
-            
-            if st.session_state.extract_done == True:
-
+            if os.path.exists(file_path):
                 # Read the selected file
                 with open(file_path, "r", encoding="utf-8") as file:
                     file_content = file.read()
@@ -748,8 +706,22 @@ def main():
                 with text_view:
                     # Display the file content in a text area
                     st.text_area("File Content", file_content, height = 700)
-        
+        end_time_preview_text = time.time()
+
+        preview_text_time = end_time_preview_text - start_time_preview_text
+        function_time("Preview Text Time", preview_text_time)
         
 
 if __name__ == "__main__":
+    start_time_main = time.time()
     main()
+    end_time_main = time.time()
+
+    main_time = end_time_main - start_time_main
+    time_list = function_time("Main Time", main_time)
+    
+    for label, value in time_list:
+        print(f"{label}: {value}")
+    
+
+    print(f"")
