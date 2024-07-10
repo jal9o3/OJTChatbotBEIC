@@ -722,6 +722,3 @@ if __name__ == "__main__":
     
     for label, value in time_list:
         print(f"{label}: {value}")
-    
-
-    print(f"")
