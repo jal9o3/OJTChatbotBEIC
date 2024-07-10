@@ -4,9 +4,13 @@ import psycopg2
 # PGDB --> Postgres Database
 
 from text_management import calculate_sha256, generate_random_string
-from vector_management import get_USE_embedding
+from vector_management import get_USE_embedding, get_MiniLM_embedding
 
 from constants import PGDB_PASS
+
+# Set the dimensions of the vectors in the Postgres db vector column
+# Should correspond with the output of the embedding model
+VECTOR_DIMENSIONS = 384
 
 def connect_to_or_create_pgdb(pgdb_name):
     # Connect to the database server
@@ -79,11 +83,11 @@ def create_table_if_not_exists(table_name, db_name):
             tags TEXT[] -- An array of tags
         """
     elif table_name == "chunks":
-        columns = """
+        columns = f"""
             hash_string TEXT PRIMARY KEY,
             chunk TEXT,
             chunk_order SERIAL,
-            embedding vector(512), --column for vector with 512 dimensions (USE)
+            embedding vector({VECTOR_DIMENSIONS}), --column for vector
             paper_id VARCHAR(255) REFERENCES paper_titles(id)
         """
 
@@ -165,7 +169,11 @@ def upload_to_pgdb(document, pgdb_conn):
         # Generate USE embedding of chunk
         # Convert embedding to numpy format and then to list 
         # for storage in pgvector
-        embedding = get_USE_embedding(chunk).numpy().tolist()
+        # embedding = get_USE_embedding(chunk).numpy().tolist()
+
+        # Generate all-MiniLM-L2-v6 embedding of chunk
+        # Convert to list format for storage in pgvector
+        embedding = get_MiniLM_embedding(chunk).tolist()
 
         cursor.execute("""
             INSERT INTO chunks (hash_string, chunk, chunk_order, 
