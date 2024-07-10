@@ -47,7 +47,6 @@ div[class="st-emotion-cache-1wmy9hl e1f1d6gn1"] [id="selected_doc"]{
 
 div[class="row-widget stButton"]{
     display: flex;
-    justify-content: end;
     width: 200px;
 }
 
@@ -56,6 +55,7 @@ div[class="row-widget stButton"] button[kind="secondary"]{
     height: 20px;
     width: 200px;
     border: 1px solid var(--secondary-color);
+    margin-left: auto;
 }
 
 div[data-testid="stVerticalBlockBorderWrapper"][class="st-emotion-cache-11pla4g e1f1d6gn0"]{

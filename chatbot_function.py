@@ -22,8 +22,24 @@ import os
 from llama_index.core.agent import ReActAgent
 
 from llama_index.core.objects import ObjectIndex
-from prompts import agent_prompt
+from prompts import agent_prompt, sub_agent_prompt
 
+import psycopg2
+
+from llama_index.core import Document
+
+
+import numpy as np
+import random
+import torch
+
+# Setting seeds
+np.random.seed(1)
+random.seed(1)
+torch.manual_seed(1)
+if torch.cuda.is_available():
+    torch.cuda.manual_seed(1)
+    torch.cuda.manual_seed_all(1)
 
 
 def get_documents():
@@ -56,21 +72,59 @@ def get_documents():
     return sample_doc
 
 
-
 # --- Load Selected Documents ---
 def load_selected_documents(selected_documents: list):
-
-    for doc in selected_documents:
-        doc['file_name'] = doc['file_name'].replace('.pdf', '.txt')
+    conn = psycopg2.connect(
+        dbname='knowledge_base',
+        user='postgres',
+        password='password',
+        host='localhost',
+        port=5432
+    )
 
     papers = {}
+
     for doc in selected_documents:
-        print(f"Loading File: {doc['title']}")
-        papers[doc["title"]] = SimpleDirectoryReader(
-            input_files=[f"data/{doc["file_name"]}"]
-        ).load_data()
+        id = doc[0]
+        title = doc[1]
+        author = doc[2]
+        tags = doc[4]
+
+        print(f"LOADING {title}")
+
+        # --- Find the Chunks in the database related to the documents using the ID
+        cur = conn.cursor()
+        cur.execute(f"""SELECT c.*
+        FROM chunks AS c
+        WHERE c.paper_id = '{id}'
+        ORDER BY c.chunk_order ASC;""")
+
+        # --- Build the chunks
+        chunks = cur.fetchall()
+
+        chunks_text = [chunk[1] for chunk in chunks]
+
+        text = "\n\n".join(chunks_text)
+
+        # --- Build the Document
+        documents = [Document(text=text, metadata={"title": title, "author": author, "tags": tags})]
+
+        # --- Store is papers
+        papers[title] = documents
 
     return papers
+
+    # for doc in selected_documents:
+    #     doc['file_name'] = doc['file_name'].replace('.pdf', '.txt')
+    #
+    # papers = {}
+    # for doc in selected_documents:
+    #     print(f"Loading File: {doc['title']}")
+    #     papers[doc["title"]] = SimpleDirectoryReader(
+    #         input_files=[f"data/{doc["file_name"]}"]
+    #     ).load_data()
+    #
+    # return papers
 
 
 # --- Build Agents ---
@@ -85,18 +139,20 @@ def build_tools(selected_documents, document):
     all_nodes = []
 
     for idx, doc in enumerate(selected_documents):
-        nodes = node_parser.get_nodes_from_documents(document[doc['title']])
+        title = doc[1]
+
+        nodes = node_parser.get_nodes_from_documents(document[title])
         all_nodes.extend(nodes)
 
-        if not os.path.exists(f"./data/{doc['title']}"):
+        if not os.path.exists(f"./data/{title}"):
             # build vector index
             vector_index = VectorStoreIndex(nodes)
             vector_index.storage_context.persist(
-                persist_dir=f"./data/{doc['title']}"
+                persist_dir=f"./data/{title}"
             )
         else:
             vector_index = load_index_from_storage(
-                StorageContext.from_defaults(persist_dir=f"./data/{doc['title']}"),
+                StorageContext.from_defaults(persist_dir=f"./data/{title}"),
             )
 
         # build summary index
@@ -113,7 +169,7 @@ def build_tools(selected_documents, document):
                     name="vector_tool",
                     description=(
                         f"Useful for questions related to specific aspects of DOCUMENT NUMBER {idx+1}:"
-                        f" {doc['title']} (e.g. the title, author,"
+                        f" {title} (e.g. the title, author,"
                         " data, contents, or more)."
                     ),
                 ),
@@ -125,7 +181,7 @@ def build_tools(selected_documents, document):
                     name="summary_tool",
                     description=(
                         f"Useful for any requests that require a holistic summary"
-                        f" of EVERYTHING about of DOCUMENT NUMBER {idx+1} which is about {doc['title']}. "
+                        f" of EVERYTHING about of DOCUMENT NUMBER {idx+1} which is about {title}. "
                         f"For questions about more specific sections, please use the vector_tool."
                     ),
                 ),
@@ -139,12 +195,12 @@ def build_tools(selected_documents, document):
             llm=function_llm,
             verbose=True,
             system_prompt=f"""\
-                You are a specialized agent designed to answer queries about DOCUMENT {idx+1} {doc['title']}.
+                You are a specialized agent designed to answer queries about DOCUMENT {idx+1} {title}.
                 You must ALWAYS use at least one of the tools provided when answering a question; do NOT rely on prior knowledge.\
                 """,
         )
 
-        # agent.update_prompts({"agent_worker:system_prompt": PromptTemplate(agent_prompt)})
+        agent.update_prompts({"agent_worker:system_prompt": PromptTemplate(sub_agent_prompt)})
 
         i = f"Document_{idx+1}"
         agents[i] = agent
@@ -155,9 +211,11 @@ def build_tools(selected_documents, document):
     # define tool for each document agent
     all_tools = []
     for idx, doc in enumerate(selected_documents):
+        title = doc[1]
+
         wiki_summary = (
-            f"This content paper about Document {idx+1} which is about the paper {doc['title']}."
-            f" Use this tool if you want to answer any questions about Document {idx+1}: {doc['title']}.\n"
+            f"This content paper about Document {idx+1} which is about the paper {title}."
+            f" Use this tool if you want to answer any questions about Document {idx+1}: {title}.\n"
         )
 
         i = f"Document_{idx+1}"
@@ -176,10 +234,9 @@ def build_tools(selected_documents, document):
 # Load Model and Embeddings
 llm = Ollama(
     model="mistral",
-    base_url="https://6e50-34-125-96-70.ngrok-free.app",
+    base_url="https://5aa1-35-187-147-207.ngrok-free.app",
     request_timeout=200.0,
     temperature=0.2,
-
 )
 
 Settings.llm = llm
@@ -194,7 +251,9 @@ def agent(query, tools, selected_documents):
 
     content = ""
     for idx, doc in enumerate(selected_documents):
-        content += f"tool_Document_{idx + 1} that refers to DOCUMENT {idx + 1} with a title of {doc['title']}\n"
+        title = doc[1]
+
+        content += f"tool_Document_{idx + 1} that refers to DOCUMENT {idx + 1} with a title of {title}\n"
 
     context = f"""You are an agent that will help answer queries about a set of documents
         Here are some tool you can use:
@@ -211,7 +270,7 @@ def agent(query, tools, selected_documents):
         system_prompt=f""" \
                 You are an agent designed to answer queries about a set of research papers.
                 ALWAYS USE THE TOOLS for each query, even if you have prior knowledge. Do not rely on prior knowledge.
-                Here are some tools you can use. Each tool also has a vector_tool and a summary_tool 
+                Here are some tools you can use. Each tool also has a vector_tool and a summary_tool. 
                 {content}.
                 """,
         verbose=True,

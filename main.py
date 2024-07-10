@@ -4,6 +4,20 @@ from PIL import Image
 from tweaker import st_tweaker
 import chatbot_function as chat
 
+import psycopg2
+
+import numpy as np
+import random
+import torch
+
+# Setting seeds
+np.random.seed(122)
+random.seed(122)
+torch.manual_seed(122)
+if torch.cuda.is_available():
+    torch.cuda.manual_seed(122)
+    torch.cuda.manual_seed_all(122)
+
 if "document_select" not in st.session_state:
     st.session_state.document_select = True
 
@@ -38,9 +52,8 @@ def select_documents():
     with col2:
         load_documents()
 
-
 # --- Retrieve Documents ---
-def get_documents():
+def get_documents1():
 
     sample_doc = [
         {"id": 0,
@@ -160,6 +173,31 @@ def get_documents():
     return sample_doc
 
 
+# --- Retrieve Documents from Database ---
+@st.cache_data
+def get_data_database():
+    conn = psycopg2.connect(
+        dbname='knowledge_base',
+        user='postgres',
+        password='password',
+        host='localhost',
+        port=5432
+    )
+    cur = conn.cursor()
+
+    cur.execute("SELECT * FROM paper_titles;")
+
+    documents = cur.fetchall()
+
+    modified_data = []
+    for paper in documents:
+        list_item = list(paper)  # Convert tuple to list
+        list_item[1] = list_item[1].replace("_", " ")  # Replace underscores with spaces in the title
+        modified_data.append(list_item)  # Append the modified list to the new list
+
+    return modified_data
+
+
 def reset():
     st.session_state.page[0] = 0
     st.session_state.page[1] = 9
@@ -168,8 +206,7 @@ def reset():
 def load_documents():
     with st.container():
         # --- Load the documents ---
-        documents = get_documents()
-
+        documents = get_data_database()
 
         with st_tweaker.container(id="document_action"):
             col1, col2, col3 = st.columns(3)
@@ -178,7 +215,13 @@ def load_documents():
             with col1:
                 tags = st.multiselect(
                     " ",
-                    ["Artificial Intelligence", "Machine Learning", "Economy"],
+                    ["Artificial Intelligence", "Machine Learning",
+                     "Well Completion Report", "Unstructured Data",
+                     "Data Analysis", "Climate Change",
+                     "Digitalization", "Data Mining",
+                     "Waste Management", "Micro Service",
+                     "Global Warming", "Data Visualization",
+                     "Mining", "Exploration"],
                     [],placeholder="Filter", on_change=reset)
 
             # --- Search Option ---
@@ -195,10 +238,12 @@ def load_documents():
                         st.session_state.chat_documents = chat.load_selected_documents(
                             st.session_state.selected_document
                         )
+
                         st.session_state.chat_tools = chat.build_tools(
                             st.session_state.selected_document,
                             st.session_state.chat_documents
                         )
+
                         st.session_state.document_select = False
                         st.rerun()
 
@@ -207,14 +252,14 @@ def load_documents():
 
         # Search for specific Papers
         if search:
-            filtered_documents = [doc for doc in filtered_documents if search.lower() in doc['title'].lower()]
+            filtered_documents = [doc for doc in filtered_documents if search.lower() in doc[1].lower()]
             st.write(f"Results for '{search}':")
 
         # Extract IDs of selected items
-        selected_ids = {item['id'] for item in st.session_state.selected_document}
+        selected_ids = {item[0] for item in st.session_state.selected_document}
 
         # Store only papers that are in the filtered documents and are not in the selected document list
-        show_documents = [doc for doc in filtered_documents if doc['id'] not in selected_ids]
+        show_documents = [doc for doc in filtered_documents if doc[0] not in selected_ids]
 
         # --- Display the documents ---
         col1, col2, col3 = st.columns(3)
@@ -224,9 +269,9 @@ def load_documents():
         for i, doc in enumerate(show_documents[start:end]):
 
             col = i % 3
-            title = doc['title']
-            author = doc['authors']
-            tags = doc['tags']
+            title = doc[1]
+            author = doc[2]
+            tags = doc[4]
 
             match col:
                 case 0:
@@ -291,7 +336,7 @@ def load_documents():
 
 # --- Filter Documents ---
 def filter_documents(doc, options):
-    return all(tag in doc['tags'] for tag in options)
+    return all(tag in doc[4] for tag in options)
 
 
 # --- Show Selected Documents ---
@@ -311,7 +356,7 @@ def show_selected_documents():
                         max_chars = 50
                     else:
                         max_chars = 80
-                    title = st.session_state.selected_document[i]['title']
+                    title = st.session_state.selected_document[i][1]
                     title = title[:max_chars] + ('...' if len(title) > max_chars else '')
 
                     st.markdown(f"{title}")
@@ -469,6 +514,11 @@ def load_chat():
 
 
 def main():
+
+    # documents = get_data_database()
+    # for doc in documents:
+    #     print(doc[1])
+
     if st.session_state.document_select:
         # --- CSS ---
         with open('style.css') as f:
