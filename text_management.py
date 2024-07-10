@@ -46,7 +46,7 @@ def get_text(txt_file_path):
     
 def get_chunks(text):
     """
-    Splits the input text by '\n\n' and returns a list of chunks.
+    Splits the input text by '.' and returns a list of chunks.
 
     Args:
         text (str): The input text to be split.
@@ -54,4 +54,4 @@ def get_chunks(text):
     Returns:
         list: A list of chunks.
     """
-    return text.split('\n\n')
+    return text.split('.')

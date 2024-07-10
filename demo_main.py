@@ -47,13 +47,13 @@ def format_upload_doc(filename, title, authors, tags):
 
 def main():
 
-    format_upload_doc(
-        filename=r"C:\Users\lenovo\Desktop\OJTChatbotBEIC"
-            r"\War of the Worlds.txt",
-        title='War of the Worlds',
-        authors=['H.G. Wells'],
-        tags=['Science Fiction', '1800s', 'Alien']
-    )
+    # format_upload_doc(
+    #     filename=r"C:\Users\lenovo\Desktop\OJTChatbotBEIC"
+    #         r"\War of the Worlds.txt",
+    #     title='War of the Worlds',
+    #     authors=['H.G. Wells'],
+    #     tags=['Science Fiction', '1800s', 'Alien']
+    # )
 
     format_upload_doc(
         filename=r"C:\Users\lenovo\Desktop\OJTChatbotBEIC\test_papers"
@@ -77,6 +77,20 @@ def main():
                 'Iraya', 
                 'Documents', 
                 'Geology'
+            ]
+    )
+
+    format_upload_doc(
+        filename=r"C:\Users\lenovo\Desktop\OJTChatbotBEIC"
+                    r"\test_papers\Sustainable_data_mining.txt",
+        title='Sustainable Data Mining',
+        authors=[
+                'T. Looi', 'N.E. Arif', 
+                'N.M. Hernandez', 'F. Baillard'
+                ],
+        tags=[
+                'Data Mining', 'Oil', 
+                'Gas', 'Iraya', 'Documents', 
             ]
     )
 

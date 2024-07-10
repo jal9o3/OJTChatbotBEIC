@@ -181,6 +181,7 @@ def upload_to_pgdb(document, pgdb_conn):
             VALUES (%s, %s, %s, %s, %s)
             """, (hash_string, chunk, i, embedding, paper_id)
         )
+        pgdb_conn.commit()
 
 
     # Commit changes to the database

@@ -26,8 +26,8 @@ class TestGetChunks(unittest.TestCase):
         self.assertEqual(get_chunks("Hello, world!"), ["Hello, world!"])
 
     def test_multiple_chunks(self):
-        input_text = "Chunk 1\n\nChunk 2\n\nChunk 3"
-        expected_chunks = ["Chunk 1", "Chunk 2", "Chunk 3"]
+        input_text = "Chunk 1. Chunk 2. Chunk 3"
+        expected_chunks = ["Chunk 1", " Chunk 2", " Chunk 3"]
         self.assertEqual(get_chunks(input_text), expected_chunks)
 
 class TestCalculateSHA256(unittest.TestCase):
