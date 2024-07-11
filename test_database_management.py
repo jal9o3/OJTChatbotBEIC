@@ -5,7 +5,7 @@ import psycopg2
 from database_management import connect_to_or_create_pgdb, drop_database
 from database_management import create_table_if_not_exists, upload_to_pgdb
 
-from text_management import calculate_sha256
+from text_management import calculate_sha256, get_chunks
 
 from constants import PGDB_PASS
 
@@ -327,6 +327,115 @@ class TestUploadToPgdb(unittest.TestCase):
         """)
         result = cur.fetchone()
         self.assertEqual(result[1], 'Sample Document')
+        self.assertEqual(result[2], ['J. Doe', 'K. Dall'])
+        self.assertEqual(result[3], 'Sample Document.pdf')
+        self.assertEqual(result[4], ['science', 'technology'])
+
+        drop_database("test_db")
+        # Clean up: close the cursor and connection
+        cur.close()
+        conn.close()
+    
+    def test_lorem_file_upload(self):
+        # Set up logger
+        logger = logging.getLogger(__name__)
+        # Disable INFO logs from sentence_transformers and tensorflow libraries
+        logging.getLogger('sentence_transformers').setLevel(logging.WARNING)
+        logging.getLogger('tensorflow_hub').setLevel(logging.WARNING)
+        logging.basicConfig(
+            format='\n%(levelname)s: %(message)s', level=logging.INFO)
+        
+        # Set up a test database connection
+        connect_to_or_create_pgdb("test_db")
+        conn = psycopg2.connect(
+            dbname='test_db',
+            user='postgres',
+            password=PGDB_PASS,
+            host='localhost',
+            port=5432
+        )
+        cur = conn.cursor()
+
+        # Create test tables
+        create_table_if_not_exists("paper_titles", "test_db")
+        create_table_if_not_exists("chunks", "test_db")
+        
+        conn.commit()
+        
+        # Create a string of lorem ipsum text
+        # Store sentences in a list for reusability later in this method
+        lorem_list = [
+            "Lorem ipsum dolor sit amet, consectetur adipiscing elit.",
+            "Pellentesque cursus pretium interdum.",
+            "Phasellus vitae facilisis lacus.",
+            "Pellentesque vitae convallis sapien.",
+            "Fusce ut ex nibh.",
+            "Donec vulputate sit amet felis eget viverra."
+            ]
+        lorem_string = " ".join(lorem_list)
+        with open("lorem.txt", 'w') as file:
+            file.write(lorem_string)
+
+        # Get the chunks
+        lorem_chunks = get_chunks(lorem_string)
+
+        # Example document data
+        document = {
+            'metadata': {
+                'paper_title': 'Lorem Document',
+                'author_names': ['J. Doe', 'K. Dall'],
+                'filename': 'Sample Document.pdf',
+                'tags': ['science', 'technology']
+            },
+            'chunks': lorem_chunks
+        }
+
+        # Call your function
+        upload_to_pgdb(document, conn, logging_level=logging.INFO)
+
+        # Restart the connection
+        # (upload_to_pgdb closes connection for safety)
+        conn = psycopg2.connect(
+            dbname='test_db',
+            user='postgres',
+            password=PGDB_PASS,
+            host='localhost',
+            port=5432
+        )
+        cur = conn.cursor()
+
+        document_id = calculate_sha256(document["metadata"]["paper_title"])
+        # Verify that the data was inserted correctly
+        cur.execute(f"""
+                         SELECT * FROM chunks 
+                         WHERE paper_id = '{document_id}'
+        """)
+        results = cur.fetchall()
+        self.assertIsNotNone(results)
+
+        logger.debug(f"Results: {results}")
+        logger.debug(f"Result Length: {len(results)}")
+        # Iterate over results and perform tests        
+        for i in range(len(results) - 1):
+            
+            # Test that chunk text has been stored properly
+            logger.debug(lorem_list[i])
+            self.assertEqual(results[i][1].strip(), lorem_list[i][:-1])
+            # Test that chunk order has been stored properly
+            self.assertEqual(results[i][2], i)
+            # Test that embedding column is not empty
+            self.assertIsNotNone(results[i][3])
+            # Test that chunk's paper ID has been hashed and stored properly
+            self.assertEqual(results[i][4], calculate_sha256(
+                document["metadata"]["paper_title"])
+                )
+        
+        cur.execute(f"""
+                         SELECT * FROM paper_titles 
+                         WHERE id = '{document_id}'
+        """)
+        result = cur.fetchone()
+        self.assertEqual(result[1], 'Lorem Document')
         self.assertEqual(result[2], ['J. Doe', 'K. Dall'])
         self.assertEqual(result[3], 'Sample Document.pdf')
         self.assertEqual(result[4], ['science', 'technology'])
