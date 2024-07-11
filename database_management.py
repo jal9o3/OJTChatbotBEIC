@@ -1,3 +1,5 @@
+import logging
+
 import numpy as np
 
 import psycopg2
@@ -132,6 +134,14 @@ def upload_to_pgdb(document, pgdb_conn):
     Uploads document metadata and chunks to PostgreSQL database.
     """
 
+    # Initialize Python logger
+    logger = logging.getLogger(__name__)
+    # Disable INFO logs from sentence_transformers and tensorflow libraries
+    logging.getLogger('sentence_transformers').setLevel(logging.WARNING)
+    logging.getLogger('tensorflow_hub').setLevel(logging.WARNING)
+    # Configure format and level of log messages
+    logging.basicConfig(format='\n%(levelname)s:%(message)s', level=logging.INFO)
+
     cursor = pgdb_conn.cursor()
 
     # Create database if it doesn't exist
@@ -182,6 +192,7 @@ def upload_to_pgdb(document, pgdb_conn):
             """, (hash_string, chunk, i, embedding, paper_id)
         )
         pgdb_conn.commit()
+        logger.info(f"Committed chunk {i+1}/{len(chunks)}\n")
 
 
     # Commit changes to the database
