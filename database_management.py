@@ -141,7 +141,7 @@ def upload_to_pgdb(document, pgdb_conn, logging_level=logging.FATAL):
     logging.getLogger('tensorflow_hub').setLevel(logging.WARNING)
     # Configure format and level of log messages
     logging.basicConfig(
-        format='\n%(levelname)s:%(message)s', level=logging_level)
+        format='\n%(levelname)s: %(message)s', level=logging_level)
 
     cursor = pgdb_conn.cursor()
 
@@ -193,7 +193,8 @@ def upload_to_pgdb(document, pgdb_conn, logging_level=logging.FATAL):
             """, (hash_string, chunk, i, embedding, paper_id)
         )
         pgdb_conn.commit()
-        logger.info(f"Committed chunk {i+1}/{len(chunks)}\n")
+        logger.info(f"Committed Chunk {i+1} of {len(chunks)} from "
+                    f"Paper #{paper_id}.")
 
 
     # Commit changes to the database
