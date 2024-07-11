@@ -1,4 +1,4 @@
-import unittest
+import unittest, logging
 
 import psycopg2
 
@@ -256,7 +256,7 @@ class TestUploadToPgdb(unittest.TestCase):
         }
 
         # Call your function
-        upload_to_pgdb(document, conn)
+        upload_to_pgdb(document, conn, logging_level=logging.INFO)
 
         # Restart the connection
         # (upload_to_pgdb closes connection for safety)

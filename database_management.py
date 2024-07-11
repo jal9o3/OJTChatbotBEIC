@@ -129,7 +129,7 @@ def drop_database(db_name):
     conn.close()
 
 
-def upload_to_pgdb(document, pgdb_conn):
+def upload_to_pgdb(document, pgdb_conn, logging_level=logging.FATAL):
     """
     Uploads document metadata and chunks to PostgreSQL database.
     """
@@ -140,7 +140,8 @@ def upload_to_pgdb(document, pgdb_conn):
     logging.getLogger('sentence_transformers').setLevel(logging.WARNING)
     logging.getLogger('tensorflow_hub').setLevel(logging.WARNING)
     # Configure format and level of log messages
-    logging.basicConfig(format='\n%(levelname)s:%(message)s', level=logging.INFO)
+    logging.basicConfig(
+        format='\n%(levelname)s:%(message)s', level=logging_level)
 
     cursor = pgdb_conn.cursor()
 
