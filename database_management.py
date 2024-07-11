@@ -1,4 +1,4 @@
-import logging
+import logging, time
 
 import numpy as np
 
@@ -184,8 +184,12 @@ def upload_to_pgdb(document, pgdb_conn, logging_level=logging.FATAL):
 
         # Generate all-MiniLM-L2-v6 embedding of chunk
         # Convert to list format for storage in pgvector
+        embed_start = time.perf_counter() # Calculate time of embedding
         embedding = get_MiniLM_embedding(chunk).tolist()
-
+        embed_end = time.perf_counter()
+        embed_time = embed_end - embed_start
+        logger.info(f"Embedding Chunk #{i+1} took {embed_time} seconds.")
+        
         cursor.execute("""
             INSERT INTO chunks (hash_string, chunk, chunk_order, 
                        embedding, paper_id)
