@@ -14,38 +14,55 @@ from mysql.connector import errorcode
 import streamlit as st
 import fitz  # PyMuPDF
 
-def convert_pdf_to_images(pdf_path, output_folder):
-    # Open the PDF file
-    pdf_document = fitz.open(pdf_path)
+if text_content_check(file_path):
+        tag_options = ["Machine Learning", "Artificial Intelligence", "Statistical Analysis", "Global Warming"]
 
-    # Initialize CUDA GPU support for OpenCV
-    cv2.cuda.setDevice(0)
+        with open(file_path, 'r', encoding='utf-8') as f:
+            file_content = [f.readline() for i in range(3)]
 
-    for page_num in range(len(pdf_document)):
-        page = pdf_document.load_page(page_num)
-        pix = page.get_pixmap()
-        img = np.frombuffer(pix.samples, dtype=np.uint8).reshape(pix.h, pix.w, pix.n)
-        
-        # Handle grayscale images (n=1)
-        if pix.n == 1:
-            img = cv2.cvtColor(img, cv2.COLOR_GRAY2BGR)
+        word_to_ignore = ['Title:', 'Author:', 'Tags:']
 
-        # Upload image to GPU
-        gpu_image = cv2.cuda_GpuMat()
-        gpu_image.upload(img)
+        # Process each line and ignore the specific word
+        for i in range(len(file_content)):
+            filtered_line = ' '.join([word for word in file_content[i].split() if word not in word_to_ignore])
+            file_content[i] = filtered_line
 
-        # Example GPU operation: convert to grayscale
-        gpu_gray = cv2.cuda.cvtColor(gpu_image, cv2.COLOR_BGR2GRAY)
+        title = st.text_input("Title: ", value = file_content[0], placeholder = "Input Title of the paper")    
+        author = st.text_input("Author: ", value = file_content[1], placeholder = "Input Author of the paper") 
+        tags = st.multiselect("Tags: ", options = tag_options, placeholder = "Select tags of the paper")
 
-        # Download processed image back to host
-        processed_image = gpu_gray.download()
+        if not title:
+            title = "Unknown"
+        if not author:
+            author = "Unknown"
+        if not tags:
+            tags = "Unknown"
 
-        # Save the processed image
-        output_path = f'{output_folder}/page_{page_num + 1}.png'
-        cv2.imwrite(output_path, processed_image)
-        print(f'Saved {output_path}')
+        if st.button("Confirm data"):
+            for i in range(3):
+                if i == 0:
+                    new_info = f"Title: {title}"
+                elif i == 1:
+                    new_info = f"Author: {author}"
+                if i == 2:
+                    new_info = "Tags: "
+                    count = 0
+                    for tag in tags:
+                        if count != 0:
+                            new_info = f"{new_info}, {tag}"
+                        elif count == 0:
+                            new_info = f"{new_info}{tag}"
+                        count += 1
 
-sample_pdf = "E:\School\MidYear2024\Test\Ashmore_Reef_1_WCR_Basic_Interp_I00025257.pdf"
-output_images = "E:\School\MidYear2024\Test\Output"
-# Usage example
-convert_pdf_to_images(sample_pdf, output_images)
+                if  0 <= i <= len(file_content):
+                    file_content[i] = f"{new_info}\n"
+
+            # Write the modified lines back to the file
+            with open(file_path, 'w', encoding = 'utf-8') as f:
+                f.writelines(file_content)
+                f.close()
+image_files = [os.path.splitext(file)[0] for file in os.listdir(pdf_images_dir) if file.endswith('.png')]
+    image_files_sorted = sorted(image_files, key = int)
+
+    # Iterate through each page image and perform OCR
+    for page_number, page_image in enumerate(image_files_sorted, start = 1):

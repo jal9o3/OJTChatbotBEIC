@@ -1,5 +1,5 @@
 Title: 2021 - Supporting the UN 2050 Net Zero goals by reading the earth better
-Author: Nina Marie Hernandez, Kim Gunn Maver and Charmyne Mamador
+Author: Nina Marie Hernandez, Kim Gunn Maver, Charmyne Mamador
 Tags: Global Warming, Data Analysis
 
 Supporting the UN 2050 Net Zero goals by reading
@@ -47,7 +47,7 @@ gas data reduces data acquisition costs, which translate into a
 reduction in research and development costs.
 
 Through a collaboration between Iraya Energies and EAGE, a
-new database initiative has been launched with EarthDoc’s repos-
+new database initiative has been launched with EarthDocï¿½s repos-
 itory of 70,000 scientific publications being processed using the
 latest in machine learning and artificial intelligence techniques
 and initially available to institutional and corporate subscribers.
@@ -55,8 +55,8 @@ The whole data corpus is made instantly accessible and provides
 new tools to search and retrieve the diversity of information that
 one is looking for across any technical discipline.
 
-‘raya Energies
-“Corresponding author, E-mail: nmh@irayaenergies.com
+ï¿½raya Energies
+ï¿½Corresponding author, E-mail: nmh@irayaenergies.com
 DOI: 10.3997/1365-2397.fb2021045
 
 With Big Data analytics applied to the entire data corpus of
@@ -119,7 +119,7 @@ corpus. Reference: Geoscience Australia, NOPIMS
 Figure 2 Earth readability tools are available in the
 new database dashboard (Rahim et al., 2012).
 
-(© Fiber Optic Technology for Reservou Survediance,
+(ï¿½ Fiber Optic Technology for Reservou Survediance,
 
 @ Operatonal Excelence in Qatar's Fest Successful
 ' ber Ope Sensing for mnproves Wellbare
@@ -127,17 +127,17 @@ Jo integrated Approach a Optenze Matera Selechon
 
 Engineanng Suceess mo Hartline Operations
 
-© few totalugent Completion Welt Design For.
+ï¿½ few totalugent Completion Welt Design For.
 
 (@ Masere Hyaraune Fracture Sumulabon on South
 
-© integrated Ape
+ï¿½ integrated Ape
 
-(© Seratgrapluc Architecture of the Latest Jurassic
+(ï¿½ Seratgrapluc Architecture of the Latest Jurassic
 
-(© Natural Fracture interaction with Hydraule aEQ4§Rf Jurassic to Early Barrer
+(ï¿½ Natural Fracture interaction with Hydraule aEQ4ï¿½Rf Jurassic to Early Barrer
 
-‘© Breaking Ou Recovery Lent in Malaysian.
+ï¿½ï¿½ Breaking Ou Recovery Lent in Malaysian.
 
 database results in a two-way enrichment process between public
 and private information. Scientific studies from peers in related
@@ -175,12 +175,12 @@ reference locations are different and introduce ambiguity for the
 system.
 
 Another feature that is implemented is the knowledge graph
-visualization. It illustrates the connectivity of ‘related concepts’
+visualization. It illustrates the connectivity of ï¿½related conceptsï¿½
 based on publication references. In the example above, it shows
-‘operational excellence’, ‘optimization’ and ‘engineering suc-
-cess’ within the same network (Figure 3). Similarly, ‘hydraulic
-fracture stimulation’, ‘natural fracture interaction’, and ‘Jurassic
-carbonates’ show connectivity. In theory, a knowledge graph can
+ï¿½operational excellenceï¿½, ï¿½optimizationï¿½ and ï¿½engineering suc-
+cessï¿½ within the same network (Figure 3). Similarly, ï¿½hydraulic
+fracture stimulationï¿½, ï¿½natural fracture interactionï¿½, and ï¿½Jurassic
+carbonatesï¿½ show connectivity. In theory, a knowledge graph can
 be built in multiple ways by the user.
 
 Utilizing ED2K to reach the zero-emission goal
@@ -193,7 +193,7 @@ Many of the new cross-function usages of the existing
 scientific publication repository are geothermal energy, hydrogen
 energy, CCS and windmill foundation derisking.
 
-A query for ‘carbon capture and storage’ generates an
+A query for ï¿½carbon capture and storageï¿½ generates an
 information heat map captured in Figure 4. The map shows the
 geographical distribution of the resulting publications either
 based on country or basin.
@@ -248,7 +248,7 @@ emissions in its operations in Malaysia (Mehta et.al.,2008).
 This includes, among others, ending continuous gas flaring
 
 Figure 4 Indicative geolocation of global knowledge
-about ‘carbon capture and storage’ between 2008
+about ï¿½carbon capture and storageï¿½ between 2008
 to 2020.
 
 Figure 5 Location of major carbon capture projects
@@ -294,7 +294,7 @@ thermal applications. It currently excludes temperature data from
 geothermal companies.
 
 We are barely scratching the surface on the data and insights
-available — multiple data stories are waiting to be reimagined,
+available ï¿½ multiple data stories are waiting to be reimagined,
 reconnected and retold in the context of the future of energy.
 
 Accelerating internal digitalization initiatives
@@ -331,7 +331,7 @@ Results Density
 
 ow EE High
 
-Figure 8 Locations of relatively ‘high geothermal gradient areas’ based on existing
+Figure 8 Locations of relatively ï¿½high geothermal gradient areasï¿½ based on existing
 corpus, data acquired by oil and gas companies. Data excludes information from
 geothermal companies.
 
@@ -366,16 +366,16 @@ cipitation around CO2 Injection Wells in Depleted Gas Reservoirs,
 67th EAGE Conference & Exhibition, Madrid, Spain.
 
 Broad, J., Ab Majid, M.N., Ariffin, T., Hussain, A. and Basher, A.B.
-[2007]. Deposition of “Asphaltenes” during CO2 Injection and
+[2007]. Deposition of ï¿½Asphaltenesï¿½ during CO2 Injection and
 Implications for EOS Description and Reservoir Performance, IPT
 2007: International Petroleum Technology Conference, Dubai, Unit-
 ed Arab Emirates.
 
 Domitrovic, D., Tuschl, M. and Sunjerga, S. [2005]. CO2 Pilot Injection
-at Ivanic Oil Field — Numerical Simulation, IOR 2005 - 13th Euro-
+at Ivanic Oil Field ï¿½ Numerical Simulation, IOR 2005 - 13th Euro-
 pean Symposium on Improved Oil Recovery, Budapest, Hungary.
 
-Gosselet, A.C. and Singh, §. [2006]. Elastic Full Waveform Inversion
+Gosselet, A.C. and Singh, ï¿½. [2006]. Elastic Full Waveform Inversion
 for CO2 Sequestration monitoring - ID Synthetic Data Investiga-
 tions,68th EAGE Conference and Exhibition incorporating SPE
 EUROPEC 2006
