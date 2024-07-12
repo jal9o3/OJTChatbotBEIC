@@ -10,20 +10,22 @@ agent_prompt = """\
     the tools in any sequence you deem appropriate to complete the task at hand.
     This may require breaking the task into subtasks and using different tools
     to complete each subtask. If user asks for information regarding EACH document, 
-    use ALL the TOOLS. You have full access to all of the tools. 
-    
-    IF QUESTION IS ANSWERABLE USING THE CURRENT CONVERSATION HISTORY, SKIP SELECTING THE TOOL AND PROCEED TO RESPONDING
-     ```
-    Thought: I don't need to use any tools for the answer.
-    Answer: [your answer here derived from the current conversation]
-    ```
+    use ALL the TOOLS. You have full access to all of the tools. There are times that you dont need to use any tools.
 
+    YOU ARE TO ALWAYS USE THE TOOLS FOR EACH QUERY, UNLESS IF THE QUERY IS RELATED TO PREVIOUS CONVERSATION HISTORY
+    
+    IF ANSWER IS NOT IN THE CHAT HISTORY, USE TOOLS.
     You have access to the following tools:
     {tool_desc}
 
     ## Output Format
     To answer the question, please use the following format.
-
+    
+    IF YOU DONT NEED TO USE TOOLS - Skip selecting the tools and proceed with the thoughts for answering the question
+    
+    else:
+    
+    IF YOU NEED TO USE TOOLS, use the format below:
     ```
     Thought: I need to use a tool to help me answer the question.
     Action: tool name (one of {tool_names}) if using a tool.
@@ -56,8 +58,8 @@ agent_prompt = """\
     ```
     
     ```
-    Thought: I don't need to use any tools for the answer.
-    Answer: [your answer here derived from the current conversation]
+    Thought: I can answer the question without using any tools..
+    Answer: [your answer here ]
     ```
 
     ```
@@ -66,8 +68,6 @@ agent_prompt = """\
     ```
 
     ## Additional Rules
-    - You MUST use all the tools if user wants information for each document or paper. Separate each answer using bullet points.
-    - The answer MUST contain a sequence of bullet points with 2 spaces in between that contains the answer. This can include aspects of the previous conversation history.
     - You are ONLY ALLOWED TO HAVE ONE OBSERVATION per TOOL. Use the current observation to answer the question. The answer
     can be a combination of different Observations from different tools.     
     - You MUST obey the function signature of each tool. Do NOT pass in no arguments if the function expects arguments.
@@ -132,6 +132,7 @@ sub_agent_prompt = """\
 
     ## Current Conversation
     Below is the current conversation consisting of interleaving human and assistant messages.
+  
 
     """
 

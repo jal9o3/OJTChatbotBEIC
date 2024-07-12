@@ -34,12 +34,12 @@ import random
 import torch
 
 # Setting seeds
-np.random.seed(1)
-random.seed(1)
-torch.manual_seed(1)
+np.random.seed(122)
+random.seed(122)
+torch.manual_seed(122)
 if torch.cuda.is_available():
-    torch.cuda.manual_seed(1)
-    torch.cuda.manual_seed_all(1)
+    torch.cuda.manual_seed(122)
+    torch.cuda.manual_seed_all(122)
 
 
 def get_documents():
@@ -128,7 +128,8 @@ def load_selected_documents(selected_documents: list):
 
 
 # --- Build Agents ---
-def build_tools(selected_documents, document):
+def build_tools(selected_documents, document, llm):
+    Settings.llm = llm
     node_parser = SentenceSplitter(chunk_size=2000, chunk_overlap=400)
 
     # Build agents dictionary
@@ -158,8 +159,8 @@ def build_tools(selected_documents, document):
         # build summary index
         summary_index = SummaryIndex(nodes)
         # define query engines
-        vector_query_engine = vector_index.as_query_engine(llm=Settings.llm)
-        summary_query_engine = vector_index.as_query_engine(llm=Settings.llm)
+        vector_query_engine = vector_index.as_query_engine(Settings.llm)
+        summary_query_engine = vector_index.as_query_engine(Settings.llm)
 
         # define tools
         query_engine_tools = [
@@ -231,19 +232,21 @@ def build_tools(selected_documents, document):
     return all_tools
 
 
-# Load Model and Embeddings
-llm = Ollama(
-    model="mistral",
-    base_url="https://5aa1-35-187-147-207.ngrok-free.app",
-    request_timeout=200.0,
-    temperature=0.2,
-)
-
-Settings.llm = llm
+# # Load Model and Embeddings
+# llm = Ollama(
+#     model="llama3",
+#     base_url="https://2774-34-124-181-255.ngrok-free.app",
+#     request_timeout=200.0,
+#     temperature=0.2,
+# )
+#
+# Settings.llm = llm
 Settings.embed_model = HuggingFaceEmbedding(model_name="sentence-transformers/all-MiniLM-L6-v2")
 
 
-def agent(query, tools, selected_documents):
+def agent(query, tools, selected_documents, history, llm):
+
+    Settings.llm = llm
     obj_index = ObjectIndex.from_objects(
         tools,
         index_cls=VectorStoreIndex,
@@ -256,30 +259,44 @@ def agent(query, tools, selected_documents):
         content += f"tool_Document_{idx + 1} that refers to DOCUMENT {idx + 1} with a title of {title}\n"
 
     context = f"""You are an agent that will help answer queries about a set of documents
+        If query is answerable using the CHAT HISTORY, DO NOT USE A TOOL(S) and provide an answer immediately.
+    
+        If TOOLS ARE NEEDED, 
         Here are some tool you can use:
         {content}
 
         Each tools also has a vector_tool and a summary_tool 
+        
+        REMEMBER ANSWER FOR EACH TOOLS AND PROVIDE A FINAL ANSWER AT THE END
+        Make sure that the format for the answer of the tools stays the same for the FINAL ANSWER. 
+        The FINAL ANSWER should HAVE DOUBLE SPACES AND EASY TO READ.
 
-        ALWAYS USE THE TOOLS for each query, even if you have prior knowledge. Do not rely on prior knowledge.
+        ALWAYS USE THE TOOLS for each query, Your knowledge should only accepts information 
+        provided by the tools and the chat history,
         If there are no tools that you can use, just reply with I don't know
         """
 
     top_agent = ReActAgent.from_tools(
         tool_retriever=obj_index.as_retriever(similarity_top_k=3),
-        system_prompt=f""" \
-                You are an agent designed to answer queries about a set of research papers.
-                ALWAYS USE THE TOOLS for each query, even if you have prior knowledge. Do not rely on prior knowledge.
-                Here are some tools you can use. Each tool also has a vector_tool and a summary_tool. 
-                {content}.
-                """,
+        llm= Settings.llm,
+        # system_prompt=f""" \
+        #         You are an agent designed to answer queries about a set of research papers.
+        #         ALWAYS USE THE TOOLS for each query. You are only to rely on information provided by the tools
+        #         and the chat history,
+        #         Here are some tools you can use. Each tool also has a vector_tool and a summary_tool.
+        #         {content}.
+        #
+        #         REMEMBER ANSWER FOR EACH TOOLS AND PROVIDE A FINAL ANSWER AT THE END
+        #         """,
         verbose=True,
-        context=context
+        context=context,
     )
 
     top_agent.update_prompts({"agent_worker:system_prompt": PromptTemplate(agent_prompt)})
 
-    return top_agent.chat(query)
+    print(history)
+
+    return top_agent.chat(query, history)
 
 
 # def main():

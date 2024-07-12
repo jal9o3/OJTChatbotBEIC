@@ -4,11 +4,18 @@ from PIL import Image
 from tweaker import st_tweaker
 import chatbot_function as chat
 
-import psycopg2
-
 import numpy as np
 import random
 import torch
+
+from llama_index.core.llms import ChatMessage
+
+import psycopg2
+
+from llama_index.llms.ollama import Ollama
+
+
+
 
 # Setting seeds
 np.random.seed(122)
@@ -41,6 +48,12 @@ if 'chat_tools' not in st.session_state:
 if 'page' not in st.session_state:
     st.session_state.page = [0, 9]
 
+if 'llm' not in st.session_state:
+    st.session_state.llm = None
+
+if 'llm_setting' not in st.session_state:
+    st.session_state.llm_setting = [None, "",None]
+
 
 # --- Document Selector ---
 def select_documents():
@@ -49,6 +62,9 @@ def select_documents():
 
     with col1:
         show_selected_documents()
+        if st.session_state.llm is not None:
+            if st.button("LLM Settings"):
+                set_up_llm()
     with col2:
         load_documents()
 
@@ -202,6 +218,7 @@ def reset():
     st.session_state.page[0] = 0
     st.session_state.page[1] = 9
 
+
 # --- Document Loader ---
 def load_documents():
     with st.container():
@@ -231,7 +248,9 @@ def load_documents():
             # --- Start Chat Option ---
             with col3:
                 if st_tweaker.button("Start Chat", id="start_chat"):
-                    if len(st.session_state.selected_document) == 0:
+                    if st.session_state.llm is None:
+                        set_up_llm()
+                    elif len(st.session_state.selected_document) == 0:
                         warning(0)
                     else:
 
@@ -241,7 +260,8 @@ def load_documents():
 
                         st.session_state.chat_tools = chat.build_tools(
                             st.session_state.selected_document,
-                            st.session_state.chat_documents
+                            st.session_state.chat_documents,
+                            st.session_state.llm
                         )
 
                         st.session_state.document_select = False
@@ -443,9 +463,77 @@ def warning(mode):
         #         st.session_state.document_select = False
         #         st.rerun()
 
+@st.experimental_dialog(" ")
+def set_up_llm():
+    st.title("Setup OLLAMA")
+
+    method = ["Locally", "API (Ngrok + Google Colab)"]
+
+    selected_method = st.selectbox(
+        "How would you like to run your OLLAMA Model?",
+        method,
+        index=st.session_state.llm_setting[0],
+        placeholder="Select method...",
+    )
+
+    url = ""
+    if selected_method == "API (Ngrok + Google Colab)":
+        url = st.text_input("URL for API", st.session_state.llm_setting[1])
+
+    models = ["mistral", "llama3", "phi3:medium", "gemma2"]
+
+    selected_model = ""
+    if selected_method == "Locally" or (selected_method == "API (Ngrok + Google Colab)" and url != ""):
+        selected_model = st.selectbox(
+            "Select Local Model (Preferably use llama3)",
+            models,
+            index=st.session_state.llm_setting[2],
+            placeholder="Select Language Model",
+        )
+
+    if selected_model in models:
+        if selected_method == "Locally":
+            if st.button("Setup"):
+                # Load Model and Embeddings
+                llm = Ollama(
+                    model=selected_model,
+                    request_timeout=200.0,
+                    temperature=0.2,
+                )
+                st.session_state.llm = llm
+
+                st.session_state.llm_setting[0] = method.index(selected_method)
+                st.session_state.llm_setting[2] = models.index(selected_model)
+
+                st.rerun()
+        else:
+            if st.button("Setup"):
+                # Load Model and Embeddings
+                llm = Ollama(
+                    model=selected_model,
+                    base_url=url,
+                    request_timeout=200.0,
+                    temperature=0.2,
+                )
+                st.session_state.llm_setting[1] = url
+
+                st.session_state.llm = llm
+
+                st.session_state.llm_setting[0] = method.index(selected_method)
+                st.session_state.llm_setting[2] = models.index(selected_model)
+
+                st.rerun()
+
 
 # --- Load Chat ---
 def load_chat():
+
+    content = ""
+    for idx, doc in enumerate(st.session_state.selected_document):
+        title = doc[1]
+
+        content += f"tool_Document_{idx + 1} that refers to DOCUMENT {idx + 1} with a title of {title}\n"
+
 
     # Store messages
     if "messages" not in st.session_state:
@@ -453,6 +541,9 @@ def load_chat():
 
     if "prompts" not in st.session_state:
         st.session_state.prompts = []
+
+    if "history" not in st.session_state:
+        st.session_state.history=[]
 
     # Sidebar
     with st.sidebar:
@@ -463,6 +554,7 @@ def load_chat():
             st.session_state.selected_document = []
             st.session_state.chat_tools = []
             st.session_state.chat_documents = []
+            st.session_state.history = []
             st.session_state.document_select = True
             st.rerun()
 
@@ -476,6 +568,10 @@ def load_chat():
             if st.button("Select Paper", type="primary"):
                 st.session_state.document_select = True
                 st.rerun()
+
+        if st.session_state.llm is not None:
+            if st.button("LLM Settings", type="primary"):
+                set_up_llm()
 
     # Print messages from the history
     for message in st.session_state.messages:
@@ -493,24 +589,22 @@ def load_chat():
         # Store to history
         user_input = {"role": "user", "content": prompt}
         st.session_state.messages.append(user_input)
-
-        # # Retrieve Context and Built Prompt
-        # new_prompt = chatbot_function.retrieve_context(prompt, 10)
-        # user_prompt = {"role": "user", "content": new_prompt}
-        # st.session_state.prompts.append(user_prompt)
-        #
-        # print(new_prompt)
+        st.session_state.history.append(ChatMessage.from_str(prompt, "user"))
 
         with st.chat_message("assistant"):
-            # response = chatbot_function.response(st.session_state.prompts)
             with st.spinner("Thinking"):
-                response = chat.agent(prompt, st.session_state.chat_tools, st.session_state.selected_document)
-                # st.markdown(f"{response}")
+                response = chat.agent(prompt, st.session_state.chat_tools,
+                                      st.session_state.selected_document,
+                                      st.session_state.history,
+                                      st.session_state.llm)
                 st.markdown(response)
 
         ai_response = {"role": "assistant", "content": response}
         st.session_state.messages.append(ai_response)
         st.session_state.prompts.append(ai_response)
+        st.session_state.history.append(ChatMessage.from_str(str(response), "assistant"))
+
+        print(f"{st.session_state.history}\n\n")
 
 
 def main():
