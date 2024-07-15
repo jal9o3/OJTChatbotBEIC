@@ -18,7 +18,7 @@ pages: 263
 Processes:
 	PDF to Images: 109.64 seconds
 	Text Extraction: 444.92
-
+#
 Document: Challis_8_WCR_Interpretive_I00029770
 pages: 267
 Processes:

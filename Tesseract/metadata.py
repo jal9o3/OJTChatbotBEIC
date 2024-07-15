@@ -61,7 +61,7 @@ def metadata(file_path):
         f.writelines(file_content)
         f.close()
 
-    """
+    
         # Create metadata file
         for file_name in os.listdir(extraction_dir):
             text_file_name = os.path.splitext(file_name)[0] + "_metadata.txt" # Specify output file name
@@ -79,12 +79,12 @@ def metadata(file_path):
                             "Author: \n"
                             "Tags: \n")
                     f.close()
-        """
+        
     
-    """
+    
                 # Input metadata
                 with meta_prompt:
                     meta_file = os.path.splitext(selected_pdf)[0] + "_metadata.txt"
                     meta_path = os.path.join(text_dir, selected_file)
                     metadata(meta_path)
-                """
+                
