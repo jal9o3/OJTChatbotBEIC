@@ -14,9 +14,6 @@ import psycopg2
 
 from llama_index.llms.ollama import Ollama
 
-
-
-
 # Setting seeds
 np.random.seed(122)
 random.seed(122)
@@ -24,6 +21,10 @@ torch.manual_seed(122)
 if torch.cuda.is_available():
     torch.cuda.manual_seed(122)
     torch.cuda.manual_seed_all(122)
+
+# --- SESSION STATES ---
+if "setup_done" not in st.session_state:
+    st.session_state.setup_done = False
 
 if "document_select" not in st.session_state:
     st.session_state.document_select = True
@@ -52,7 +53,13 @@ if 'llm' not in st.session_state:
     st.session_state.llm = None
 
 if 'llm_setting' not in st.session_state:
-    st.session_state.llm_setting = [None, "",None]
+    st.session_state.llm_setting = [None, "", 0, ""]
+
+if 'db_setting' not in st.session_state:
+    st.session_state.db_setting = ["knowledge_base", "postgres", "password", "", "5432"]
+
+if 'database_address' not in st.session_state:
+    st.session_state.database_address = ""
 
 
 # --- Document Selector ---
@@ -62,142 +69,22 @@ def select_documents():
 
     with col1:
         show_selected_documents()
-        if st.session_state.llm is not None:
-            if st.button("LLM Settings"):
-                set_up_llm()
+        if st.button("Settings"):
+            settings()
+
     with col2:
         load_documents()
-
-# --- Retrieve Documents ---
-def get_documents1():
-
-    sample_doc = [
-        {"id": 0,
-         "title": "A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 1,
-         "title": "An Automated Information Retrieval Platform For Unstructured Well Data Utilizing Smart Machine Learning Algorithms Within A Hybrid Cloud Container",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence"],
-         "file_name": "2021 - An Automated Information Retrieval Platform For Unstructured Well Data Utilizing Smart Machine Learning Algorithms Within A Hybrid Cloud Container.pdf"},
-
-        {"id": 2, "title": " Supporting the UN 2050 Net Zero goals by reading the earth better",
-         "authors": "Name of Authors",
-         "tags": ["Machine Learning"],
-         "file_name": "2021 - Supporting the UN 2050 Net Zero goals by reading the earth better.pdf"},
-
-        {"id": 3,
-         "title": "Scaling and optimizing performance and cost of machine learning ingestion on unstructured data for subsurface applications",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning"],
-         "file_name": "2022 - Scaling and optimizing performance and cost of machine learning ingestion on unstructured data for subsurface applications.pdf"},
-
-        {"id": 5,
-         "title": "Utilizing Machine Learning to Gain Geological Insights through Unstructured Data for  Sustainable Exploration Activities",
-         "authors": "Name of Authors",
-         "tags": ["Machine Learning"],
-         "file_name": "2022 - Utilizing Machine Learning to Gain Geological Insights through Unstructured Data for  Sustainable Exploration Activities.pdf"},
-
-        {"id": 6,
-         "title": "Double funnel approach for screening of potential CO2 storage opportunities in the Norwegian Continental Shelf",
-         "authors": "Name of Authors",
-         "tags": [ "Economy"],
-         "file_name": "2023 - Double funnel approach for screening of potential CO2 storage opportunities in the Norwegian Continental Shelf.pdf"},
-
-        {"id": 7,
-         "title": "Sand Production and Control Benchmarking through Unstructured Data Analysis with Machine Learning in the North Sea",
-         "authors": "Name of Authors",
-         "tags": ["Machine Learning"],
-         "file_name": "2023 - Sand Production and Control Benchmarking through Unstructured Data Analysis with Machine Learning in the North Sea.pdf"},
-
-        {"id": 8,
-         "title": "A dsadsaanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 9,
-         "title": "A Cdsadasing the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 10,
-         "title": "Asdas",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 11,
-         "title": "Asdass",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 12,
-         "title": "Asdasds",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 13,
-         "title": "Asdsadsadas",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 14,
-         "title": "Asdsadsdas",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 15,
-         "title": "Adsadsadassdas",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 16,
-         "title": "Asddsadsadsaas",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 17,
-         "title": "Asddsddddddas",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 18,
-         "title": "Asddsdddddddddddddas",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 19,
-         "title": "Asddsdddddddsasdsadasadsadsas",
-         "authors": "Name of Authors",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-    ]
-
-    return sample_doc
 
 
 # --- Retrieve Documents from Database ---
 @st.cache_data
 def get_data_database():
     conn = psycopg2.connect(
-        dbname='knowledge_base',
-        user='postgres',
-        password='password',
-        host='localhost',
-        port=5432
+        dbname=st.session_state.db_setting[0],
+        user=st.session_state.db_setting[1],
+        password=st.session_state.db_setting[2],
+        host=st.session_state.db_setting[3],
+        port=st.session_state.db_setting[4]
     )
     cur = conn.cursor()
 
@@ -222,8 +109,12 @@ def reset():
 # --- Document Loader ---
 def load_documents():
     with st.container():
-        # --- Load the documents ---
-        documents = get_data_database()
+        try:
+            # --- Load the documents ---
+            documents = get_data_database()
+        except:
+            return error(0)
+
 
         with st_tweaker.container(id="document_action"):
             col1, col2, col3 = st.columns(3)
@@ -238,7 +129,7 @@ def load_documents():
                      "Digitalization", "Data Mining",
                      "Waste Management", "Micro Service",
                      "Global Warming", "Data Visualization",
-                     "Mining", "Exploration"],
+                     "Mining", "Exploration", "Other"],
                     [],placeholder="Filter", on_change=reset)
 
             # --- Search Option ---
@@ -249,13 +140,14 @@ def load_documents():
             with col3:
                 if st_tweaker.button("Start Chat", id="start_chat"):
                     if st.session_state.llm is None:
-                        set_up_llm()
+                        set_up_llm_popup(0)
                     elif len(st.session_state.selected_document) == 0:
                         warning(0)
                     else:
 
                         st.session_state.chat_documents = chat.load_selected_documents(
-                            st.session_state.selected_document
+                            st.session_state.selected_document,
+                            st.session_state.db_setting
                         )
 
                         st.session_state.chat_tools = chat.build_tools(
@@ -284,8 +176,11 @@ def load_documents():
         # --- Display the documents ---
         col1, col2, col3 = st.columns(3)
 
+        # Pages
         start = st.session_state.page[0]
         end = st.session_state.page[1]
+
+        # Load the documents and show to user (3 columns)
         for i, doc in enumerate(show_documents[start:end]):
 
             col = i % 3
@@ -303,8 +198,6 @@ def load_documents():
                                 else:
                                     st.session_state.selected_document.append(doc)
                                     st.rerun()
-                                    # st.session_state.selected_document.append(filtered_documents[i])
-                                    # st.rerun()
                             st.markdown(f"<p class = ""additional_info"f">{author}</p>", unsafe_allow_html=True)
                             st.markdown(f"<p class = ""additional_info"f">{tags}</p>", unsafe_allow_html=True)
                 case 1:
@@ -316,8 +209,6 @@ def load_documents():
                                 else:
                                     st.session_state.selected_document.append(doc)
                                     st.rerun()
-                                    # st.session_state.selected_document.append(filtered_documents[i])
-                                    # st.rerun()
                             st.markdown(f"<p class = ""additional_info"f">{author}</p>", unsafe_allow_html=True)
                             st.markdown(f"<p class = ""additional_info"f">{tags}</p>", unsafe_allow_html=True)
                 case 2:
@@ -329,13 +220,12 @@ def load_documents():
                                 else:
                                     st.session_state.selected_document.append(doc)
                                     st.rerun()
-                                    # st.session_state.selected_document.append(filtered_documents[i])
-                                    # st.rerun()
                             st.markdown(f"<p class = ""additional_info"f">{author}</p>", unsafe_allow_html=True)
                             st.markdown(f"<p class = ""additional_info"f">{tags}</p>", unsafe_allow_html=True)
 
-    pageB1, pageB2, pageB3 = st.columns([4,1,1])
+    pageB1, pageB2, pageB3 = st.columns([4, 1, 1])
 
+    # Previous Page Button
     with pageB2:
         if st.session_state.page[0] == 0:
             st.button("---", disabled=True, key="Back")
@@ -344,6 +234,8 @@ def load_documents():
                 st.session_state.page[1] = st.session_state.page[0]
                 st.session_state.page[0] = st.session_state.page[0] - 9
                 st.rerun()
+
+    # Next Page Button
     with pageB3:
         if st.session_state.page[1] >= len(filtered_documents):
             st.button("---", disabled=True, key="Next")
@@ -366,12 +258,13 @@ def show_selected_documents():
         if st.session_state.document_select:
             st.subheader("Selected Paper")
 
+        # Load / SHow the Selected Documents
         for i in range(len(st.session_state.selected_document)):
             with st_tweaker.container(border=True, id="selected_doc"):
-                col1, col2 = st.columns([6,1])
+                col1, col2 = st.columns([6, 1])
 
                 with col1:
-
+                    # Limit the max char for the title
                     if st.session_state.document_select:
                         max_chars = 50
                     else:
@@ -381,6 +274,7 @@ def show_selected_documents():
 
                     st.markdown(f"{title}")
 
+                # Remove Selected Document
                 if st.session_state.document_select:
                     with col2:
                         if st.button(f"x", key=i,  type="secondary"):
@@ -389,40 +283,440 @@ def show_selected_documents():
                             st.rerun()
 
 
-# --- Load PDF View ---
-@st.experimental_dialog("Paper Info")
-def load_pdf(document):
+# --- Load Chat ---
+def load_chat():
+    # Create Context for the AI Agent
+    content = ""
+    for idx, doc in enumerate(st.session_state.selected_document):
+        title = doc[1]
+
+        content += f"tool_Document_{idx + 1}  that refers to DOCUMENT {idx + 1} with a title of {title}\n"
+
+    # Store Messages
+    if "messages" not in st.session_state:
+        st.session_state.messages = []
+
+    if "history" not in st.session_state:
+        st.session_state.history = []
+
+    # Sidebar
+    with st.sidebar:
+        # Return to default (document select)
+        if st.button("Return", type="primary"):
+            reset()
+            st.session_state.messages = []
+            st.session_state.selected_document = []
+            st.session_state.chat_tools = []
+            st.session_state.chat_documents = []
+            st.session_state.history = []
+            st.session_state.document_select = True
+            st.rerun()
+
+        # Show selected documents
+        if len(st.session_state.selected_document) > 0:
+            with st.expander("Show Selected Documents", expanded=True):
+                show_selected_documents()
+
+        # Allow user to select documents if no documents are selected
+        if len(st.session_state.selected_document) == 0:
+            if st.button("Select Paper", type="primary"):
+                st.session_state.document_select = True
+                st.rerun()
+
+    try:
+        # Print messages from the history
+        for message in st.session_state.messages:
+            with st.chat_message(message['role']):
+                st.markdown(message['content'])
+
+        # Enter prompt
+        prompt = st.chat_input("What's Up")
+
+        if prompt:
+            # Show user prompt
+            with st.chat_message("user"):
+                st.markdown(prompt)
+
+            # Store to history
+            user_input = {"role": "user", "content": prompt}
+            st.session_state.messages.append(user_input)
+            st.session_state.history.append(ChatMessage.from_str(prompt, "user"))
+
+            # Show AI response
+            with st.chat_message("assistant"):
+                with st.spinner("Thinking"):
+                    # Call AI Agent to create response
+                    response = chat.agent(prompt, st.session_state.chat_tools,
+                                          st.session_state.selected_document,
+                                          st.session_state.history,
+                                          st.session_state.llm)
+                    st.markdown(response)
+
+            # Store AI Response
+            ai_response = {"role": "assistant", "content": response}
+            st.session_state.messages.append(ai_response)
+            st.session_state.history.append(ChatMessage.from_str(str(response), "assistant"))
+    except:
+        st.session_state.messages.pop()
+        st.session_state.history.pop()
+        if st.session_state.llm_setting[0] == "Locally":
+            return llm_error(1)
+        else:
+            return llm_error(2)
+
+
+# Set up the LLM
+def set_up_llm(code):
+    st.title("Setup OLLAMA")
+
+    # Method of Running List
+    method = ["Locally", "API (Ngrok + Google Colab)"]
+
+    selected_method = st.selectbox(
+        "How would you like to run your OLLAMA Model?",
+        method,
+        index=st.session_state.llm_setting[0],
+        placeholder="Select method...",
+    )
+
+    url = ""
+    if selected_method == "API (Ngrok + Google Colab)":
+        url = st.text_input("URL for API", st.session_state.llm_setting[1])
+
+    # Large Language Model List
+    models = ["llama3"]
+
+    selected_model = ""
+    if selected_method == "Locally" or (selected_method == "API (Ngrok + Google Colab)" and url != ""):
+        selected_model = st.selectbox(
+            "Select Local Model",
+            models,
+            index=st.session_state.llm_setting[2],
+            placeholder="Select Language Model",
+        )
+
+    if code == 0:
+        action = "Setup"
+    else:
+        action = "Retry"
+
+    if selected_model in models:
+        if selected_method == "Locally":
+            if st.button(action):
+                # Load Model and Embeddings
+                llm = Ollama(
+                    model=selected_model,
+                    request_timeout=200.0,
+                    temperature=0.2,
+                )
+                st.session_state.llm = llm
+
+                st.session_state.llm_setting[0] = method.index(selected_method)
+                st.session_state.llm_setting[2] = models.index(selected_model)
+
+                st.rerun()
+        else:
+            if st.button(action):
+                # Load Model and Embeddings
+                llm = Ollama(
+                    model=selected_model,
+                    base_url=url,
+                    request_timeout=200.0,
+                    temperature=0.2,
+                )
+
+                st.session_state.llm = llm
+
+                st.session_state.llm_setting[0] = method.index(selected_method)
+                st.session_state.llm_setting[1] = url
+                st.session_state.llm_setting[2] = models.index(selected_model)
+
+                print(url)
+
+                st.rerun()
+
+
+@st.experimental_dialog(" ")
+def set_up_llm_popup(code):
+    set_up_llm(code)
+
+
+def setup_database():
+    st.title("Setup Database")
+    st.text_input()
+
+
+# --- Initial Setup ---
+def initial_setup():
+    st.title("Initial Setup")
+
     col1, col2 = st.columns(2)
 
     with col1:
+        st.divider()
 
-        pdf_file_path = f"SamplePDF/{document['file_name']}"
+        st.subheader("DATABASE SETTINGS")
 
-        if pdf_file_path:
-            doc = fitz.open(pdf_file_path)
-            num_pages = len(doc)
+        db_name = st.text_input("Database Name", st.session_state.db_setting[0])
+        user = st.text_input("User", st.session_state.db_setting[1])
+        password = st.text_input("Password", st.session_state.db_setting[2])
+        db_address = st.text_input("Database Container Address", st.session_state.db_setting[3])
+        port = st.text_input("Port", st.session_state.db_setting[4])
 
-            page_number = st.number_input(" ", 1, num_pages, 1)
-
-            page = doc.load_page(page_number - 1)
-            pix = page.get_pixmap(matrix=fitz.Matrix(2, 2))
-            img = Image.frombytes("RGB", [pix.width, pix.height], pix.samples)
-
-            with st.container(border=True, height=500):
-                st.image(img, use_column_width=True)
-
-            st.markdown(f"Page {page_number} of {num_pages}")
+        st.divider()
 
     with col2:
-        st.title(document['title'])
+        st.divider()
+        st.subheader("OLLAMA SETTINGS")
 
-        if st.button("Add Paper"):
-            if len(st.session_state.selected_document) == 100:
-                st.markdown("You've reached the maximum number of selected paper (3)")
+        # Method of Running List
+        method = ["Locally", "API (Ngrok + Google Colab)"]
 
+        selected_method = st.selectbox(
+            "How would you like to run your OLLAMA Model?",
+            method,
+            index=st.session_state.llm_setting[0],
+            placeholder="Select method...",
+        )
+
+        url = ""
+        if selected_method == "API (Ngrok + Google Colab)":
+            url = st.text_input("URL for API", st.session_state.llm_setting[1])
+
+        # Large Language Model List
+        models = ["llama3"]
+
+        selected_model = ""
+        if selected_method == "Locally" or (selected_method == "API (Ngrok + Google Colab)" and url != ""):
+            selected_model = st.selectbox(
+                "Select Local Model",
+                models,
+                index=st.session_state.llm_setting[2],
+                placeholder="Select Language Model",
+            )
+
+        if selected_model in models:
+            if selected_method == "Locally":
+                if st.button("Setup", key="setup1"):
+                    if not all([db_name, user, password, db_address, port]):
+                        st.toast("Please fill in all fields.")
+                    else:
+                        # Load Model and Embeddings
+                        llm = Ollama(
+                            model=selected_model,
+                            request_timeout=200.0,
+                            temperature=0.2,
+                        )
+                        st.session_state.llm = llm
+
+                        # Set the Database Settings
+                        st.session_state.db_setting[0] = db_name
+                        st.session_state.db_setting[1] = user
+                        st.session_state.db_setting[2] = password
+                        st.session_state.db_setting[3] = db_address
+                        st.session_state.db_setting[4] = port
+
+                        # Set the LLM Settings
+                        st.session_state.llm_setting[0] = method.index(selected_method)
+                        st.session_state.llm_setting[2] = models.index(selected_model)
+
+                        st.session_state.setup_done = True
+                        st.rerun()
             else:
-                st.session_state.selected_document.append(document)
+                if st.button("Setup", key="setup2"):
+                    if not all([db_name, user, password, db_address, port, url]):
+                        st.toast("Please fill in all fields.")
+                    else:
+                        # Load Model and Embeddings
+                        llm = Ollama(
+                            model=selected_model,
+                            base_url=url,
+                            request_timeout=200.0,
+                            temperature=0.2,
+                        )
+
+                        st.session_state.llm = llm
+
+                        # Set the Database Settings
+                        st.session_state.db_setting[0] = db_name
+                        st.session_state.db_setting[1] = user
+                        st.session_state.db_setting[2] = password
+                        st.session_state.db_setting[3] = db_address
+                        st.session_state.db_setting[4] = port
+
+                        # Set the LLM Settings
+                        st.session_state.llm_setting[0] = method.index(selected_method)
+                        st.session_state.llm_setting[1] = url
+                        st.session_state.llm_setting[2] = models.index(selected_model)
+
+                        st.session_state.setup_done = True
+                        st.rerun()
+
+
+@st.experimental_dialog(" ")
+def settings():
+    st.title("Settings")
+    with st.expander("Database Settings"):
+        db_name = st.text_input("Database Name", st.session_state.db_setting[0])
+        user = st.text_input("User", st.session_state.db_setting[1])
+        password = st.text_input("Password", st.session_state.db_setting[2])
+        db_address = st.text_input("Database Container Address", st.session_state.db_setting[3])
+        port = st.text_input("Port", st.session_state.db_setting[4])
+
+    with st.expander("LLM Settings"):
+        # Method of Running List
+        method = ["Locally", "API (Ngrok + Google Colab)"]
+
+        selected_method = st.selectbox(
+            "How would you like to run your OLLAMA Model?",
+            method,
+            index=st.session_state.llm_setting[0],
+            placeholder="Select method...",
+        )
+
+        url = ""
+        if selected_method == "API (Ngrok + Google Colab)":
+            url = st.text_input("URL for API", st.session_state.llm_setting[1])
+
+        # Large Language Model List
+        models = ["llama3"]
+
+        selected_model = ""
+        if selected_method == "Locally" or (selected_method == "API (Ngrok + Google Colab)" and url != ""):
+            selected_model = st.selectbox(
+                "Select Local Model (Preferably use llama3)",
+                models,
+                index=st.session_state.llm_setting[2],
+                placeholder="Select Language Model",
+            )
+
+    if st.button("Save"):
+        if selected_method == "Locally":
+            if not all([db_name, user, password, db_address, port]):
+                st.toast("Please fill in all fields.")
+            else:
+                # Load Model and Embeddings
+                llm = Ollama(
+                    model=selected_model,
+                    request_timeout=200.0,
+                    temperature=0.2,
+                )
+                st.session_state.llm = llm
+
+                # Set the Database Settings
+                st.session_state.db_setting[0] = db_name
+                st.session_state.db_setting[1] = user
+                st.session_state.db_setting[2] = password
+                st.session_state.db_setting[3] = db_address
+                st.session_state.db_setting[4] = port
+
+                # Set the LLM Settings
+                st.session_state.llm_setting[0] = method.index(selected_method)
+                st.session_state.llm_setting[2] = models.index(selected_model)
+
+                st.session_state.setup_done = True
                 st.rerun()
+        else:
+            if not all([db_name, user, password, db_address, port]):
+                st.toast("Please fill in all fields.")
+            else:
+                # Load Model and Embeddings
+                llm = Ollama(
+                    model=selected_model,
+                    base_url=url,
+                    request_timeout=200.0,
+                    temperature=0.2,
+                )
+
+                st.session_state.llm = llm
+
+                # Set the Database Settings
+                st.session_state.db_setting[0] = db_name
+                st.session_state.db_setting[1] = user
+                st.session_state.db_setting[2] = password
+                st.session_state.db_setting[3] = db_address
+                st.session_state.db_setting[4] = port
+
+                # Set the LLM Settings
+                st.session_state.llm_setting[0] = method.index(selected_method)
+                st.session_state.llm_setting[1] = url
+                st.session_state.llm_setting[2] = models.index(selected_model)
+
+                st.session_state.setup_done = True
+                st.rerun()
+
+
+# --- Error Information ---
+def error(code):
+    e1, e2, e3 = st.columns([1, 3, 1])
+
+    if code == 0:
+        st.title("Error: Unable to Retrieve Data")
+        st.subheader("We encountered an issue while trying to access the data.")
+        st.write("Please verify the following:")
+        st.write("- The database container is exists.")
+        st.write("- The database container is running.")
+        st.write("- You have inputted the right database information")
+        col1, col2 = st.columns(2)
+
+        with col1:
+            db_name = st.text_input("Database Name", st.session_state.db_setting[0])
+            user = st.text_input("User", st.session_state.db_setting[1])
+            password = st.text_input("Password", st.session_state.db_setting[2])
+
+        with col2:
+            db_address = st.text_input("Database Container Address", st.session_state.db_setting[3])
+            port = st.text_input("Port", st.session_state.db_setting[4])
+
+        st.write("- Your network connection is stable.")
+        st.write("- All required services are operational.")
+        st.write("If the issue persists, please refer to the manual.")
+        if st.button("Retry"):
+            # Set the Database Settings
+            st.session_state.db_setting[0] = db_name
+            st.session_state.db_setting[1] = user
+            st.session_state.db_setting[2] = password
+            st.session_state.db_setting[3] = db_address
+            st.session_state.db_setting[4] = port
+            st.rerun()
+    elif code == 1:
+        st.title("Error: Large Language Model")
+        st.subheader("We encountered an error while communicating with the LLM Locally.")
+        st.write("Please verify the following:")
+        st.write("- OLLAMA is Installed.")
+        st.write("- OLLAMA is Running.")
+        st.write("- Model has been Installed")
+        st.write("- All required services are operational.")
+        st.write("If the issue persists, please refer to the manual.")
+    else:
+        st.title("Error: Large Language Model")
+        st.subheader("We encountered an error while communicating with the OLLAMA API.")
+        st.write("Please verify the following:")
+        st.write("- Google Colab is Running.")
+        st.write("- Ngrok Host is Running.")
+        st.write("- URL is Correct")
+        st.write("- Model has been Installed.")
+        st.write("- Your network connection is stable.")
+        st.write("- All required services are operational.")
+        st.write("Please refer to the manual.")
+
+
+@st.experimental_dialog(" ")
+def llm_error(code):
+    st.markdown('<style>div[data-testid="stModal"] div[tabindex="-1"]{'
+                'display: flex; '
+                'flex-direction: column ;'
+                'justify-content: start;'
+                'width: 50%;'
+                'background-color:var(--lighter);'
+                'box-shadow: 10px 10px 10px black;}</style>', unsafe_allow_html=True)
+
+    c1, c2 = st.columns([2, 1])
+
+    with c1:
+        error(code)
+    with c2:
+        set_up_llm(1)
 
 
 @st.experimental_dialog(" ")
@@ -463,149 +757,6 @@ def warning(mode):
         #         st.session_state.document_select = False
         #         st.rerun()
 
-@st.experimental_dialog(" ")
-def set_up_llm():
-    st.title("Setup OLLAMA")
-
-    method = ["Locally", "API (Ngrok + Google Colab)"]
-
-    selected_method = st.selectbox(
-        "How would you like to run your OLLAMA Model?",
-        method,
-        index=st.session_state.llm_setting[0],
-        placeholder="Select method...",
-    )
-
-    url = ""
-    if selected_method == "API (Ngrok + Google Colab)":
-        url = st.text_input("URL for API", st.session_state.llm_setting[1])
-
-    models = ["mistral", "llama3", "phi3:medium", "gemma2"]
-
-    selected_model = ""
-    if selected_method == "Locally" or (selected_method == "API (Ngrok + Google Colab)" and url != ""):
-        selected_model = st.selectbox(
-            "Select Local Model (Preferably use llama3)",
-            models,
-            index=st.session_state.llm_setting[2],
-            placeholder="Select Language Model",
-        )
-
-    if selected_model in models:
-        if selected_method == "Locally":
-            if st.button("Setup"):
-                # Load Model and Embeddings
-                llm = Ollama(
-                    model=selected_model,
-                    request_timeout=200.0,
-                    temperature=0.2,
-                )
-                st.session_state.llm = llm
-
-                st.session_state.llm_setting[0] = method.index(selected_method)
-                st.session_state.llm_setting[2] = models.index(selected_model)
-
-                st.rerun()
-        else:
-            if st.button("Setup"):
-                # Load Model and Embeddings
-                llm = Ollama(
-                    model=selected_model,
-                    base_url=url,
-                    request_timeout=200.0,
-                    temperature=0.2,
-                )
-                st.session_state.llm_setting[1] = url
-
-                st.session_state.llm = llm
-
-                st.session_state.llm_setting[0] = method.index(selected_method)
-                st.session_state.llm_setting[2] = models.index(selected_model)
-
-                st.rerun()
-
-
-# --- Load Chat ---
-def load_chat():
-
-    content = ""
-    for idx, doc in enumerate(st.session_state.selected_document):
-        title = doc[1]
-
-        content += f"tool_Document_{idx + 1} that refers to DOCUMENT {idx + 1} with a title of {title}\n"
-
-
-    # Store messages
-    if "messages" not in st.session_state:
-        st.session_state.messages = []
-
-    if "prompts" not in st.session_state:
-        st.session_state.prompts = []
-
-    if "history" not in st.session_state:
-        st.session_state.history=[]
-
-    # Sidebar
-    with st.sidebar:
-        # Return to default (document select)
-        if st.button("Return", type="secondary"):
-            st.session_state.messages = []
-            st.session_state.prompts = []
-            st.session_state.selected_document = []
-            st.session_state.chat_tools = []
-            st.session_state.chat_documents = []
-            st.session_state.history = []
-            st.session_state.document_select = True
-            st.rerun()
-
-        # Show selected documents
-        if len(st.session_state.selected_document) > 0:
-            with st.expander("Show Selected Documents", expanded=True):
-                show_selected_documents()
-
-        # Allow user to select documents if no documents are selected
-        if len(st.session_state.selected_document) == 0:
-            if st.button("Select Paper", type="primary"):
-                st.session_state.document_select = True
-                st.rerun()
-
-        if st.session_state.llm is not None:
-            if st.button("LLM Settings", type="primary"):
-                set_up_llm()
-
-    # Print messages from the history
-    for message in st.session_state.messages:
-        with st.chat_message(message['role']):
-            st.markdown(message['content'])
-
-    # Enter prompt
-    prompt = st.chat_input("What's Up")
-
-    if prompt:
-        # Show user prompt
-        with st.chat_message("user"):
-            st.markdown(prompt)
-
-        # Store to history
-        user_input = {"role": "user", "content": prompt}
-        st.session_state.messages.append(user_input)
-        st.session_state.history.append(ChatMessage.from_str(prompt, "user"))
-
-        with st.chat_message("assistant"):
-            with st.spinner("Thinking"):
-                response = chat.agent(prompt, st.session_state.chat_tools,
-                                      st.session_state.selected_document,
-                                      st.session_state.history,
-                                      st.session_state.llm)
-                st.markdown(response)
-
-        ai_response = {"role": "assistant", "content": response}
-        st.session_state.messages.append(ai_response)
-        st.session_state.prompts.append(ai_response)
-        st.session_state.history.append(ChatMessage.from_str(str(response), "assistant"))
-
-        print(f"{st.session_state.history}\n\n")
-
 
 def main():
 
@@ -613,20 +764,31 @@ def main():
     # for doc in documents:
     #     print(doc[1])
 
-    if st.session_state.document_select:
+    if not st.session_state.setup_done:
         # --- CSS ---
         with open('style.css') as f:
             st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-        select_documents()
+        col1, col2, col3= st.columns([1,5,1])
+
+        with col2:
+            initial_setup()
+
+
+
     else:
-        # --- CSS ---
-        with open('style_chat.css') as f:
-            st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
+        if st.session_state.document_select:
+            # --- CSS ---
+            with open('style.css') as f:
+                st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-        load_chat()
+            select_documents()
+        else:
+            # --- CSS ---
+            with open('style_chat.css') as f:
+                st.markdown(f'<style>{f.read()}</style>', unsafe_allow_html=True)
 
-
+            load_chat()
 
 
 if __name__ == "__main__":

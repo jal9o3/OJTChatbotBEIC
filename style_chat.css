@@ -53,8 +53,9 @@ button[kind="primary"]:hover{
 }
 
 button[kind="secondary"]{
-    background-color: var(--primary-color);
-    border: 1px solid var(--secondary-color)
+    background: none!important;
+    border: 1px solid var(--secondary-color);
+    width: 2001px;
 }
 
 button[kind="secondary"]:hover{
@@ -123,6 +124,7 @@ div[data-testid="stModal"] div[tabindex="-1"]{
 
 div[class="row-widget stButton"]{
     display: flex;
+    align-items: center;
 }
 
 button[kind="primary"] {
@@ -130,9 +132,9 @@ button[kind="primary"] {
     color: var(--secondary-color) !important;
     cursor: pointer;
     text-align: center ;
-    width: 50%;
+    width: 20%;
     border: 1px solid var(--secondary-color);
-    margin-left: auto;
+    margin-right: auto;
 }
 
 button[kind="primary"] p{
@@ -151,6 +153,22 @@ button[kind="primary"]:hover {
 }
 
 button[kind="primary"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    color: #FF9554 !important;
+}
+
+div[class="row-widget stButton"]{
+    width: 180px;
+}
+
+button[kind="secondary"]:hover {
+    text-decoration: none;
+    color: var(--secondary-color);
+    background-color: var(--accent-color);
+}
+
+button[kind="secondary"]:focus {
     outline: none !important;
     box-shadow: none !important;
     color: #FF9554 !important;

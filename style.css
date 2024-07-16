@@ -126,6 +126,14 @@ p{
     color: white;
 }
 
+div[data-baseweb="toaster"] div[data-testid="stMarkdownContainer"] p{
+    color: black;
+}
+
+details[class="st-emotion-cache-1h9usn1 eqpbllx3"]{
+    border-color: white;
+}
+
 /* --- !End Select Paper! ---*/
 
 

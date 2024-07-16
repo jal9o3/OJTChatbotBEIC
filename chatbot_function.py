@@ -73,13 +73,13 @@ def get_documents():
 
 
 # --- Load Selected Documents ---
-def load_selected_documents(selected_documents: list):
+def load_selected_documents(selected_documents: list, db_setting):
     conn = psycopg2.connect(
-        dbname='knowledge_base',
-        user='postgres',
-        password='password',
-        host='localhost',
-        port=5432
+        dbname=db_setting[0],
+        user=db_setting[1],
+        password=db_setting[2],
+        host=db_setting[3],
+        port=db_setting[4]
     )
 
     papers = {}
@@ -206,7 +206,7 @@ def build_tools(selected_documents, document, llm):
         i = f"Document_{idx+1}"
         agents[i] = agent
         query_engines[i] = vector_index.as_query_engine(
-            similarity_top_k=2
+            similarity_top_k=5
         )
 
     # define tool for each document agent
