@@ -1,26 +1,47 @@
 import psycopg2
 
-from constants import PGDB_PASS
+import constants
 
 from text_management import get_text, get_chunks
 from database_management import upload_to_pgdb, connect_to_or_create_pgdb
 from database_management import create_table_if_not_exists
 
-def format_upload_doc(filename, title, authors, tags):
-    # Set up a test database connection
-    connect_to_or_create_pgdb("knowledge_base")
-    conn = psycopg2.connect(
-        dbname='knowledge_base',
-        user='postgres',
-        password=PGDB_PASS,
-        host='localhost',
-        port=5432
+def create_connection(db_name = constants.PGDB_NAME,
+                      db_user = constants.PGDB_USER,
+                      db_password = constants.PGDB_PASS, 
+                      db_host = constants.PGDB_HOST,
+                      db_port = constants.PGDB_PORT
+                      ):
+    connection = None
+    
+    connection = psycopg2.connect(
+        database=db_name,
+        user=db_user,
+        password=db_password,
+        host=db_host,
+        port=db_port,
     )
+
+    return connection
+
+def format_upload_doc(filename, title, authors, tags, 
+                      db_name = constants.PGDB_NAME,
+                      db_user = constants.PGDB_USER,
+                      db_password = constants.PGDB_PASS, 
+                      db_host = constants.PGDB_HOST,
+                      db_port = constants.PGDB_PORT
+                      ):
+    
+    # Set up a test database connection
+    connect_to_or_create_pgdb(constants.PGDB_NAME)
+
+    conn = create_connection(db_name, db_user, db_password, db_host, db_port)
+
     cur = conn.cursor()
     
     # Create test tables
-    create_table_if_not_exists("paper_titles", "knowledge_base")
-    create_table_if_not_exists("chunks", "knowledge_base")
+    create_table_if_not_exists("paper_titles", db_name)
+    create_table_if_not_exists("chunks", db_name)
 
     # Commit changes to the database
     conn.commit()

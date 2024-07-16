@@ -6,33 +6,60 @@ from pdf2image import convert_from_path
 from PyPDF2 import PdfReader
 
 import cv2 as cv
-import numpy as np
-import pandas as pd
-from PIL import Image
 
 import preprocessing
 import demo_main
 from tags import tag_options
 
-from io import BytesIO
 import os
-import re
-
 import time
 
-# Test Functions
-time_list = []
-
-def function_time(start_time, end_time, label):
-    global time_list
-    
-    value = end_time - start_time
-    time_list.append((label, value))
-
-    return time_list
+from psycopg2 import OperationalError
 
 # DATABASE FUNCTIONS---------------------
 
+@st.experimental_dialog("Input Host Address")
+def input_credentials():
+    placeholder_text = "Enter Value"
+
+    db_name = st.text_input("Enter Database Name: ", value = "knowledge_base", placeholder = placeholder_text, type = "password")
+    
+    db_user = st.text_input("Enter User: ", value = "postgres", placeholder = placeholder_text, type = "password")
+    
+    db_host = st.text_input("Enter Host Address: ", value = "localhost", placeholder = placeholder_text, type = "password")
+    
+    db_port = st.text_input("Enter Port: ", value = 5432, placeholder = placeholder_text, type = "password")
+    
+    db_password = st.text_input("Enter password: ", placeholder = placeholder_text, type = "password")
+
+    st.session_state.submit_credentials = False
+
+    if st.button("Submit"):
+        credential_check = None
+        try:
+            credential_check = demo_main.create_connection(db_name = db_name,
+                                                           db_user = db_user,
+                                                           db_password = db_password, 
+                                                           db_host = db_host,
+                                                           db_port = db_port
+                                                           )    
+            st.success("Connection to PostgreSQL DB successful")
+        except OperationalError as e:
+            st.session_state.credentials_submitted = False
+            st.error("There is something wrong with your credentials")
+            print(f"Credentials Error: {e}")
+        
+        if credential_check:
+            st.session_state.db_name = db_name
+            st.session_state.db_user = db_user
+            st.session_state.db_password = db_password 
+            st.session_state.db_host = db_host
+            st.session_state.db_port = db_port
+        
+            st.session_state.credentials_submitted = True
+
+            st.rerun()
+        
 #       Main Database Function
 
 # EXTRACTION FUNCTIONS------------------
@@ -58,11 +85,12 @@ def extract_image(upload_dir, image_dir, file_name):
 
                 image_path = os.path.join(file_image_dir, f"{page_number}.png") # path of the image
                 page_image[0].save(image_path, 'PNG', dpi = (300, 300))
+
             except Exception as e:
                 print(f"Error Converting Page {page_number} of file {file_name}: {e}")
                 continue
         
-    st.session_state.image_converted = True
+        st.session_state.image_converted = True
 
 def preprocess(image):
 
@@ -115,28 +143,22 @@ def images_to_text(pdf_images_dir, text_path):
     for page_number, page_image in enumerate(image_files_sorted, start = 1): # iterate for each file in the image directory starting with 1
         try:
             image_path = os.path.join(pdf_images_dir, f"{page_image}.png") # path of the image
-            pdf_name = os.path.splitext(pdf_images_dir)[0]
+            pdf_name = os.path.basename(pdf_images_dir)
             print(f"Processing page {page_number} of {pdf_name}")
             
             image = cv.imread(image_path) # Read the image
             
             # Perform OCR on the page image
             text = pytesseract.image_to_string(image,lang = 'enga+fil+equ', config=my_config)
-            print(f"OCR performed on page {page_number}")
             
             # Perform Text Preprocessing
             text = preprocessing.body_text(text)
-            print(f"text preprocessing performed on page {page_number}")
 
             with open(text_path, 'a', encoding='utf-8') as f: # Append extracted text to the file
                 f.write(f"\n\n-----Page {page_number}-----\n\n{text}")
-            print(f"Appended text of page {page_number} to {text_path}")
         except Exception as e:
             print(f"Error Extracting Text from Page {page_number} of {pdf_name}: {e}")
             continue
-
-
-    show_message(f"Completed text extraction from: {pdf_images_dir}")
 
 # Metadata Functions--------------------
 
@@ -151,7 +173,7 @@ def create_metadata_file(upload_dir, metadata_dir):
         with open(text_file_path, 'w', encoding='utf-8') as f:
             f.write(f"Title: {os.path.splitext(text_file_name)[0]}\n"
                     "Author: Unknown\n"
-                    "Tags: Unknown\n")
+                    "Tags: Others\n")
             f.close()
 
 #       Main Metadata Function
@@ -176,9 +198,11 @@ def metadata(file_path):
         
         selected_tags = [item.strip() for item in file_content[2].split(",") if item.strip()]
 
-        title = st.text_input("Title: ", value = file_content[0], placeholder = "Input Title of the paper")    
+        input_title = st.text_input("Title: (Non-printable characters and characters not suited for file names will be removed)", value = file_content[0], placeholder = "Input Title of the paper")    
         author = st.text_input("Author: (Separate names with a comma (,))", value = file_content[1], placeholder = "Input Author of the paper separated by a comma (,)") 
         tags = st.multiselect("Tags: ", options = tag_options, default = selected_tags, placeholder = "Select tags of the paper")
+
+        title = preprocessing.remove_unaccepted_chars(input_title)
 
         if not title:
             title = "Unknown"
@@ -211,6 +235,7 @@ def metadata(file_path):
                 f.writelines(file_content)
                 f.close()
 
+            st.success("Metadata Updated")
 
 # UPLOAD FUNCTIONS------------------------
 
@@ -255,29 +280,62 @@ def set_session_states(action = "set"):
     options = image_processing_options()
 
     # Database session_states
-    button_keys = ["extract", "upload_database", "upload_pdf", "process_change", "confirm_upload"]
-    operation_keys = ["extract_done", "upload_done", "process_done", "image_converted"]
-    variable_keys = ["selected_pdf", "selected_page"]
+    button_keys = ["extract", 
+                   "upload_database", 
+                   "upload_pdf", 
+                   "process_change", 
+                   "process",
+                   "undo_preprocess",
+                   "confirm_upload",
+                   "submit_credentials",
+                   "upload_again"
+                   ]
+    operation_keys = ["extract_done", 
+                      "upload_done", 
+                      "process_done", 
+                      "image_converted", 
+                      "credentials_submitted"
+                      ]
+    database_keys = ["db_name",
+                     "db_user",
+                     "db_password",
+                     "db_host",
+                     "db_port"
+                    ]
+    variable_keys = ["selected_pdf", 
+                     "selected_page"
+                     ]
     list_keys = ["uploaded_file"]
     image_processing_keys = [option["key"] for option in options]
 
-    all_keys = button_keys + operation_keys + list_keys + image_processing_keys + variable_keys
+    all_keys = button_keys + operation_keys + list_keys + image_processing_keys + variable_keys + database_keys
 
     if action == "set":
-        for key in variable_keys + list_keys:
+        for key in variable_keys + list_keys + database_keys:
             if key not in st.session_state:
                 st.session_state[key] = ""
 
         for key in button_keys + operation_keys + image_processing_keys:
             if key not in st.session_state:
                 st.session_state[key] = False
-
+    
     elif action == "reset":
+        for key in all_keys:
+            if key in variable_keys + list_keys + database_keys:
+                st.session_state[key] = ""
+            elif key in button_keys + operation_keys + image_processing_keys:
+                st.session_state[key] = False
+
+    elif action == "new_upload":
         for key in all_keys:
             if key in variable_keys + list_keys:
                 st.session_state[key] = ""
             elif key in button_keys + operation_keys + image_processing_keys:
                 st.session_state[key] = False
+    
+    elif action == "reset_database":
+        for key in database_keys:
+            st.session_state[key] = ""
 
 def upload_pdf():
     st.session_state.upload_pdf = True
@@ -290,6 +348,18 @@ def upload_database():
 
 def process_change():
     st.session_state.process_change = True
+
+def process():
+    st.session_state.process = True
+
+def undo_preprocess():
+    st.session_state.undo_preprocess = True
+
+def submit_credentials():
+    st.session_state.submit_credentials = True
+
+def upload_again():
+    st.session_state.upload_again = True
 
 #       Other Functions of Main
 
@@ -347,46 +417,53 @@ def make_text_file(file_path):
             f.close()
 
 def text_content_check(file_path):
+    file = os.path.basename(file_path)
+
     # Check if the file exists
     if not os.path.exists(file_path):
-        st.error(f"The file {file_path} does not exist.")
+        st.error(f"The file {file} does not exist.")
         return False
     
     # Check if the file size is zero
     if os.path.getsize(file_path) > 0:
         return True
     else:
-        st.error(f"The file {file_path} is empty.")
+        st.error(f"The file {file} is empty.")
         return False
 
 def directory_check(directory_path):
+    directory = os.path.basename(directory_path)
+
     # Check if the path exists
     if not os.path.exists(directory_path):
-        st.error(f"The directory {directory_path} does not exist.")
+        st.error(f"The directory {directory} does not exist.")
         return False
     
     # Check if the path is a directory
     if not os.path.isdir(directory_path):
-        st.error(f"The path {directory_path} is not a directory.")
+        st.error(f"The path {directory} is not a directory.")
         return False
 
     # Check if the directory is empty
     if os.listdir(directory_path):
         return True
     else:
-        st.error(f"The directory {directory_path} is empty.")
+        st.error(f"The directory {directory} is empty.")
         return False
+
+def file_process_check(list_1, list_2):
+    set_1 = set(list_1)
+    set_2 = set(list_2)
+
+    difference = set_1 - set_2
+
+    return difference
 
 #       MAIN Function----------------
 
 def main():
 
     set_session_states("set")
-
-    #Checking session states
-    print("Beginning of Session:")
-    for item in st.session_state.items():
-        print(f"{item}")
 
     # gets the directory were the script is located
     script_directory = os.path.dirname(os.path.abspath(__file__))
@@ -433,75 +510,87 @@ def main():
             remove_contents(preprocessed_dir)
             remove_contents(metadata_dir)
             remove_contents(output_dir)
-            set_session_states("reset")
-
-        # Checking Session States
-        print("Before Image Extraction:")
-        for item in st.session_state.items():
-            print(f"{item}")
+            set_session_states("new_upload")
                 
+        upload_confirm, database_creds = st.columns(2)
+
         if not st.session_state.uploaded_file: 
             st.warning("Please upload a pdf file to proceed.")
         else:
-            st.button("Confirm Upload", on_click = upload_pdf,disabled = st.session_state.confirm_upload)
+            with database_creds:
+                st.button("Connect to Database", on_click = submit_credentials)
+
+            with upload_confirm:
+                st.button("Confirm Upload", on_click = upload_pdf,disabled = st.session_state.confirm_upload)
+
+        if st.session_state.submit_credentials:
+            input_credentials()
             
-            if st.session_state.upload_pdf:
-                with upload_con:
-                    message_con = st.container(height = 100)
+        if st.session_state.upload_pdf:
+            with upload_con:
+                message_con = st.container(height = 100)
+            
+            if st.session_state.confirm_upload == False:
+                # Save the pdfs
+                for file in st.session_state.uploaded_file:
+                    try:
+                        file_name = os.path.splitext(file.name)[0]
+                        file_name = preprocessing.remove_unaccepted_chars(file_name)
+
+                        file_path = os.path.join(upload_dir, f"{file_name}.pdf")
+
+                        # Save the file
+                        with open(file_path, "wb") as f:
+                            f.write(file.getbuffer())
+                        with message_con:
+                            st.success(f"Uploaded {file.name}")
+                    except Exception as e:
+                        with message_con:
+                            st.error(f"Error Uploading The File :{file.name}")
+                            print(f"Error Uploading The File {file.name}: {e}")
+                        continue
                 
-                if st.session_state.confirm_upload == False:
-                    # Save the pdfs
-                    for file in st.session_state.uploaded_file:
-                        try:
-                            file_path = os.path.join(upload_dir, file.name)
-
-                            # Save the file
-                            with open(file_path, "wb") as f:
-                                f.write(file.getbuffer())
-                            with message_con:
-                                st.success(f"Uploaded {file.name}")
-                        except Exception as e:
-                            with message_con:
-                                st.error(f"Error Uploading The File {file.name}: {e}")
-                            continue
-                    
+                # Extract images from the pdfs
+                
+                for file_name in os.listdir(upload_dir): # iterate for each file in the directory
+                    try:
+                        extract_image(upload_dir, image_dir, file_name)
                         
-                    start_time_image = time.time()
-                    
-                    # Extract images from the pdfs
-                    
-                    for file_name in os.listdir(upload_dir): # iterate for each file in the directory
-                        try:
-                            extract_image(upload_dir, image_dir, file_name)
-                        except Exception as e:
-                            with message_con:
-                                st.error(f"Error converting the pdf {file_name} to image: {e}")
-                            continue
+                        with message_con:
+                            st.success(f"Succeeded converting the pdf {file_name} to image")
+                            print(f"Succeeded converting the pdf {file_name} to image")
+                    except Exception as e:
+                        with message_con:
+                            st.error(f"Error converting the pdf {file_name} to image")
+                            print(f"Error converting the pdf {file_name} to image: {e}")
+                        continue
 
-                    st.session_state.confirm_upload = True
+                st.session_state.confirm_upload = True
 
-                    end_time_image = time.time()
-                    function_time(start_time_image, end_time_image, "Image Time")
+        if st.session_state.confirm_upload:
+            if not directory_check(upload_dir):
+                with message_con:
+                    st.error("The files were not uploaded")
+            else:
+                uploaded_files = []
+                for file in st.session_state.uploaded_file:
+                    file_name = os.path.splitext(file.name)[0]
+                    file_name = preprocessing.remove_unaccepted_chars(file_name)
+                    file_name = f"{file_name}.pdf"
 
-            if st.session_state.confirm_upload:
-                if not directory_check(upload_dir):
-                    with message_con:
-                        st.error("The files were not uploaded")
-                else:
-                    list_1 = [file.name for file in st.session_state.uploaded_file]
-                    list_2 = [file for file in os.listdir(upload_dir)]
+                    uploaded_files.append(file_name)
+                
+                list_1 = uploaded_files
+                list_2 = [file for file in os.listdir(upload_dir)]
 
-                    set_1 = set(list_1)
-                    set_2 = set(list_2)
-
-                    difference = set_1 - set_2
+                with message_con:
+                    difference = file_process_check(list_1, list_2)
 
                     if not difference:
-                        with message_con:
-                            st.success("All files where uploaded")
+                        st.success("All files where uploaded")
+                    elif difference:
                         for item in difference:
-                            with message_con:
-                                st.error(f"The file {item} could not be uploaded")
+                            st.error(f"The file {item} could not be uploaded")
   
     with st.sidebar:
         if st.session_state.image_converted == True:
@@ -512,49 +601,75 @@ def main():
             for option in options:
                 st.session_state[option["key"]] = st.sidebar.checkbox(option["label"], on_change = process_change)
             
-            if st.button("Preprocess Images", disabled = not st.session_state.process_change):
-                show_message("Preprocessing")
-                for file_name in os.listdir(image_dir): # iterate for each file in the directory
-                    document_pages = os.path.join(image_dir, file_name) # path being examined
+            st.button("Preprocess Images", on_click = process, disabled = not st.session_state.process_change)
 
-                    if directory_check(document_pages): # check if the path exist, is a directory, and has contents
-                        # directory containing the preprocessed images of the pdf
-                        processed_image_dir = os.path.join(preprocessed_dir, file_name) 
-                        if not os.path.exists(processed_image_dir):# Ensure the directory exists
-                            os.makedirs(processed_image_dir)
-                        
-                        show_message(f"Processing file: {file_name}")
-                        
-                        start_time_process = time.time()
-                        # iterate for each file in the image directory starting with 1
-                        for page_number, page_image in enumerate(os.listdir(document_pages), start = 1): 
-                            if page_image.endswith(".png"): # Check if the file is a png
-                                try:
-                                    image_path = os.path.join(document_pages, page_image) # path of the image
-                                    
-                                    pdf_name = os.path.splitext(document_pages)[0]
-                                    print(f"Preprocessing page {page_number} of {pdf_name}")
-                                    
-                                    image = cv.imread(image_path) # Read the image
-                                    
-                                    processed_image = preprocess(image) # Perform preprocessing on the images
-                                    print(f"Preprocessed Image of Page {page_number}")
+            st.button("Undo Changes", on_click = undo_preprocess)
 
-                                    processed_path = os.path.join(processed_image_dir, page_image) # path of the preprocessed image
-                                    cv.imwrite(processed_path, processed_image)
+            message_con = st.container(height = 200)
+            
+            if st.session_state.process:
+                if st.session_state.process_done == False:
 
-                                    
-                                except Exception as e:
-                                    show_message(f"Error preprocessing Page {page_number} of {file_name}: {e}")
-                                    continue
+                    for file_name in os.listdir(image_dir): # iterate for each file in the directory
+                        document_pages = os.path.join(image_dir, file_name) # path being examined
                         
+                        if directory_check(document_pages): # check if the path exist, is a directory, and has contents
+                            with message_con:
+                                st.success(f"Preprocessing file: {file_name}")
+                                print(f"Preprocessing file: {file_name}")
+                            
+                            # directory containing the preprocessed images of the pdf
+                                processed_image_dir = os.path.join(preprocessed_dir, file_name) 
+                                if not os.path.exists(processed_image_dir):# Ensure the directory exists
+                                    os.makedirs(processed_image_dir)
+
+                            try:
+                                # iterate for each file in the image directory starting with 1
+                                for page_number, page_image in enumerate(os.listdir(document_pages), start = 1): 
+                                    if page_image.endswith(".png"): # Check if the file is a png
+                                        
+                                            image_path = os.path.join(document_pages, page_image) # path of the image
+                                            
+                                            image = cv.imread(image_path) # Read the image
+                                            
+                                            processed_image = preprocess(image) # Perform preprocessing on the images
+
+                                            processed_path = os.path.join(processed_image_dir, page_image) # path of the preprocessed image
+                                            cv.imwrite(processed_path, processed_image)
+                                
+                                with message_con:
+                                    st.success(f"Preprocessed the file: {os.path.basename(document_pages)}")
+                                    print(f"Preprocessed the file: {os.path.basename(document_pages)}")
+
+                            except Exception as e:
+                                with message_con:
+                                    st.error(f"Error Preprocessing  {file_name}")
+                                    print(f"Error Preprocessing {file_name}: {e}")
+                                continue
+                            
                         st.session_state.process_done = True
-                        st.session_state.process_change = False
-                        
-                        end_time_process = time.time()
-                        function_time(start_time_process, end_time_process, "Process Time")
 
-            if st.button("Undo Changes"):
+                    st.session_state.process_change = False
+            
+            if st.session_state.process_done:
+                if not directory_check(preprocessed_dir):
+                    with message_con:
+                        st.error("The files were not preprocessed")
+                        print("The files were not preprocessed")
+                else:
+                    list_1 = [file for file in os.listdir(preprocessed_dir)]
+                    list_2 = [file for file in os.listdir(image_dir)]
+
+                    with message_con:
+                        difference = file_process_check(list_1, list_2)
+                        
+                        if not difference:
+                            st.success("All files where preprocessed")
+                        elif difference:
+                            for item in difference:
+                                st.error(f"The file {item} could not be preprocessed")
+            
+            if st.session_state.undo_preprocess:
                 st.session_state.process_done = False
                 remove_contents(preprocessed_dir)
                 
@@ -565,11 +680,6 @@ def main():
                     
     with extract_col:
         st.markdown('<h4 style="text-align: left;">Extract Text from the PDF:</h4>', unsafe_allow_html=True)
-
-        # Checking Session States
-        print("Before Extraction:")
-        for item in st.session_state.items():
-            print(f"{item}")
 
         # Performs the text extraction when clicked
         st.button("Extract Files", on_click = extract, disabled = not st.session_state.confirm_upload)
@@ -582,14 +692,13 @@ def main():
                 if not st.session_state.uploaded_file:
                     st.error("Please Upload A File")
             
+            if st.session_state.process_done == True:
+                dir_to_extract = preprocessed_dir
+            else:
+                dir_to_extract = image_dir
+        
             # When extracting, itirate through the pdf image directories and output a text file in the text directory
             if st.session_state.extract_done == False:
-                if st.session_state.process_done == True:
-                    dir_to_extract = preprocessed_dir
-                else:
-                    dir_to_extract = image_dir
-                
-                start_time_extract = time.time()
                 for file_name in os.listdir(dir_to_extract): # iterate for each file in the directory
                     document_pages = os.path.join(dir_to_extract, file_name) # path being examined
                     
@@ -605,25 +714,31 @@ def main():
                         # Extract text from the PDF
                         try:
                             images_to_text(document_pages, text_file_path)
-                            
                             with message_con:
-                                st.success(f"Saved as {text_file_name} at {text_file_path}")
+                                st.success(f"Successfully extracted: {file_name}")
                         except Exception as e:
-                            st.error(f"Error extracting: {text_file_path}")
+                            st.error(f"Error extracting: {file_name}")
                             continue
 
                         st.session_state.extract_done = True
-                
-                end_time_extract = time.time()
-                function_time(start_time_extract, end_time_extract, "Extract Time")
           
-            if st.session_state.extract_done == True:
-                with message_con:
-                    st.success("Extraction Complete")
+            if st.session_state.extract_done:
+                if not directory_check(extracted_text_dir):
+                    with message_con:
+                        st.error("The files were not extracted")
+                        print("The files were not extracted")
+                else:
+                    list_1 = [file for file in os.listdir(preprocessed_dir)]
+                    list_2 = [file for file in os.listdir(dir_to_extract)]
 
-                print("After Extraction:")
-                for item in st.session_state.items():
-                    print(f"{item}")
+                    with message_con:
+                        difference = file_process_check(list_1, list_2)
+                        
+                        if not difference:
+                            st.success("All files where extracted")
+                        elif difference:
+                            for item in difference:
+                                st.error(f"The file {item} could not be extracted")
 
     with document_selection:
         # Preview PDFs    
@@ -640,7 +755,7 @@ def main():
             if directory_check(selection_dir):
                 pdf_images = [dir for dir in os.listdir(selection_dir) if os.path.isdir(os.path.join(selection_dir, dir))]
             else:
-                print(f"The directory {selection_dir} does not exist, is inaccessible, or the file was not converted to an image")
+                print(f"The directory {os.path.basename(selection_dir)} does not exist, is inaccessible, or the file was not converted to an image")
                 
             st.session_state.selected_pdf = st.selectbox("Select a PDF:", pdf_images)
 
@@ -650,7 +765,7 @@ def main():
                 image_files = [os.path.splitext(file)[0] for file in os.listdir(pdf_images_dir) if file.endswith('.png')]
 
             if not image_files:
-                st.warning(f"No image files found in the directory: {pdf_images}")
+                st.warning(f"No image files found in the directory: {st.session_state.selected_pdf}")
             else:
                 image_files_sorted = sorted(image_files, key = int)
                 min_page = int(image_files_sorted[0])
@@ -676,8 +791,15 @@ def main():
             
     with upload_col:
         st.markdown('<h4 style="text-align: left;">Upload to Database:</h4>', unsafe_allow_html=True)
-    
-        st.button("Upload Files", on_click = upload_database, disabled = not st.session_state.extract_done or st.session_state.upload_done)
+        
+        button_1, button_2 = st.columns(2)
+        
+        with button_1:
+            st.button("Upload Files", on_click = upload_database, disabled = not st.session_state.extract_done or st.session_state.upload_done)
+        
+        if st.session_state.upload_database:
+            with button_2:
+                st.button("Upload Again", on_click = upload_again, disabled = not st.session_state.upload_database or st.session_state.upload_done)
 
         if st.session_state.extract_done:
             message_con = st.container(height = 100)
@@ -687,42 +809,58 @@ def main():
                 st.warning("Remember to check the Metadata of your file before uploading")
 
         if st.session_state.upload_database:    
-            start_time_upload = time.time()
             if st.session_state.upload_done == False:
                 # make ouput files which combine the metadata with the extracted text
                 create_output(metadata_dir, extracted_text_dir, output_dir)
 
-                for file_name in os.listdir(output_dir): # iterate for each file in the directory
-                    if file_name.endswith(".txt"):
-                        with message_con:
-                            st.success(f"Uploading {file_name}")
-                        
-                        file_path = os.path.join(output_dir, file_name)
+                if not st.session_state.credentials_submitted:
+                    with message_con:
+                        st.error("Files Cannot be Uploaded: You are not Connected to the Database")
+                else:
+                    for file_name in os.listdir(output_dir): # iterate for each file in the directory
+                        if file_name.endswith(".txt"):
+                            
+                            file_path = os.path.join(output_dir, file_name)
 
-                        with open(file_path, 'r', encoding='utf-8') as f:
-                            file_content = [f.readline() for i in range(3)]
-                        
-                        ignore_words = words_to_ignore()
+                            with open(file_path, 'r', encoding='utf-8') as f:
+                                file_content = [f.readline() for i in range(3)]
+                            
+                            ignore_words = words_to_ignore()
+            
+                            # Process each line and ignore the specific word
+                            for i in range(len(file_content)):
+                                filtered_line = ' '.join([word for word in file_content[i].split() if word not in ignore_words])
+                                file_content[i] = filtered_line
+
+                            with message_con:
+                                st.success(f"Uploading the Document: {file_content[0]}")
+                            
+                            title = file_content[0]
+                            authors = [item.strip() for item in file_content[1].split(',') if item.strip()]
+                            tags = [item.strip() for item in file_content[2].split(',') if item.strip()]
+
+                            demo_main.format_upload_doc(file_path, title, authors, tags,
+                                                        db_name = st.session_state.db_name,
+                                                        db_user = st.session_state.db_user,
+                                                        db_password = st.session_state.db_password, 
+                                                        db_host = st.session_state.db_host,
+                                                        db_port = st.session_state.db_port
+                                                        )
+                            
+                            with message_con:
+                                st.success(f"{file_content[0]} Uploaded")
+
+                            st.session_state.upload_done = True
         
-                        # Process each line and ignore the specific word
-                        for i in range(len(file_content)):
-                            filtered_line = ' '.join([word for word in file_content[i].split() if word not in ignore_words])
-                            file_content[i] = filtered_line
-                        
-                        title = file_content[0]
-                        authors = [item.strip() for item in file_content[1].split(',') if item.strip()]
-                        tags = [item.strip() for item in file_content[2].split(',') if item.strip()]
+        if st.session_state.upload_again:
+            remove_contents(upload_dir)
+            remove_contents(extracted_text_dir)
+            remove_contents(image_dir)
+            remove_contents(preprocessed_dir)
+            remove_contents(metadata_dir)
+            remove_contents(output_dir)
+            set_session_states("new_upload")
 
-                        demo_main.format_upload_doc(file_path, title, authors, tags)
-                        
-                        with message_con:
-                            st.success(f"{file_name} Uploaded")
-
-                        st.session_state.upload_done = True
-
-            end_time_upload = time.time()
-            function_time(start_time_upload, end_time_upload, "Upload Time")
-        
         if st.session_state.upload_done:
             with message_con:
                 st.success("All Files Uploaded")
@@ -760,11 +898,4 @@ def main():
         
 
 if __name__ == "__main__":
-    start_time_main = time.time()
     main()
-    end_time_main = time.time()
-
-    time_list = function_time(start_time_main, end_time_main, "Main Time")
-    
-    for label, value in time_list:
-        print(f"{label}: {value}")

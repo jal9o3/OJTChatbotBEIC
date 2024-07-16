@@ -13,6 +13,8 @@ from mysql.connector import errorcode
 
 import streamlit as st
 
+import os
+import string
 import re
 import nltk
 
@@ -151,6 +153,25 @@ def deskew(cvImage):
 
 
 #       Text Preprocessing
+
+def remove_non_printable_chars(text):
+    return ''.join(character for character in text if character in string.printable)
+
+def remove_unaccepted_chars(text): 
+    
+    # Remove unwanted symbols (keep letters, digits, punctuations, and spaces)
+
+    text = remove_non_printable_chars(text)
+    
+    text = re.sub(r'[^a-zA-Z0-9\s \' ! @ # $ % & ( ) - _ = + { } ; .]', '', text)
+    
+    # Tokenize
+    tokens = nltk.word_tokenize(text)
+    
+    # Join tokens back into a single string
+    preprocessed_text = ' '.join(tokens)
+    
+    return preprocessed_text
 
 def line_text(text): 
     

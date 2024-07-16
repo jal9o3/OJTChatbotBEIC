@@ -1,0 +1,293 @@
+Title: CO2 emissions the elephant in the room  a pathway of reduction using digitalization and unstructured data
+Author: Iraya Energies
+Tags: Climate Change, Digitalization, Unstructured Data
+
+
+-----Page 1-----
+
+EAGE ANNUAL
+
+VIENNA AUSTRIA
+
+CO : emissions the elephant in the room : a pathway of reduction using digitalization and
+unstructured data
+
+Introduction
+
+In this paper we are exploring the challenges associated to climate change in the energy industry with
+the paradigm of extracting oil and gas in a low CO environment to limit the effect of climate change
+and provide the world with affordable source of energy for mobility and heat generation .
+
+We will be discussing how carbon accounting allows to track direct and indirect source of emissions
+its origins and the challenges associated to them .
+
+Finally we will investigate how modern technology such as data mining can help mitigate direct and
+indirect emissions by increasing operations efficiency identifying operation flaws and implementing
+scalable Carbon Capture and Storage ( CCS ) implementation .
+
+CO ? emission and world energy consumption
+
+Recently the Intergovernmental Panel on Climate Change ( IPCC ) issued the sixth Assessment Report
+( AR6 ) related to Climate Change 2022 : Impacts Adaptation and Vulnerability which highlights
+the urgency of limiting the increase of temperature to 1.5 ? C to reduce the impact of climate change :
+Global warming reaching 1.5 ? C in the nearterm would cause unavoidable increases in multiple
+climate hazards and present multiple risks to ecosystems and humans ( very high confidence ) . ... Near
+term actions that limit global warming to close to 1.5 ? C would substantially reduce projected losses
+and damages related to climate change in human systems and ecosystems compared to higher warming
+levels but can not eliminate them all ( very high confidence ) . ( IPCC 2022 ) .
+
+In addition the AR6 report linked to Climate Change 2022 : Mitigation of Climate Change suggests
+that All global modelled pathways that limit warming to 1.5C ... involve rapid and deep and in
+most cases immediate GHG emission reductions in all sectors . Modelled mitigation strategies to
+achieve these reductions include transitioning from fossil fuels without CCS to very low or zerocarbon
+
+energy sources such as renewables or fossil fuels with CCS demand side measures and improving
+efficiency reducing nonCO emissions ( IPCC 2022 ) .
+
+1 1 Our World
+Global primary energy consumption by source
+Primary energy is calculated based on the substitution method which takes account of the inefficiencies in fossil
+fuel production by converting nonfossil energy into the energy inputs required if they had the same conversion
+losses as fossil fuels
+
+Other
+renewables
+Modern biofuels
+Solar
+
+Wind
+Hydropower
+Nuclear
+
+Gas
+
+160000 TWh
+
+140000 TWh
+
+120000 TWh
+
+100000 TWh
+
+80000 TWh Oil
+
+60000 TWh
+40000 TWh
+
+Coal
+
+20000 TWh
+
+Traditional
+biomass
+
+OTWh
+1800 1850 1900 1950 2019
+
+Source : Vaclav Smil ( 2017 ) 4 BP Statistical Review of World Energy OurWorldInData.orgenergy CC BY
+
+84t EAGE Amual Conference 4c Exhibition
+
+-----Page 2-----
+
+EAGE ANNUAL
+
+VIENNA AUSTRIA
+
+Figure 1 : Global primary energy consumption by source . Fossil energies account for 8076 respectively
+Coal ( 2590 ) Oil ( 3206 ) and Gas ( 2396 ) ( Source : Our World in Data Energy )
+
+While limiting the reduction of CO : to reduce the impact of climate change the world is still highly
+dependent on fossil fuels with fossil energies accounting in 2019 for more than 80X44 in total and OilGas
+for 6070 alone ( Figure 1 ) . Combined with the need of powering the world and the challenges of climate
+change the energy sector has a central play to significantly monitor and reduce its CO ? footprint .
+
+Carbon accounting
+
+Carbon accounting is the process which allows organization to quantify and monitor Greenhouse Gas
+( GHG ) emissions . By construction carbon accounting counts the direct and indirect emissions linked
+to the activity of the organization through the full value chain .
+
+Direct emission are the emissions directly related to the own activity of the company such as oilgas
+extraction and production and are often referred to scope 1 emissions . Indirect emission are the
+emissions emitted considering the full value chain . In the case of the energy industry this would
+consider all the necessary services contracted to perform the extraction of oil and gas from the
+subsurface and all the emissions related to the usage of the oil and gas as a molecule for the human
+usage in mobility industry usage and heat generation . These emissions are falling into the scope 2
+associated to the supply of energy ( input ) and the scope 3 linked to the oil and gas products sold ( output ) .
+
+Figure 2 illustrates the breakdowns and evolution of four ( 4 ) representative Oil major operators
+emissions until 2018 . In average 1076 of the emissions are associated to direct emission and 9075 of
+them are linked to indirect emissions connected to hydrocarbon products sold . Considering oil and gas
+commitment in reducing carbon emission this means that both direct and indirect emissions would need
+to be tackled simultaneously .
+
+Oil Majors Carbon emissions
+
+Emissions from oil and gas products sold ( Scope 3 ) far exceed emissions from oil and gas production and refining operations ( Scope 12 )
+
+Operator A Operator B
+800 800
+
+M scope3 M scope 3
+
+600 Car29n 600 Gan
+Scope2 Scope2
+400 00
+200 200
+0 0
+2010 2012 2014 2016 2018 2010 2012 2014 2016 2018
+
+Operator C Operator D
+
+W scope 3
+
+B Scope 3
+oo 400
+600 Scope1 Scope1
+Scope2 300 Scope2
+400
+200
+200
+100
+0 0
+2010 2012 2016 2018 2010 2012 2014 pini 018
+
+2014 2010 2018
+
+Figure 2 : Evolution of direct and indirect emissions for four ( 4 ) Oil Majors . scope 1 : Own operations
+( direct emissions ) scope 2 : Power supply ( indirect emissions ) scope 3 : Indirect from oil and gas
+products sold ( indirect emissions ) ( Source : Modified from Reuters 2019 )
+
+Data mining technology
+
+84M EAGE Annual Conference 4x Exhibition
+
+-----Page 3-----
+
+EAGE ANNUAL
+
+VIENNA AUSTRIA
+
+Decades of oil and gas operations associated to the exploration development and production of oil
+fields have generated vast amount of data which provides a deep insight of constant optimization of
+costs and resources . The data are interpreted and compiled into unstructured data such as reports
+presentations and studies providing a carbon copy of the history of the operations . The unstructured
+data provides an immense potential of CO emissions reduction for both direct and indirect emissions .
+New technology such as Data Mining and Machine Learning technology helps to process and retrieve
+information at scale contained in the unstructured data in a pipeline called ingestion of unstructured
+data ( Hernandez 2019 ) . The process involves automated pipeline of text identification image
+classification Name Entity Recognition ( NER ) Knowledge Graph and Heat Map analysis .
+
+For the direct emissions the ingestion of unstructured data gives the GKG experts a discovery
+experience allowing him to interrogate the full corpus of data instantly . Such ingestion platform reduces
+the time of information retrieval and provides a holistic view of the lateral extent for the parameters of
+interest . An example of such application is seen in Figure 3 where reservoir intervals with high CO :
+content is highlighted for more than 500 wells associated to the ingestion of over 45000 unstructured
+documents .
+
+46.509W 45.00W 43.50W 42.00W
+
+CO2 content ( wt ? ) BARON
+
+.
+0 15 50 70 96
+
+ann So
+
+24.005
+
+27.005
+
+Results Density
+
+Lov sk a High
+
+Main deep fault LED Field Igneous rocks ( Ren et al . 2020 )
+TristanGough trail ( Matos 2021 ) Crustal Domains ( Zalan et al . 2019 ) Bl Extrusions ( Costa Correia 2019 )
+x Postsalt well ED HyperExtended Crust IEB Intrusions ( Costa Correia 2019 )
+o Presalt well TJ StrechedThinned TEB Igneous rock ( Vieira de Luca et al . 2017 )
+Depocenter CO Resistate
+
+Figure 3 : Regional maps covering 500 wells showing the presence of high CO : content in the reservoir
+interval ( Source : https : doi.org10.1016j.jsames.2022 . 103760 )
+
+Reducing the time of information retrieval provides a unique opportunity of fasttracking studies hence
+reduce the CO ? emissions . An extended scope of the data ingestion workflow is the identifying and
+tracking the origin of operations flaws and best practices for potential improvement and reduction of
+CO emissions ( Hernandez 2021 ) .
+
+The reduction of indirect emissions involves large scale adoption and deployment of CCS capabilities
+worldwide . Such a pathway is possible by leveraging on current existing oil and gas assets which are
+the mature depleting fields . Extensive work and studies over decades generated a vast amount of data
+subsurface studies and production that are mined to rank the best opportunities for CCS based on the
+field maturation intervention history and geological settings . Once the target reservoir identified CO
+injection can then be monitored wit novel environmentally friendly methods such as using
+nondisruptive 4D seismic ( Figure 4 ) to prove the potential . Such Data to Sink funnel provides the
+technical scalability and the cost effectiveness to assess CCS potential in a large area of interest .
+
+84t EAGE Amual Conference 4c Exhibition
+
+-----Page 4-----
+
+EAGE ANNUAL
+
+VIENNA AUSTRIA
+
+Data mining of historical
+
+unstructured data from 10046 data sweep of
+GO depleting mature oil and mature fields
+gas fields
+
+Data consolidation
+2096 opportunities
+@ ) of existing G8G identified
+
+structured data
+
+DATA TO SINK
+
+CO2 injection
+
+O : :
+monitoring
+
+CCS operation
+
+Figure 4 : Data to Sink funnel workflow powered by data mining machine learning and lean 4D seismic
+monitoring .
+
+Conclusions
+
+The reduction of carbon emission at scale in the energy industry remains a challenge . In this paper we
+have demonstrated how digitalization applied on unstructured data can help reduce both direct and
+indirect emissions .
+
+Acknowledgements
+We would like to thank Iraya Energies for allowing us to publish this paper .
+References
+
+IPCC 2022 : Summary for Policymakers . In : Climate Change 2022 : Mitigation of Climate Change .
+Contribution of Working Group Ill to the Sixth Assessment Report of the Intergovernmental Panel on
+Climate Change P.R . Shukla J. Skea R. Slade A. Al Khourdajie R. van Diemen D. McCollum M .
+Pathak S. Some P. Vyas R. Fradera M. Belkacemi A. Hasija G. Lisboa S. Luz J. Malley ( eds . ) .
+Cambridge University Press Cambridge UK and New York NY USA . dai :
+10.10179781009157926.001
+
+IPCC 2022 : Summary for Policymakers H.O . Partner D.C. Roberts E.S . Poloczanska K .
+Mintenbeck M. Tignor A. Alegria M. Craig S. Langsdorf S. Lbschke V. Moller A. Okem ( eds . ) .
+In : Climate Change 2022 : Impacts Adaptation and Vulnerability . Contribution of Working Group Il
+to the Sixth Assessment Report of the Intergovernmental Panel on Climate Change H.O . Portner D.C .
+Roberts M. Tignor E.S . Poloczanska K. Mintenbeck A. Alegria M. Craig S. Langsdorf S. Loschke
+V. Moller A. Okem B. Rama ( eds. ) . Cambridge University Press . In Press .
+
+Hernandez N. M. Lucafias P. J. Mamador C. 8 Panganiban L. 2019 . Automated Information
+Retrieval from Unstructured Documents Utilizing a Sequence of Smart Machine Learning Methods
+within a Hybrid Cloud Container . EAGE Workshop on Big Data and Machine Learning for EXP
+Efficiency 2527 February
+
+Hernandez N.M. and Maver K.M . 2021 . ED2K Initiative launched to support UN 2050 Net Zero
+goals by reading the earth better First Break June 2021
+
+84t EAGE Amual Conference 4c Exhibition

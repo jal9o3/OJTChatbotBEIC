@@ -1,0 +1,4759 @@
+Title: Challis_14_WCR_Interpretive_Data_I00011470
+Author: D. Wong
+Tags: Well Completion Report
+
+
+-----Page 1-----
+
+Data Repository
+
+Australian Government
+
+Geoscience Australia
+
+Well Completion Report Scanned Image File
+
+Well Name Challis 14
+Operator BHP Petroleum
+Contractor SEDCO FOREX
+Date of Report December 1994
+State AC
+
+Comment
+
+This file contains scanned images of a Well Completion Report submitted
+under Australian Government legislation . The data in this file are made
+available to assist future explorers for petroleum and may be distributed
+freely .
+
+Please refer any queries to
+
+Geoscience Australia
+
+Data Repository
+
+Cnr Jerrabomberra Avenue 4 Hindmarsh Drive
+Symonston ACT 2609
+
+GPO Box 378 Canberra
+
+ACT 2601 Australia
+
+Phone : # 61 2 6249 9222
+
+Fax : 161 2 6249 9903
+
+Email : ausgeodata @ ga.gov.au
+Web Page : http : www.ga.gov.au
+
+
+-----Page 2-----
+
+kp 143616
+
+k. BROWSE : BASIN AO
+PNG
+. CHALLIS14 WELL COMFEETIONYR URIPOR7
+INTERPRETIVE # GLUME
+
+. PREPARED BY : : HD.Wong
+KC
+
+O
+
+Ce : Hapbebo fi
+
+
+-----Page 3-----
+
+ACKNOWLEDGMENTS
+This report was compiled and written with the assistance of the following :
+
+Mel Osborne Principal Production Geologist
+Robert Cowley Snr Production Geophysicist
+Mark Lemaire Data Administrator
+
+Angelo Mustica Technical Assistant
+
+Fa a NI
+
+-----Page 4-----
+
+TABLE OF CONTENTS
+
+Page
+1 WELL INDEX SHFET ... a . 1
+2 WELL SUMMARY . 2.22 3
+3 HYDROCARBONS ..... 4
+31 . Hydrocarbon Occurrences ...... 4
+4 STRATIGRAPIHY ............ PA 5
+41 Tertiary 0 ... 5
+4.2 Cretaceous ...... 6
+43 . Triassic ........ 8
+5 STRUCTURE .... 2 . 10
+6 CONCLUSIONS 2 11
+FIGURES
+Location Map
+2 Challis Field Stratigraphy
+KI Predicted versus Actual Section
+APPENDICES
+1 Petrophysics Report
+2 RFT Report
+3 PLT Report
+4 Conventional Core Study
+ENCLOSURES
+1 Composite Log
+
+-----Page 5-----
+
+LC BHP Peroleum
+
+grupo ocecipot wax cut mx p Development
+
+Pam 05031994 BASIN
+
+Kawan ain O a ACILI
+ww rr 1a long
+
+STATUS Oil Producer
+
+Fenelon 1091.5 76 Calcareous Claystone and
+Claystone .
+1167.5 Calcareous Claystone and
+Marl and Claystone .
+1265 12385 KU Calcareous Claystone .
+DH 1320 1293.5 KE Claystone .
+1375 13485 as Glauconitic Claystone .
+Top C3.23.3
+Base C3.23.3
+Top C4.0
+Base C4.0
+Top C5.0
+Base C5.0
+Top C5.15.2
+Base C5.15.2
+Top C6.0
+
+Interbedded Sandstone and
+21 Claystone .
+25
+25
+11
+5
+
+
+-----Page 6-----
+
+Challis14 Well Completion Report Interpretive Volume
+
+
+
+1398.8 1423.5m 23.6m ( 96X )
+
+
+-----Page 7-----
+
+Challis14 Well Completion Report Interpretive Volume
+
+2
+
+WELL SUMMARY
+
+Challis14 was drilled as a development well within the Challis oil field 395m south
+west of Challis6 and 1030m east northeast of Challis3 . The proposed total depth of
+1674mRT was prognosed to be within the Triassic Pollard Formation of the Sahul
+Group .
+
+Challis14 was designed primarily as a new drainage location for the north eastern part
+of the Challis horst to develop the C3.23.3 reservoir . The well intersected all
+sedimentary sequences as prognosed with only minor depth variances .
+
+Two cores were cut from the interval 1393.6 1423.5mRT at the top of the Challis
+Formation with very good recoveries ( 9826 Core1 and 9696 Core2 ) .
+
+A gross hydrocarbon column from 1401 1434.5mRT was intersected extending over .
+the C3.23.3 sand and the top two metres of the C4.0 sand . The well has a total net
+pay of 22.5m average porosity of 2996 and average water saturation of 3896 .
+
+The well was completed as an oil producer and the rig was released on 5th March
+1994
+
+70920.WCR
+December 1994
+
+-----Page 8-----
+
+Challis14 Well Completion Report Interpretive Volume . 4
+
+3
+
+3.1
+
+HYDROCARBONS
+Hydrocarbon Occumences
+
+There was no direct hydrocarbon fluorescence or significant gas readings in the
+Tertiary and Cretaceous sections .
+
+Ditch gas readings rose to about 1096 consisting of C1iC4 over the 1400 1420mRT
+section . Below this depth the background gas reduced to between 0.010.295
+consisting dominantly of C1 .
+
+Core chips from 1393.6 1423.7mRT show 9010096 bright greenish yellow direct
+fluorescence with instant moderately bright yellowish white cut and a solid very bright
+yellow residual fluorescence .
+
+Log interpretation ( Appendix N carried out over the interval 1350 1664mRT revealed .
+that the C3.2C3.3 sand was encountered five metres lower than prognosed at 1398m
+and was 21 metres thick ( cf . prognosed 20m ) . The C4.0 C5.0 CS . 15.2 C6.0 and
+Pollard Formation were 8 also intersected by Challis14
+
+An oil water contact is interpreted at 1434.5m intersecting in an upper stringer of the
+C4.0 sand . This oil water contact is 2.5m higher than the original field wide contact of
+1437m and it is likely that this reservoir unit is hydraulically isolated from the C4.0
+perforation in Challis6 ( C4.0 producer ) . 8 The observed rise in the oil water contact is
+likely to be due to Challis6 production from the C4.0 sand which is currently
+producing with 7596 water cut .
+
+The gross hydrocarbon column ( 1401 1434.5mRT ) extends over the C3.23.3 sand
+and into the top two metres of the C4.0 sand with a total net pay of 22.5m average
+porosity of 2946 and water saturation of 3896 .
+
+From RFT pretest data ( refer Appendix 2 ) an oil gradient of 1.01 psim was observed
+down to 1410.5m . The fluid in the C5.0 C5.15.2 and Pollard sands was shown to be
+water with varying degrees of depletion from the original reservoir conditions .
+Depletion was greatest in the C4.0 sand mainly due to the fact that Challis6 is closer
+to Challis14 than other producers .
+
+No RFT samples were attempted nor was production testing carried out . PLT surveys
+carried out show the following results :
+
+( 4 ) a final PI of 70stbpsi was measured
+
+( ii ) 8 temperature logs indicated flow contributions from C3.2C3.3 reservoir at
+interval 1403 1409mRT and a stringer sand at 1415 1417mRT
+
+( iii ) 8 gas break out occurred at 1160 1450psia and the likely bubble point pressure
+of 1160psia of 64.9C was estimated .
+
+The PLT report is presented in Appendix 3
+
+T0920.WcR
+December 1994
+
+-----Page 9-----
+
+Challis14 Well Completion Report Interpretive Volume 5
+4 . STRATIGRAPHY
+Challis14 intersected a sedimentary sequence ranging in age from Recent to Triassic .
+A generalised stratigraphic column for the Challis.field is presented in Figure 2 . The
+Actual versus Predicted section is presented in Figure 3 . Delineation of age units is
+based on stratigraphic correlation with nearby wells .
+
+. A summary of the lithological sequences intersected is given below . The composite
+log ( Enclosure 1 ) contains more detailed age lithology and drilling data . No ditch
+cuttings were obtained above 534mRT .
+
+The stratigraphic sequences are discussed in descending order .
+4.1 . TERTIARY
+Woodbine Group
+
+.B ut liver Formati
+Depth : Seafloor to 478mRT
+Thickness : 352.5m
+Age : Miocene to Recent
+As no ditch cuttings or open hole wireline logs were obtained over the entire Miocene
+interval the base of the Miocene was picked based primarily on the drill curve and
+cased hole gamma ray log . From nearby wells this section generally consists of
+bioclastic calcarenite and a basal quartzose sandstone .
+
+Hibernia and Grebe Formations
+
+Depth : 478 806mRT
+
+Thickness : 328m
+
+Age : Eocene
+
+The Eocene section comprises sediments from the base of the Oliver Sandstone
+Member to the base of basal carbonate member in the Grebe Formation .
+
+No ditch cuttings or open hole wireline logs were obtained above 534mRT ( within
+Hibernia Formation ) in this section .
+
+The Hibernia Formation lies unconformably beneath the Oliver Sandstone Member and
+is 238m thick . Ditch cuttings indicate the sequence consists of predominantly
+yellowish grey moderately hard to hard fine to medium . grained calcarenite with
+abundant calcite recrystallisation trace to minor fossiliferous fragments and nil to poor
+intergranular or crystalline porosity .
+
+
+
+December 1994
+
+-----Page 10-----
+
+Challis14 Well Completion Report Interpretive Volume 6
+
+4.2
+
+Below 716mRT lies the Grebe Formation which has a thickness of 90m . The
+formation comprises of predominantly medium to coarse grained : sandstone which
+grades to fine with depth to dolomite and calcarenite .
+
+The base of the.Grebe Formation was picked based on the change of lithology from
+calcarenite to calcilutite without significant change in the cased hole gamma ray log .
+
+Johnson Formation
+
+Depth : 806 1002mRT
+Thickness : 196m
+Age Paleocene
+
+The Johnson Formation is composed of low GR ( clean ) carbonates in the interval
+between the disconformably overlying Grebe Formation and the disconformably
+underlying marlclaystone Cretaceous Borde Formation . Lithologically the formation
+consists mainly of calcilutite which is white to very light grey moderately hard to
+hard cryptocrystalline with abundant calcite recrystallisation and minor to common
+fossiliferous material . It grades in part to very fine grained calcarenite and contains
+trace to minor argillaceous materials with depth .
+
+CRETACEOUS
+
+The Cretaceous section consists of interbedded marls calcareous claystones and
+claystones . The Cretaceous sediment unconformably lies above the Triassic clastic
+sequence and disconformably below the Paleocene carbonates . ag
+
+Bathurst Island Group
+
+Borde Formation
+
+Depth : 1002 1118mRT
+Thickness : 116m
+Age : Maastrichtian
+
+The youngest Cretaceous unit is the Borde Formation which represents a midouter
+shelf environment of deposition . The top disconformity is defined by the change in
+lithology from calcilutite to marl . In nearby wells the top is represented by a sharp
+increase in sonic transit time and a decrease in resistivity measurement . No sonic or
+resistivity logs were obtained in this well . The Borde Formation consists of
+interbedded medium light grey marls and medium dark grey claystones which are soft
+sticky with common olive grey argillaceous material and contains traces of glauconite
+pyrite forams and inoceramus .
+
+70920.WwcR
+December 1994
+
+-----Page 11-----
+
+Challis14 Well Completion Report Interpretive Volume . 7
+
+Fenelon Formation
+
+Depth : 1118 1194mRT
+Thickness : 76m
+Age : Santonian Campanian
+
+The Fenelon Formation disconformably underlies the Borde Formation and also
+represents a period of mid to outer shelf deposition . The unit consists of medium dark
+grey calcareous claystone and dark grey claystone with common argillaceous material
+and traces of microcrystalline pyrite inoceramus fragments and forams .
+
+The top of the unit is marked by a sharp decrease in sonic transit time a slight
+decrease in GR reading and a slight increase in resistivity measurement .
+
+Gibson Formation
+
+Depth : 1194 1265mRT
+Thickness : : 7lm
+Age : Coniacian Santonian
+
+The Gibson Formation underlies the Fenelon Formation and represents an outer shelf
+environment of deposition . The unit consists of medium grey to light brown
+calcareous claystones light grey marl and medium grey to olive grey claystone .
+
+The top of the unit is marked by an increase in resistivity measurement and a decrease
+in sonic transit time .
+
+Woolaston Formation
+
+Depth : 1265 1320mRT
+Thickness : 55m
+Age : Turonian
+
+Sediments within the Woolaston Formation were deposited in a midshelfal .
+environment of deposition . The unit consists mainly of calcareous claystones of pale
+yellowish brown to light olive grey with traces of microcrystalline pyrite and
+inoceramus . It also contains minor to common medium grey to olive grey argillaceous
+materials and trace to minor quartz silt with common carbonaceous flecks in places .
+The calcareous claystone grades to and is interbedded with minor mari in parts .
+
+The top of the unit is marked by a decrease in GR reading and sonic transit time
+( increase in interval velocity ) and an increase in resistivity measurement .
+
+T0920.WCR
+December 1994
+
+
+-----Page 12-----
+
+Challis14 Well Completion Report Interpretive Volume 8
+
+4.3
+
+Jamieson Formation
+
+Depth : 1320 1375mRT
+Thickness : 55m
+Age : Aptian Cenomanian
+
+The Jamieson Formation consists mainly of medium grey to medium dark grey
+moderately firm claystones with traces of microcrystalline pyrite aggregates
+carbonaceous specks and inoceramus .
+
+The top of the unit is marked by a slight increase in GR reading and sonic transit time
+and a decrease in resistivity measurement . The underlying disconformity is defined by
+an increase in GR reading and the presence of common pelletal glauconites i in the
+claystone of the Echuca Shoals Formation .
+
+Echu hoals Formation
+
+Depth : 1375 1389.5mRT
+Thickness : 14.5m
+Age ( ? ) Barremian
+
+The Echuca Shoals claystone is very light grey to light greenish grey mottled
+moderately firm with abundant ( up to 7096 ) black fine to coarse pelletal glauconite
+traces fine quartz modular pyrite and inoceramus .
+
+The underlying unconformity is defined by a decrease in GR reading a sharp increase
+in resistivity reading and a sharp decrease of the sonic transit time ( increase in interval
+velocity ) . The base is also marked by the predominantly coarse sandstone of the
+Triassic Challis Formation .
+
+TRIASSIC
+
+The Base Cretaceous Unconformity is defined by the boundary of the glauconitic
+claystone of the Echuca Shoals and the predominantly coarse grained sandstone of the
+Triassic Challis Formation . On the wireline logs it is defined by a sharp decrease in
+sonic transit time sharp increase in resistivity measurements and a decrease in GR
+reading ( claystone to sandstone lithology ) .
+
+The Triassic sequence intersected consists of clastics of the Ladinian Carnian Challis
+and Pollard Formations .
+
+70920.WcCR
+December 1994
+
+
+-----Page 13-----
+
+Challis14 Well Completion Report Interpretive Volume 9
+
+halli rmation
+Depth : 1389.5 1572mRT
+NN Thickness : 182.5m
+Age Carnian
+
+The Challis Formation consists of interbedded claystones and sandstones . The
+sandstones are transgressive bar and shoreface sands and are generally light grey to
+grey predominantly fine grained moderately well sorted with thin laminations of
+micas heavy minerals and carbonaceous material with rare to minor carbonate and
+silica cement . The claystone is generally light grey to dusky green motiled
+moderately hard with common olive grey to light brown argillaceous material traces
+micrite and carbonaceous specks
+
+The top of the Challis Formation is marked by a top of coarse grained sandstone at the
+Base Cretaceous Unconformity defined by an increase in resistivity measurement and
+sharp decrease in sonic transit time . The base of the Challis Formation is defined from
+wireline logs by a sharp decrease of GR reading ( cleaner sands ) and resistivity
+measurement and a slight increase in sonic transit time ( slower velocity ) represented by
+the deltaic sandstones of the Pollard Formation .
+
+Within the Challis Formation the C3.2C3.3 C4.0 C50 C5.5.2 C6.0 were all
+intersected a few meters low to prognosis due to unexpected steep dips .
+
+Pollard Formation
+
+Depth : 1572 1676mRT ( TD )
+Thickness : 104m
+Age : Ladinian
+
+The Pollard Formation underlies the Challis Formation and consists of mainly clean
+thick deltaic sandstones which are fine to medium grained moderately well sorted
+weak to occasionally strong siliceous cement and trace thin carbonaceous laminae . The
+GR log response indicates cleaner and thicker sands when compared to the overlying
+Challis Formation sandstones . This unit was also intersected low to prognosis as a
+result of unexpected steep dips .
+
+70920.WCR
+December 1994
+
+
+-----Page 14-----
+
+Challis14 Well Completion Report Interpretive Volume 10
+
+5 STRUCTURE
+
+The Base Cretaceous Unconformity forming the regional top porosity was intersected
+3m deep to prognosis at 1368mSS . Although the target C3.23.3 unit was intersected
+5m deep to prognosis the 9m sand thickness of the unit was close to the 10m
+predicted . Below the Base Cretaceoous Unconformity the beds had unexpected high
+dips resulting in the reservoir units being intersected low to . prognosis .
+
+The structure of the C3.23.3 unit westsouthwest of the well is the main control for
+the volume of oilinplace . There is some postdrill uncertainty in the form the base of
+the unit should have and its overall thickness . The thickness can not be resolved
+seismically as the unit is very thin and beyond the resolution of seismic data .
+Consequently the volume of oilinplace for the unit may range from 2.5 x 105m to 3.5
+x 10m .
+
+T0920.WCR
+December 1994
+
+
+-----Page 15-----
+
+Challis14 Well Completion Report Interpretive Volume il
+
+6 CONCLUSIONS
+
+The reservoir quality of the C3.23.3 unit is excellent with porosity ranging from 30
+Ng 36946 and permeability ranging from 19 Darcies .
+
+The well is currently suspended as a future C3.23.3 oil producer .
+
+3 ere5Z5ZQEQrhHhHAvIIIf6 @ ( ) ( @ # @ @ 5Z5Z9 ? AA DDZ999d kfd @ mui78888ai9aaaim mx
+
+70920.WCR
+December 1994
+
+
+-----Page 16-----
+
+CHALLIS14 ( ACL3 )
+LOCATION MAP 6G BHP
+
+124 5700E 124 5800E 124 5900E . 125 0000E 125 OT0CTE 125 0200E 125 0300E
+
+Mg 12 05 00S
+
+CHALLIS 9 CHALLIS 11
+
+CHALLIS13 @ 12 06 0os
+CYPRESS 1
+CHALLIS 7 @ e CHALLIS 8
+
+o CHALLIS 6
+@
+
+CHALLIS : @
+
+CHALLIS 2A 12 07 C0S
+
+CHALLIS12
+CHALLIS 4 @ CHALLIS 10
+
+12 08 05
+
+CASSINI 1
+
+12 09 00S
+NG CHALLIS14
+124006 ... 124 30E 125 00E 125 30E
+1100s
+1130s
+1200s AUSTRALIA
+
+
+12 30S
+
+M : FLW2IWORKUOCMAPSUMO034.PRE
+4th November 1994
+
+Australia Division
+
+Figure 1
+9 BHP Petroleum
+
+
+-----Page 17-----
+
+Challis Cassini Area
+Stratigraphic Sequence
+
+Age .
+Hang
+
+TILTO .
+Miocene UU Undifferentiated
+Ef EL
+LT
+GAN
+
+Oligocene E .
+F YS
+
+Li
+I .
+Paleocene N NN
+AL MAA
+
+Per
+
+
+Late
+
+
+
+TERTIARY
+
+Ha a paa Woolaston Fm
+
+CRETACEQOUS
+
+Early
+
+Echuca Shoals Fm
+
+O a a pA
+VI LIP
+LA
+
+JURASSIC
+HI
+QO
+o
+O
+
+TRIASSIC
+
+KI INA
+
+ciVah95ViwiAts 15.pre ( prev . OG 22580 ) Figure 2
+
+Gp BHP
+
+Author : Tony Slate
+
+Lithology perma Timing of Tectonic Phases
+
+Reactivation of existing
+fauit systems due to the
+collision of NW Australia
+with SE Asian plate
+
+Passive margin growth
+with distinct NESW
+structura ! trends
+
+Main breakup phase .
+Development of NESW
+trending grabens
+
+Development of narrow
+fault controlled basins
+
+Large scale intracratonic
+downwarping sag basin
+phase
+
+Challis Cassini TD
+
+January 1995
+
+
+-----Page 18-----
+
+CHALLIS14 ( ACL3 )
+PREDICTED vs ACTUAL G9 BHP
+
+LINE : CH113 LAT : 12706 41.69 5 ELEV : RT : 28.55m SPUD : 0821994 STATUS : COMPLETED
+SP : 1330 LONG : 125701 5394 E WATER DEPTH : 989m RIG RELEASE : 0531994 RIG : Sedco 708
+Actual
+
+Stratigraphy Tops
+Cya m55
+oo Eaito 8
+
+
+
+
+
+Calcllutita
+
+H
+
+Trassic
+
+7eo
+HUG Kk : T
+
+MAFLW2IWORKIPREDVACTIAM025.PRE Figure 3 . Australia Division
+3rd November 1994 BHP Petroleum
+
+
+-----Page 19-----
+
+G9 BHP
+
+CHALLIS14
+LOG INTERPRETATION REPORT
+
+20 MAY 1994
+
+PREPARED BY :
+
+Simone Chuah
+
+APPROVED BY :
+
+Robert A . # dgarth
+Reservoir Evaluation Manager
+
+rah : sc : 1685ec
+File No : Cha14PPS01R
+
+DATE : 20th May 1994
+
+BHP PETROLEUM PTY . LTO .
+A.C.N . 006 918 832
+
+
+-----Page 20-----
+
+TABLE OF CONTENTS
+
+Page
+INTRODUCTION .... 22 As l
+AVAILABLE DATA ... 222p as 2
+2.1 . Conventional Cores .......... mrn 2
+2.2 Sidewall Cores ........... 0a macs 2
+2.3 TLogsRun ....... e a on n2
+2.4 Wireline Testing ............ a nn 3
+2.5 Production Testing ............ sn 3
+HOLE CONDITIONS ... 2 22 4
+3.1 Caliper ........... 2 2020k ms 4
+3.2 Borehole Fluids ........... 4 22nn 4
+3.3 Temperature .......... 25G conn 4
+4.1 Interpretation Method .............. a ova oneco cno 5 S5
+RESULTS ..... 200w v eo noececo 6
+5.1 Discussion of Interpretation Resulis ............... ec aooen 6
+
+5.2 Summary of Results ............ 0 emanon ca waa . 6
+
+
+-----Page 21-----
+
+Challis14 Log Interpretation Report
+
+1 .
+
+INTRODUCTION
+
+Challis14 was drilled as a development well in the north eastern part of the Chailis
+horst . The well was located approximately 395 m southwest of Challis6.and 1030 m
+east northeast of Challis3 . The primary target was the C3.2C3.3 sand which was
+predicted to be 20 metres thick at Challis14 . The C3.2C3.3 sand was encountered 5
+metres lower than prognosed at 1398 m and was 21 metres thick . The C4.0 C5.0
+C5.15.2 C6.0 and Pollard sands were also intersected by Challis14 . The oil water
+contact is interpreted to be at 1434.5 m and was intersected in the C4.0 sand .
+
+The open hole wireline data was interpreted using Optima a probabilistic
+interpretation method which is incorporated in the Atlas Wireline WDS software
+System .
+
+All depths used in this report are referenced to the rotary table of the Sedco708
+( mRT ) which is 26.5 m above sea level .
+
+Over Ref : 00:1685:00 20 May 1994
+Filo No : Cha14PP801B .
+
+
+-----Page 22-----
+
+Challis14 Log Interpretation Report 2
+
+2 ... AVAILABLE DATA
+2.1 Conventional Cores
+Two conventional cores were in Challis14 through the C3.2C3.3 sands as tabulated
+below .
+Core Depth Recovered Recovery Depth Shift
+( m ) Core ( m ) ( 2 ) ( m )
+1 1393.6 1398.8 5 96 t14
+2 1398.8 1423.5 23.4 95 . t14
+.Conventional core analysis was carried out on 96 regular and 81 alternate plugs by
+ACS Laboratories Darwin . The core was extremely unconsolidated and had to be
+frozen before plugs could be taken . The results of the core analysis are therefore
+unlikely to be representative of reservoir characteristics as the freezing will have
+significantly altered the state of the core . Measured core porosities and
+permeabilities are expected to be higher than original values .
+As the quality of the core was in doubt no overburden pressure tests were conducted
+on the core .
+2.2 Sidewall Cores
+No sidewall cores were taken in Challis14
+2.3 Logs Run
+The Sperry Sun MWD tool was used while drilling Challis14 to collect gamma ray
+directional and resistivity data . MWD was run from the 1336 casing shoe at 1051 m
+to TD ( 1676 m ) .
+Only one suite of open hole wireline logs was run on Challis14 . The logs were run
+in 124 hole after drilling to TD .
+18 February 1994
+DLLMSFLSDTGRAMSCALSP 1051 1661 m
+19 February 1994
+LDLCNLGRAMS 1350 1664 m
+FMSGR 1051 1664 m
+RFTHPG 1402 1649 m
+Our Ref : 9c:1685:0c 20 May 1994
+
+File No : Cha14PP801R .
+
+-----Page 23-----
+
+Challis14 Log Interpretation Report
+
+2.4
+
+Wireline Testing
+
+Thirtytwo RFT pretests were taken in Challis14 on 19 and 20 February 1994 . No
+samples were attempted . An oil gradient ( 1.01 psim ) was observed down to 1410.5
+m. The fluid in the C5.0 CS.15.2 and Pollard sands was shown to be water with
+varying degrees of depletion from the original reservoir conditions . The C4.0 sand
+showed the greatest amount of depletion which is consistent with the fact that the
+C4.0 producer ( Challis6 ) is closer to Challis14 than the other producers . The C4.0
+pretest data indicates that the sand is predominantly water bearing but the fluid in
+the top two metres of the sand ( 1432.51434.5 m ) can not be conclusively identified
+from the RFT information .
+
+Refer to the Challis14 RFT Report for further details .
+Production Testing
+
+No production testing was carried out in this well .
+
+Our Ref : 20:1685:00 20 May 1994
+File No : Cha14PP ! 901R
+
+-----Page 24-----
+
+Challis14 Log Interpretation Report
+
+3 ... HOLE CONDITIONS
+
+3.1 . Caliper ..
+The hole was drilled with a 1244 bit and was severely washed out in the claystones
+of the Echuca Shoals Formation overlying the Challis Formation . However the
+borehole was in relatively good condition through the C3.2C3.3 sand being
+approximately 0.25 overgauge through the top 6 m of the sand and 0.7 overgauge
+in the lower 4 m .
+A 1.12 SG KCIPHPApolymer mud was used to drill the well .
+
+3.2 Borehole Fluids
+
+The following mud data was recorded by Schlumberger normalised to 257C using
+
+the Arps equation .
+Type : KCIPHPA
+KC1 : 5.8k by weight
+Cr : 38000 ppm
+Weight : 1.12 gcm
+R 0.111 ohm.m @ 24C ( 0.108 ohm.m @ 257C )
+
+R. 0.094 ohm.m @ 24C ( 0.092 ohm.m @ 25C )
+R. s 0.156 ohm.m @ 24C ( 0.153 ohm.m @ 25C )
+
+3.3 Temperature
+
+The following maximum temperatures were recorded during logging :
+
+BHT Depth .. Tool : Time After Circulating Time
+( C ) ( m ) Circulation ( hours )
+( hours )
+61 1666 DLL 6.75 . 1.75
+65 1666 LDL 14.17 ... : 15
+68 1666 . FMS 18.17 1.75
+Extrapolated BHT 70 ? C at 1666 m
+Reservoir Temperature . 3 617C at 1406 m
+
+The temperature gradient calculated in the Challis and Cassini Petrophysical Field
+Study ( Aldred 1991 ) was 3.467C per 100 m with an extrapolated average surface
+temperature of 12.6C . These parameters would result in a calculated BHT of
+69.3C for Challis14 which indicates that this well is on the same geothermal
+gradient defined by previous wells in the ChallisCassini field .
+
+Our Ref : 10:1685 : cc 20 May 1994
+File No : Cha14PPS011k
+
+-----Page 25-----
+
+Challis14 Log Interpretation Report 5
+4 QUANTITATIVE INTERPRETATION
+4.1 Interpretation Method
+
+The lithology porosity and fluid saturations for the reservoir section of Challis14
+were determined using the Optima program in the WDS software system designed by
+Atlas Wireline . The mineral and saturation parameters used in the analysis were
+taken from the Challis and Cassini Petrophysical Field Study ( Aldred 1991 ) . A
+table of the input parameters is given in Appendix 1 .
+
+Our Ref : m:168S:0 ! 20 May 1994
+File No : Che14PP801R .
+
+
+-----Page 26-----
+
+Challis14 Log Interpretation Report 6
+5 . RESULTS
+5.1 Discussion of Interpretation Results
+
+Enclosure 1 is a plot of the computed interpretation for the reservoir section in
+Challis14 .
+
+The gross hydrocarbon column ( 14011434.5 m ) extends over the C3.23.3 sand and
+into the top two metres of the C4.0 sand . The oil water contact is masked by a shaly
+interval but there is clearly oil down to 1434.5 m and water up to 1439 m. This is
+consistent with the original field oil water contact which was at 1410.5 m TVDSS
+( 1437 mRT Sedco708 ) .
+
+The saturation cutoff used to define net pay is not satisfied in the sand stringers at the
+base of the C3.23.3 ( Enclosure 1 ) . However the PLT run after the well had been
+perforated between 1395 and 1421 m showed that the sands below 1410.5 m were
+contributing to flow . It is likely that the interpretation underestimates the oil
+saturation through this interval because the log responses would have been affected by
+the washouts .
+
+The core porosity data is plotted with the interpreted log porosity in Enclosure 2 .
+The core porosities are approximately 296 higher than the interpreted log porosities
+across the main oil bearing section ( 1402 141 m ) . Higher core porosities were
+expected because the core had been frozen ( refer to Section 2.1 ) .
+
+5.2 Summary of Results
+Assuming the following cut offs : Porosity 5 18946
+
+Vsh c 5046
+Sw 2 10095
+
+DEPTH SAND GROss NET NTG POR
+
+( mRT ) ( m ) SAND ( 24 ) ( 24 ) ( 24 )
+1401 1434.5 Gross HC 33.5 32.5 97 28 48
+
+column
+
+1432.5 C4.0 ( total ) 25 25 100 28 87
+
+1457.5
+
+1432.5 C4.0 ( oil ) 2 2
+
+1434.5
+
+1434.5 C4.0 ( water ) 23 23 28 90
+
+1457.5
+
+
+
+1472.5 C5.0 ( water )
+1497.5
+
+Our Ref : 3c:1685:60 20 May 1994
+File No : Cha14PPS01R
+
+-----Page 27-----
+
+Assuming the following cut offs : Porosity 5 185
+Vsh 2 505
+Sw x2 505
+
+DEPTH GROSS NET NTG POR Sy
+( mRT ) ( m ) PAY ( FX ) ( 5 ) ( 5 )
+( m )
+1401 1434.5 Gross HC
+
+13981419 C3.23.3 ( oil )
+1432.5 C4.0 ( total )
+1457.5
+1432.5 CA.0 ( oil )
+1434.5
+1434.5 CA.0 ( water )
+1457.5
+1472.5 C5.0 ( water )
+1497.5
+
+
+-----Page 28-----
+
+bd dents paran is ineralycaleledby the program ing sanda char napo ad Fort ae sis
+denotes parameters not recognised by the program
+
+Parameters used by OPTIMA for the water saturation equation :
+
+R 7 OI6 @ 75R a .00
+R 0.094 @ 75.2F .m 1.80
+R 5 20 n 5 L93
+Row 7 13
+
+-----Page 29-----
+
+G9 BHP
+
+CHALLIS14 RFT REPORT
+
+lad bii
+PREPARED BY : R2 . Jellis
+
+Petroleum Operations
+Engineer
+
+Shan hinde
+
+APPROVED BY : T. Mason
+. Senior Petroleum
+4 Operations Engineer
+
+api G
+MANAGERS APPROVAL : K. Edwards
+
+Petroleum Operations and
+Quality Systems
+
+Superintendent
+
+RJ3291 : rjCHA13.02.12
+DATE : 27th May 1994
+
+BHP PETROLEUM PTY . LTD .
+A.C.N . 006 918 832
+
+-----Page 30-----
+
+TABLE OF CONTENTS
+
+Page
+OPERATIONS SUMMARY ........ 3 0 ana a a 1
+CONCLUSIONS ... 2a . 1
+RFT OBJECTIVES .... 0 2 conan 2
+RET PRETEST INTERPRETATION ...... 2
+4.1 Pressures . ..... Gano ocn 2
+42 Reservoir Fluid Gradients ........ 00.00 00t . s0 la ... 3
+4.3 C3.2C3.3 Reservoir . ........ 43 a waw cccyn 3
+4.4 . C4.0 Reservyoip ..... Goa no 3
+4.5 C5.0 Reseryoit ....... Ave c oon 4
+4.6 . C5.1C5.2 Reservoir ....... 04 ao oo ... 4
+4.7 Pollard Formation ...... 3 saaan o o 4
+4.8 Fluid contacts ...... 2 4240s a a ac oa . .. d4
+RFT SAMPLES ... 0.04 0 ct asaan 5
+
+
+-----Page 31-----
+
+LIST OF TABLES
+
+L .
+
+2 .
+
+Well Data
+
+Pretest Data
+
+LIST OF FIGURES
+
+l .
+
+2 .
+
+Location Map
+
+Log Section showing Pretest Depths
+RFT Pressure Data
+
+Pressure Depletion by Sand Unit
+
+Pressure Depietion by Sand Unit Comparison with Challis12
+
+-----Page 32-----
+
+Challis14 RFT Report . l
+OPERATIONS SUMMARY
+
+Challis14 was spudded on 6 February 1994 in permit AC1L3 ( Figure 1 ) to develop
+the C3.2C3.3 sand of the Challis Formation .
+
+A single RFT run was made on 19 and 20 February over the interval 1402.5 mRT to
+1649.0 mRT with a total of 35 pretest attempted ( 28 pretests were successful 1 was
+tight 2 were unrecognisable and 4 were seal failures ) . The pretests attempted at
+1396.0 mRT and between 1418.0 mRT and 1423.3 mRT were taken coming out of the
+hole and were tests for flow only .
+
+Table summarises the basic we ! l data .
+
+CONCLUSIONS
+
+2.1 All the reservoirs tested were depleted relative to the original pressures
+measured by the Challisi RFT as summarised below :
+
+Reservoir Pretest Interval
+mRT
+
+C3 . 21C3 . 3 1402 . 5 to 1410 . 5 1786 to ) 180
+
+
+
+
+Notes : 1 . Datum is 1410 m55 ( 1436.5 mRT for Challis14 ) .
+
+2 . Preasures aro datum corrected using original Challis1 fluid gradients
+Coil 1.04 psim water 1.43 psim ) .
+
+2.2 The oil bearing sand stringer at 1396 mRT had little permeability ( measured
+mobility was 47 mDcP ) .
+
+2.3 Formation pressures measured in the C4.0 sand are under the influence of the
+well drawdown of Challis6 which produces this reservoir . For this reason
+they should not be taken as a true indication of the current reservoir pressure .
+
+RJ3291 : rjCHA 13.02.12
+27th May 1994
+
+
+-----Page 33-----
+
+2.4
+
+2.5
+
+2.6
+
+Chaliis14 RFT Report 2
+
+The almost uniform depletion in the C3.2C3.3 C5.0 C5.1C5.2 sands is
+highly suggestive of pressure communication via the aquifer . In that case the
+C4.0 sand would also be in communication with the above sand units as the
+C4.0 is between the C3.2C3.3 and C5.0 . This is further supported given that
+the C4.0 had the same depletion as the C3.2C3.3 at the time Challis12 was
+drilled .
+
+The Pollard Formation is either not in communication with the Challis
+Formation or any communication is via a tortuous route .
+
+The C3.2C3.3 sand is not in pressure communication with the C3.0 reservoir .
+
+RFT OBJECTIVES
+
+The two main objectives of the Challis14 RFT program were as follows :
+
+a .
+
+To determine the reservoir pressures in all penetrated Challis Formation and
+Pollard Formation sands .
+
+To establish the pressure gradient in all sands and identify any wateroil
+contacts .
+
+RFT PRETEST INTERPRETATION
+
+4.1
+
+All pretest data are listed in Table 2 . The positions of the pretests are shown
+on the iog section ( Figure 2 ) . In all 35 pretests were attempted ( 25 in the
+Challis Formation and 10 in the Pollard Formation ) .
+
+The pretests designated 30 30A 31 31A and 32 were all taken while POOH
+to establish if the stringer sands in the oil would flow ( ie . had any
+permeability ) . Due to hysteresis effects temperatures and pressures recorded
+at these points were not included in any of the interpretation . Only one of
+these pretests was successful ( 1396.0 mRT ) however it had little permeability
+as indicated by a drawdown mobility of 47 mDcP .
+
+Pressures
+Valid formation pressures were recorded on 28 pretests ( Figure 3 ) . All the
+
+sands tested were depleted to varying degrees relative to the original pressures
+measured by the Challis1 RFT ( See Section 2.1 Figure 4 ) .
+
+RJ3291:1jCHA13.02.12
+27th May 1994
+
+
+-----Page 34-----
+
+4.2
+
+4.3
+
+4.4
+
+Challis14 RFT Report 3
+
+Reservoir Fluid Gradients
+
+No fluid gradients were calculated . It is highly unlikely the gradients derived
+
+from formation pressure data is solely the result fluid pressure . Each sand
+
+intersected by Chailis14 was pressure depleted due to production ( either
+directly or via the common aquifer ) from the Chaliis Field .
+
+As a result of reservoir heterogeneities the pressure depletion of each reservoir
+is unlikely to be uniform ( differential depletion ) and so any fluid gradients
+derived from this data would be a misrepresentation of the true fluid density .
+Also there is no reason to believe that aquifer composition has changed
+
+significantly since the start up of production . The water density should be the
+
+same as Was established in Challis1 .
+
+C3.2C3.3 Reservoir
+
+Five successful pretests were taken over the interval 1402.5 mRT to 1410.5
+
+mRT ( the C3.2C3.3 sand ) with the open hole logs showing a clean sand with
+a high oil saturation . The C3.2C3.3 sand was depleted by approximately 179
+psi indicating that the sand is in communication with other Challis Formation
+producing reservoirs via the aquifer . The pressure depletion of the C3.2C3.3
+sand indicates it is not in pressure communication with the C3.0 reservoir as
+this sand is pressure supported via water injection and is currently above
+original Challis Field reservoir pressure .
+
+Comparing the results of Challis14 with the formation pressures measured by
+Challis12 in the C3.2C3.3 sand ( Figure 5 ) only minor pressure depletion
+( about 7 psi ) has occurred since Challis12 was drilled in July 1992 .
+
+C4.0 Reservoir
+
+Twelve Pretests were attempted over the interval 1433.5 mRT to 1457.0 mRT
+( C4.0 sand ) resulting in ten good tests and two which gave an unrecognisable
+response ( three attempts were made to get a good test between 1435.3 mRT
+and 1435.7 mRT ) . The pressure measurements taken in the C4.0 sand implied
+the C4.0 aquifer was depleted by 320 to 382 psi over the interval tested . If
+these were true reservoir pressures it implies a further 200 psi ( approximately )
+depletion since the Challis12 RFT was taken in July 1992 ( Figure 5 ) . At the
+time of Challis12 the C4.0 reservoir pressure was in line with that measured
+in the C3.2C3.3 sand . Since then the pressures measured by the Challis14
+RFT imply the C4.0 sand has been depleted by a further 200 psi yet only 3655
+of the total fluids produced to date have been withdrawn between the drilling of
+Challis12 and 14 . Given this conflicting data it is almost certain that the
+pressure measurements taken over this interval were under the influence of the
+drawdown from Challis6 which produces the C4.0 reservoir and is only 400
+m to the NE of Challis14 .
+
+RJI3291 : rjCHA1302.12
+27th May 1994
+
+
+-----Page 35-----
+
+4.5
+
+4.6
+
+4.7
+
+4.8
+
+Challis14 RFT Report 4
+
+Given the almost uniform depletion of the C3.2C33 C5.0 and C5.1C5.2
+sands it is not unreasonable for the unaffected aquifer pressure to be depleted
+by a similar amount . Assuming an average depietion of 170 psi the unaffected
+aquifer pressure of the C4.0 in the middle of the sand ( 1445 mRT ) would be
+approximately 1920 psia .
+
+C5.0 Reservoir
+
+Two successful pretests were taken at 1488.0 mRT and 1496.0 mRT ( C5.0
+sand ) . Both measurements in the sand indicated a reasonably uniform depletion
+of 152 psi from the original Challis1 pressure gradient and from the relative
+amount of depletion this sand is in communication with other Challis
+Formation reservoirs via the aquifer .
+
+C5.1C5.2 Reservoir
+
+Two successful pretests were taken at 1509.0 mRT and 1516.0 mRT
+( C5.1C5.2 sand ) . Both measurements in the sand indicated a reasonably
+uniform depletion of 146 psi from the original Challis1 pressure gradient and
+from the relative amount of depletion this sand is in communication with other
+Challis Formation reservoirs via the aquifer .
+
+Pollard Formation
+
+Fight successful pretests were taken over the.interval 1574.0 mRT to 1649.0
+mRT ( Pollard Formation ) . The formation pressures measured in the Pollard
+indicated a reasonably uniform pressure depletion of 22 psi from the original
+Challis1 pressure gradient . Given the small amount of depietion in this
+formation compared to the depletion in the aquifer of the Challis Formation
+
+either this sand is not in pressure communication with the sands of the Challis
+
+Formation or if they are in communication the pathway must be tortuous .
+
+Fluid contacts
+
+No fluid contacts were observed .
+
+RJ3291 : rjCHA13.02.12
+27th May 1994
+
+
+-----Page 36-----
+
+Challis14 RFT Report
+
+ih
+
+S. RFT SAMPLES
+
+No samples were taken .
+
+Na
+6 . REFERENCES
+Chailis1 Well Completion Report .
+Challis12 RFT Report June 1993 Cameron Remeljej
+Na
+Ng
+
+RJ3291 : rjCHA13.02.12
+271th May 1994
+
+
+-----Page 37-----
+
+Well :
+Permit :
+
+Location :
+
+Rig :
+Seismic reference Line :
+
+RT Elevation :
+Water Depth :
+
+Well TD ( 12 12 Hole ) :
+
+Spud Date :
+Date Reached TD :
+Well Status :
+
+Casing Points :
+
+Reservoir Tops :
+
+Datum Depth :
+Pressure at Datum :
+Reservoir Temperature :
+
+Table 1
+
+Challis14
+
+ACL3
+
+Lat : 12 ? 06 41.69 South
+Long : 125701 53.94 East
+
+Semi Submersible MODU Sedco708
+CH113 SP1330
+
+26.5 m above MSL
+
+100 m .
+
+1676 mRT
+
+6 February 1994
+
+18 February 1994
+Completed waiting tie back to Challis Venture
+
+20 530 mRT
+
+13 38 1050 mRT
+
+9 58 1666 mRT
+
+C3.2C3.3 1398 mRT to 1419 mRT
+C4.0 1432.5 mRT to 1457.5 mRT
+C5.0 1472.5 mRT to 1497.5 mRT
+C5.1C5.2 1507 mRT to 1518 mRT
+C6.0 1538 mRT to 1543 mRT
+Poliard 1572 mRT
+
+1410 mS5S
+
+1871.5 psia ( C3.2C3.3 )
+
+TO C
+
+
+-----Page 38-----
+
+above MSL :
+
+O
+
+CHALLI514 RFT DATA
+Challis14 Date : 1920 February 1994
+Sedco708 Run no . : 1
+265m KP gauge no . : 900
+
+Initial Hydrostatic Pressure ormalion Pressure 8 Temperature Final Hydrostatic Pressure Drawdown
+o a a a Sin HP Mobi Comments
+a s3760 11:54pm 22414 22455 1a625 socaa s7 22411 22452 s1
+3 . 4085 . 4380.6 4254AM 22478 22518 18666 19684 5114 2249 22515 isid4
+6 . 14330 14065 01:53AM 4 22833 22947 . 7 . 55i 2668 294
+6A . 4 1433.5 14070 02:04AM 22911 . 722951 . 17526 17538 593 N2015 2952 95838 7
+LU ? # 4340 14075 0225AM 72525 229656 7 175337 17545 s7 202 283 S41 .
+8A 44357 14092 03:01AM 22058 2091 . 71 7p AA eopnabie Test
+88 14353 14088 03:20AM 22950 220890 i70377 i7055 6047 29517 0627 GoodTed
+9 44395 14130 03:41AM 23016 2305377 17041 i7049 608 29019 23051 1298 GoodTed
+L .. 16 . 14425 44160 04:10AM 23053 23097 17079 747073 611 23081 23093 653 GoodTes
+11 . 44445 14180 04:32AM 23051 . 23129 17106 17i6 612 . 220911 231297 597 GoodTet .
+112 . 44450 14195 04:54AM 23116 23153 17135 17137 6i7 . 2326.1 23157 f io3 GoodTed
+13 450.0 14235 05:23AM 23185 292127 17143 17150 Gio 23189 2213 f 1272 . GoodTesi
+14 14530 14265 05:40AM 29225 723264 ( 7191 17194 23 239231 23262 6172 GoodTet .
+15 . 14570 14305 08:00AM 23201 23327 47248 17250 625 2290 233217 715 GoodTet
+46 . 14880 14615 06:4JAM 23781 23815 1os2 isa wa 2797 29818 isa3 Goodled
+14695 ( 07:18AM 23907 73944 . 200857 70i06 64.1 2395 2342 7135 . GoodTed .
+18 15090 14825 07:33AM 724110 24147 20334 20557 65 24106 124145 4 1357 . GoodTesd
+20 . 15740 15475 05:25AM PJ 25135 2517.5 224955 22527 667 25135 7 251741 17098 GoodTest
+21 . 45790 15525 08:42AM 2521p 25255 70558 225995 6747 2211 25255 51786 . Goodles ...
+1560.5 08:54AM 25347 . 25355 22670 22712 6747 25341 25386 4959 GoodTesi ..
+1 23 15930 1566.5 09:06AM 25430 25473 227637 207977 676 . 254925 25470 35282 . GoodTed .
+1 24 16020 2289.5 27030 673 125573 25516 138 GoodTes .
+25 1611:06 15845 pped as pe criterion set program .
+KN 26 16170 15905 03:43AM J 258095 25855 23110 T 23144 664 Y 25910 25555 16526 7 Goodles .
+1 28 16380 16115 10:01AM 26139 26157 23416 23450 6822 26144 2604 1204 Godiet .
+29 16480 16225 10:15AM 26315 26366 723574 23665 604 26315 . 26361 579795 . Goodiest
+801 14233 13968 ( 10:36AM 22754 2204 CT UE O TA 1
+
+
+
+
+
+1 and 6 gallon sample chambers both with water cushions and using 4 x 201000 chokes
+
+Reference Log DLLMSFLSDTSP dated 18 February 1984 .
+Notes :
+
+( 1 ) The difference between the HP and Strain gauge should be 14.7 psi however ihe sirain gauge offsei was not correct Relative readings on tho sirain gauge dre slili valid
+( 2 ) These pretesis were taken while POOH to qualitalively establish if Now was possible from these sands .
+
+2 @ jqe
+
+
+-----Page 39-----
+
+1.2 LOCATION MAP
+
+Permit No .
+
+Rig
+Latitude
+Longituda
+
+CASSINI2 KO
+
+( f
+Wa
+
+UA
+
+
+
+12490 12500 12590 12600
+
+WELL : CHALLIS14
+
+ACL3
+SEDCO 708
+12706 41.63s
+
+12501 53.94E
+
+p @ an61 4
+
+-----Page 40-----
+
+CHALLIS14
+
+ENY CORRECTED DEPTH MATCHED DATA
+
+Figure 2
+
+ud ENIBUNGNNE
+a Hani
+HR : PRRRURA Ex 9 KAHIUN AGE
+
+Bail Pas NYT
+BILI BIT HAAG ab ben
+LO AA HU TA fi
+LEFT TU Tha a a Na
+
+LAAL DIBRPGLNN CHUN HE 524V0RNNANUNENUD7ARD
+Ce PRA CN PAA
+BESBRTAKYN # CUUN RANA PU Bo KANEDENEN
+CA NEH HAPIHALHH HIL
+
+FLU TUNING
+
+
+Ha :
+TIl ! IEL Hk a HIT KUNAN G KUNEF TUNIDUNURENUEEE
+
+0 #
+Ha PINABHE
+
+HAHAAH
+BEAEGEANNE
+BESRANDIHE
+NESNEdYUNE
+Hi bi URHE
+
+HEH RU PAGAN AY Ans : iii
+LU UE baa HY
+
+ERAUE TANOD
+AM
+EERAN YAHNE
+
+Cs BA SER RAABA N Hr
+
+
+lik
+BEY AJAND
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+TUT
+ES :
+a
+
+LIPA Kali
+
+LUHAAN LL
+
+NNUPBIEE MALANLLL PUNHAIULAKA
+MA SUIT 3f LAAN
+
+AMU IBA ? . FIL AN
+
+HUAN HIALH
+LL
+
+KUUI ! II BN
+
+IDE LA
+KH
+JUN THAT
+
+HUN
+HALAL
+
+Ul KNA TSE
+UWE ALA TIN LU 1
+
+LUH BN ANH
+BAHI ! ! 2 @ ER
+HU UH capo LI
+UG LA AH
+Bil ! SAMBA ARA
+LIMRM TCIN ais begd TU
+Hk
+NG AN
+HA LL
+
+ULAN HI lil
+EDSA HE HOO
+EBA LUH LA LL P1
+ULA LIT IMA
+
+Bili
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+NI
+
+kas ? AN
+
+ULO
+UI LIA gU
+
+H !
+HUBRURAPABDHNEHEDAN
+ANENDEPANUEHILEE
+
+-----Page 41-----
+
+PAH HAH 3A AB
+
+MAC BAAN P HA BHY bet
+LIN LU LIB LA LINE Mg
+
+DU CU LI PT
+
+LA LL HIHI
+BEANO BB
+
+LUNA LT KI !
+Biik . WEN ! HAB
+
+LI m HAI
+NA IHiiMBA DIA
+
+LUIKL LIBA HA H
+BANGA ! BALI
+BREHASYAHI ! GN
+BATT AA BABA
+AHM BANA
+NAGA
+
+5
+HALO NN
+LIE LULU
+BAL WI
+EPAL LIN
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+tt
+IA
+HANE
+
+
+
+Bi
+
+
+
+
+HAIN
+
+
+
+
+
+
+
+
+
+
+
+
+HUGE Stn da
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a MIUNUNE
+
+a HAH
+
+-----Page 42-----
+
+PENTEL Ras
+NEA P IL
+tit H Hg
+
+HAAN Hit
+NP
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+MNL PH III
+Bian : : IOBDE DEI OB
+LE LE
+NB ?
+IL LL
+UNA AA
+ak TUITION
+Hat HAN Ha
+LU AN
+nn : Hill
+
+IN N
+ULA UA LI TI
+Kiki SA AA UH
+DL NN
+LA PA Ha
+UMA BANA LIHIM ul
+EULA BANNA
+
+
+
+LUN
+Ha
+
+PUfG HEH Hi
+EhOHBMEBL ! ! IHI
+
+EU Fall
+
+# P A
+BE
+NAG ABA BAL
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+HA WU
+
+BEANS NANNE FE HG TITA
+
+
+HAN EI Hi pa 1
+
+NANP223NUBNININSANND UOD
+si LL 8 UI
+KEKUNUNEZINDNE
+
+HEH
+
+PH
+NU SHIT nan
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+a
+
+HBE
+HH EAHANNGSKAYANANDI RAD
+
+LU Pag
+
+MA LA NAGA AH HU HI
+
+HUL HIN INAKO Hit : : JUNNBUENNAN NANBAE0e AA
+BRREBAD 232200 NAAN
+
+
+all
+BANNA HASSAHUHI HUA
+
+HU BAERESSHINL
+
+NPPRDEDIRHID !
+
+GULIESTAUNUSBANATHTI
+UH
+KENGNAKUNNA ANDUN AKON
+BBRNESHIKEBNEAD NTEN
+LUHRTE bisBIQEA
+BUNANDABEA 11 IMAHEN
+AA
+PENNONGSSSENNAN BINHI
+agi
+
+
+
+
+
+
+
+MU METAL
+
+
+
+-----Page 43-----
+
+B3
+LEA
+
+HUNI
+LALIM
+EBUYERANAD
+
+HI HUL
+
+HARGA IBAT
+Hat H ga UU HE
+LENIN TIL
+Jah :
+ak NANA U
+Ba
+DU mO GA HA
+
+NG
+AAH SHE
+LI EWAN ITHII ( HIDE
+LUANE AH
+LULU AH
+
+BAL . LL TUM HULO
+ANTO
+JA Li
+
+
+
+NITA ? LIM LLIRN LIH
+HUN AH LL
+LUN AT THNNL HP
+LL PH
+LUHRS LL
+AN
+UGAT UE LL
+IYA TEH lila
+LIGAW LIU TIL
+Hi tea TUHAN CAI
+AHA LE alan
+HOO IH : HI
+LA LA a NG
+CH sr
+HAI UHUN ? 22ANI
+
+ETO
+HABI NEE N LIJHW 9 Ti Ipa
+LAMA TIL teo HE
+BAAUL III KIM
+haban : fall IHIlase :
+LUN AL LU UG
+LULAN LIL
+HUL HE HAL
+HUH
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+UU
+INGUEZOUERENNNA TAN
+BNEENANEUENNNRENNOT
+
+BUBUENAN
+BUNANSHND HANUNUDI
+HUAN
+
+NADINAKUHUNIE
+HIRIT
+LALA RUNUD TI
+IL P IND
+
+
+
+
+
+
+
+
+-----Page 44-----
+
+Figure 3
+
+2700
+
+2600
+
+2.500
+
+H
+
+i Pa
+
+j #
+
+H ? P
+
+i 7
+
+H #
+
+H Ped
+
+aa
+i i i HP
+H y
+H H Pa am
+
+KA iu H i PAaa Q
+i 7 pti H
+i PA N
+
+
+Xx
+
+N
+nx
+H H H
+Sa a a AA SABA G8868A 486644646444444
+
+bi
+x
+
+H
+i
+2300
+
+F
+N
+x
+
+i
+
+i
+
+NG i i
+
+Poland
+
+Challis1 Water
+N Gfadient
+
+
+
+
+
+H
+
+
+2200
+
+a
+Challis14
+RFT Pressure Data
+HP Pressure ( psia )
+
+1C5.2
+
+N
+x
+sain paing
+mamataan
+i
+
+i i
+i j
+
+
+
+
+
+
+
+2100
+
+Formation
+
+
+H
+
+
+
+
+L
+i
+
+
+2000
+
+H
+
+1
+
+1800 1900
+
+HI
+
+i
+
+H
+
+i
+
+i
+
+!
+
+
+
+Ka
+
+!
+
+
+i i i
+
+a a a a nona waawaknawa mapa
+
+i j i
+
+H
+
+Hi
+
+i
+
+H
+
+i
+
+! H
+i i
+KA AA AA
+
+1700
+
+AA AA
+H
+H
+
+1300
+1350
+1400
+1450
+1550
+1600
+1650
+1.700
+
+a
+py
+
+( ssw ) ipdeg
+
+
+-----Page 45-----
+
+Datum Corrected Pressure ( psia )
+
+s8 5 8 8
+
+2050
+2000
+750
+1700
+1.650
+1600
+
+1.360 . 1380
+
+1400
+
+i
+KA
+i
+
+1420
+
+1440
+
+1460
+
+i
+
+a SG a Hai
+
+
+
+1480
+
+i
+
+
+i i
+a a a k a
+
+H
+H
+
+
+
+
+i
+
+1500
+Depth ( mSS )
+
+
+!
+
+1520
+
+1540 . ) 1560 . 1580
+
+4600
+
+1620
+
+1640
+
+p @ In644
+
+C
+Challis14
+
+Pressure Depletion by Sand Unit
+
+-----Page 46-----
+
+Reservoir Sand Units
+
+6 @ IN614
+
+1750
+1700
+1650
+1600
+
+H
+i
+
+SA AA
+5
+
+1800
+
+H
+
+Datum Corrected Pressure ( psia )
+
+HIN ab K N
+
+wo w CG
+a2 8 5 38
+
+2050
+
+O
+T
+v
+z
+mala
+NI
+
+Challis14
+
+2300
+
+Pressure Depletion by Sand U
+
+Challis14
+
+mparison with Challis
+
+nit
+
+Co
+
+12
+
+(
+
+-----Page 47-----
+
+G @ BHP
+
+CHALLJIS14 COMPLETION FLOWBACK
+PRODUCTION LOGGING REPORT
+
+PREPARED BY : R. Jellis
+
+Petroleum Operations
+Engineer
+
+7 dhil
+
+APPROVED : T. Mason
+Senior Petroleum
+Qperations Engineer
+
+MANAGERS APPROVAL : Ku : Edwards
+Petroleum Operations and
+Quality Systems
+Superintendent
+
+RJ3293 : rjCHA 14.05.02
+
+DATE : 27th May 1994
+
+BHP PETROLEUM PTY . LTD .
+A.C.N . 006 918 832
+
+-----Page 48-----
+
+TABLE OF CONTENTS
+
+OPERATIONS SUMMARY
+
+CONCLUSIONS ......
+
+DISCUSSION ........
+4.1 Initial Flowback ..
+4.1.1 Flow Period 1
+4.12 PLTRunl ! .
+42 Well ReEntry ...
+
+4.2.1 Tool Performance ....... 4. aaa uoy
+
+4.2.2 CCL Survey
+42.3 PLT Runl .
+4.2.4 PLT Run2 .
+4.2.5 Flow Period l
+4.2.6 PLTRun3 .
+4.2.7 PLT Run4 .
+4.2.8 PLT Runs .
+4.3 Productivity Index .
+
+REFERENCES ......
+
+Uh SG NN Aa nG n4 G4 DU CG BU Rg 44A RAHA GL
+
+UNANG kn LB BED GAO 5 RG BBLAGRAGHGRA
+
+ha NA MUN FG RA BA AR BG GNG NAWA AH GG
+
+PAG LA 8 KG Ra BAN NANANA GANU GU GA GG
+
+Th a ma RN NA BAY BUBUO UG AGHA
+
+ua 5 a 8 a x8 B4 4 85 NB BA BG 8 LGE AH AARL
+
+UU BB BANG LA RD h4 o BURGER TYAGA YU SD BG
+
+nr 5 0 nA BARAN NARS AUNG GWARNWUGBA GH Ga
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----Page 49-----
+
+LIST OF TABLES
+
+l .
+
+Challis14 Weli Data
+
+2 . Summary of Results from PLT Runs
+
+FIGURES
+
+1 . Location Map
+
+2 . Initial Flowback Operational Sequence
+
+3 . Weli ReEntry Operational Sequence
+
+4 . Initial Flowback Flow Period 1 ( Clean Up )
+
+5 . Initial Flowback Flow Period 2 ( PLT Run 1 )
+
+6 . Initial Flowback Temperature Logs from PLT Run i ( Flowing Merged Passes )
+7 . Initial Flowback A Temperature History ( One Interpretation )
+
+8 . Initial Flowback Flowing Gradient Survey over Perforations
+
+9 . Initial Flowback Flowing Gradient Survey
+
+10 . Well ReEntry Temperature Log from PLT Run 1 ( Shut in )
+
+11 . Well ReEntry Flow Period 1 ( Clean Up )
+
+12 . Well ReEntry Flow Period 2 ( PLT Run 3 )
+
+13 . Well ReEntry Temperature Logs from PLT Run 3 ( Flowing Merged Passes )
+14 Well ReEntry A Temperature History ( One Interpretation )
+15. . Well ReEntry Flowing Gradient Survey over Perforations
+
+16 . Well ReEntry Flowing Gradient Survey
+
+17 . Well ReEntry Flow Period 3 ( PLT Run 4 )
+
+18 . N Well ReEntry Flow Period 4 ( PLT Run 4 )
+
+19 Well ReEntry Temperature Log from PLT Run 4 ( Flowing )
+
+20 . Well ReEntry Flow Period 5 ( PLT Run 5 )
+
+-----Page 50-----
+
+. Challis14 Completion Flowback PLT Report 1
+OPERATIONS SUMMARY
+
+Challis14 was spudded on 6 February 1994 in permit ACIL3 ( Figure 1 ) to develop
+the C3.2C3.3 sand of the Challis Formation . The well reached a total depth of 1676
+mRT ( 1654 mSS ) on 18 February 1994 . Completion activities commenced on 21
+February 1994 following open hole logs which confirmed the presence of oil bearing
+sands .
+
+Flowback operations commenced at 1830 hours on 27 February 1994 following well
+perforation ( perforated interval 1395 mRT and 1421 mRT ) . A clean up flow back was
+followed by : PLT surveys with the well shut in and flowing ( Figure 2 ) . The flow back
+during the PLT surveys was at a restricted rate as oil production could not be flared
+due to safety concerns ( as a result of an earlier air compressor fire ) . Completion
+activities ended on 1 March 1994
+
+Challis14 was reentered for further PLT surveys on 2 March 1994 to confirm flow
+contribution from the main sand interval ( 1402 mRT to 1411 mRT ) . A total of six
+logging runs and five well flow periods were completed ( Figure 3 ) . Although
+obtaining a spinner survey across the perforated interval was the main objective of re
+entering the well no surveys were obtained despite five attempts .
+
+The total volume of oil recovered from all flow periods was 381 sm ?
+
+Table 1 summarises the basic well data .
+
+CONCLUSIONS
+2.1 . A final productivity index of 70 stbdpsi was measured .
+
+2.2 Temperature logs indicated clean up of the main C3.2C3.3 sand with
+significant flow contribution from the interval 1403 mRT to 1409 mRT .
+
+2.3 Temperature logs indicated a small flow contribution from the stringer sand at
+1415 mRT to 1417 mRT .
+
+2.4 During the flowing gradient survey conducted during the well reentry gas
+break out occurred somewhere in the range 1160 psia to 1450 psia . A most
+
+.likely bubble point pressure of 1160 psia at 64.9 C was estimated from
+statistical analysis of the data .
+
+25 The temperature anomaly identified in the initial flowback could be interpreted
+as due to flow behind casing prior to perforation .
+
+RJ3293 : rjCHA15.05.02
+27th May 1994
+
+-----Page 51-----
+
+Challis14 Completion Flowback PLT Report 2
+
+PRODUCTION LOGGING OBJECTIVES
+
+The three objectives of the Challis14 initial flowback production logging program
+were a3 follows :
+
+a .
+
+To obtain a stabilised flow rate and a bottom hoie flowing pressure to enable
+the calculation of the well productivity index .
+
+To obtain a qualitative indication of the flow contribution over the perforated
+intervals using temperature .
+
+To obtain a flowing pressure gradient and gradiomanometer readings to enable
+vertical flow performance modeiling and to identify at what depth gas break out
+OCCUIS .
+
+The two objectives of the Challis14 well reentry production logging program were as
+
+follows :
+
+a .
+
+To confirm the flow contributions over the perforated intervals using a fullbore
+spinner .
+
+b . To obtain a stabilised flow rate and a bottom hole flowing pressure to enable
+the calculation of the well productivity index .
+
+DISCUSSION
+
+4.1 Initial Flowback
+
+4.1.1 Flow Period 1 ( Clean Up )
+
+Following perforation at 1830 hours on 27 February 1994 Challis14
+was flowed to clean up the well . The well was beaned up to a
+maximum liquid rate of 665 sm ? d on a choke setting of 19 mm . The
+well was shut in at 2115 hours with 17 sm of oil recovered at surface
+( Figure 4 ) .
+
+4.1.2 PLT Run l
+
+Three PLT surveys ( Table 2 ) were conducted over the perforated
+interval ( 1395 mRT to i421 mRT ) . Challis14 was opened at 0214
+hours on 28 February 1994 with the oil rate restricted to approximately
+120 sm ? d for the majority of the flow period as it was decided not to
+flare due to safety concerns ( the concerns arose after a small fire on one
+of the air compressors ) . Production was shut in at 0400 hours
+following the completion of the PLT surveys ( Figure 5 ) . A total of 7
+sm ? of oil was recovered at surface during the flow period .
+
+RJ3293 : rjCHA15.05.02
+27th May 1994
+
+
+-----Page 52-----
+
+Challis14 Completion Flowback PLT Report 3
+
+Two pressure measurements of 1847.4 psia and 1835.2 psia were
+obtained at 1395 mRT with the well shut in and flowing at 130 sm3d
+respectively ( See Section 4.3 for productivity index calculations ) .
+
+Only temperature and strain gauge pressure could be surveyed as the
+gradiomanometer and HP gauge failed during pressure testing and while
+RIH respectively .
+
+The temperature logs indicated flow from the intervals 1402 mRT to
+1405 mRT and 1407 mRT to i409 mRT . These are indicated by the
+inflections in the temperature gradient .
+
+The majority of the flow must have been eminating from the upper
+interval because the temperature gradient is flatter above the interval
+than below it ( indicating there is a greater specific heat ie greater
+flow above the interval than below ) .
+
+This was confirmed by the static temperature profile taken 2 days later
+( Figure 10 ) showing the well had cooled off more above the interval
+than below it and by the flowing gradient survey ( Figure 8 ) . The
+survey showed an oil gradient above 1405 mRT and completion brine
+below which would indicate that any flow below 1405 mRT was
+insufficient to lift the completion brine .
+
+The temperature logs also showed an slightly hotter anomaly in the
+welibore between approximately 1408 mRT and 1419 mRT ( Figure 6 ) .
+The maximum deviation from the underlying wellbore temperature
+gradient was 2 C at 1413 mRT . Over this interval the main sand
+( 1402 mRT to 1411 mRT ) of the C3.2C3.3 reservoir is separated from
+the lower sand stringers by a shalier section ( 1411 mRT and 1415
+mRT ) . One explanation for the anomaly could be cross flow behind
+casing ( prior to well perforation ) heating this shale above the
+geothermal gradient as illustrated in the schematic in Figure 7 . This
+interpretation is based on two assumptions :
+
+i ) The sand stingers below the main sand were isolated and at the
+original reservoir pressure ( these sand stringers were not tested
+during the RFT survey ) .
+
+ii ) The cement bond between the main sand and the lower sand
+stringers was poor . The CBL showed a poor cement bond
+however the CET suggested this was due to a micro annulus .
+
+From the RFT survey the main sand was shown to be depleted by 180
+psi from the original reservoir pressure . If the sand stringers were at
+original reservoir pressure and the cement bond poor flow from the
+sand stringers to the main sand would have occurred for up to seven
+days before the well was perforated .
+
+RJ3293 : rjCHA15.05.02
+27th May 1994
+
+-----Page 53-----
+
+Challis14 Completion Flowback PLT Report 4
+
+This interpretation is further supported by the flowing gradient survey
+conducted over the perforations ( Figure 8 ) . The derived fluid density
+below 1405 mRT was comparable to the completion brine ( 1.13 SG @
+207C ) . This suggests very little or no flow below this point ( if the
+perforations were flowing it was insufficient to lift the brine ) and poor
+clean up of the main C3.2C3.3 sand . With flow coming from well
+above the region of the anomaly there would be very little heat
+dissipated in the few hours between perforation and logging the well .
+
+The temperature anomaly disappeared after a second clean up flow
+when the well was reentered two days later ( see Section 4.2.6 )
+
+A flowing gradient survey was performed while POOH ( Figure 9 ) . The
+change in gradient indicating gas break out was very subtle . A most
+likely bubble point pressure of 1120 psia at 48.6 C was estimated based
+on statistical analysis of the data .
+
+42 Well ReEntry
+
+4.2.1
+
+4.2.2
+
+Tool Performance
+
+A spinner survey across the perforations was the main objective of the
+well reentry . Five unsuccessful attempts were made . During each the
+PLT run the spinner response was lost before reaching the perforations .
+Two spinners types were used ( a fullbore for the first four PLT runs Ai
+and an inline on the final run ) however this made no difference . On
+each occasion only temperature and strain gauge pressure were
+surveyed . The gradiomanometer and HP gauge could not be repaired
+and were not replaced after the initial flowback operations .
+
+The problems with obtaining a spinner response were initialiy thought to
+be hole related . Following the first two PLT runs material fibres were
+found on the tool string at surface ( the material fibres were wrapped
+around the fullbore spinner blades following the first run ) . However
+there was no obvious cause for the loss of spinner response following
+the latter three runs as the spinner functioned normaliy when returned to
+surface . The PLT surveys conducted on the next well ( Skua3 )
+suggested the problem may have resuited from the defective .
+gradiomanometer . The response from the spinner is amplified through
+this tool . Logging runs on Skua3 with a CPLT tool resulted in
+successful spinner surveys
+
+CCL Survey
+
+A CCL survey on high gain was conducted in an attempt to confirm the
+perforated interval . No perforations were identified by the survey .
+
+RJ3293 : rjCHA15.05.02
+21th May 1994
+
+
+-----Page 54-----
+
+4.2.3
+
+Challis14 Completion Flowback PLT Report 5 .
+PLT Run 1
+
+This run was the first # ttempi at spinner calibration and to check for
+cross flow with the well shut in . Two PLT surveys ( Table 2 ) were
+conducted over the perforated interval ( 1395 mRT to 1421 mRT ) . A
+
+. Static pressure measurement of 1852 psia was obtained at 1390 mRT
+
+4.2.4
+
+4.2.5
+
+4.2.6
+
+with the well shut in .
+
+: The temperature logs still showed a hotter anomaly in the wellbore
+
+between approximately 1408 mRT and 1419 mRT however the
+maximum deviation from the underlying wellbore temperature gradient
+had reduced from the 2 C recorded two days earlier to approximately
+0.4 C at 1416 mRT ( Figure 10 ) .
+
+PLT Run 2
+
+No surveys were conducted during this run . This was the second
+attempt at spinner calibration and to check for cross flow with the well
+shut in . The tool was POOH when the spinner response was lost .
+
+Flow Period 1 ( Clean Up )
+
+Following the initial flowback and the first PLT run of the well re
+entry it was evident that Challis14 had not completely cleaned up .
+The well was opened at 2132 hours on 2 March 1994 and beaned up to
+a maximum liquid rate of 1168 sm3d on a choke setting of 25 mm .
+The well was shut in at 2320 hours with 60 sm ? of oil recovered at
+surface ( Figure 11 ) .
+
+PLT Run 3
+
+Twelve PLT surveys ( Table 2 ) were conducted over the perforated
+interval ( 1395 mRT to 1421 mRT ) . Challis14 was opened at 0128
+hours on 3 March 1994 and beaned up to a maximum oil production
+rate of 1114 sm ? d . Production was shut in at 0652 hours following the
+completion of the PLT surveys ( Figure 12 ) . A total of 213 sm of oil
+was recovered at surface during the flow period .
+
+The flowing bottom hole pressure was monitored between surveys . A
+final static pressure measurements of 1762.1 psia was obtained at 1395
+mRT with the well flowing at 1052 sm3d .
+
+The temperature logs indicated the main C3.2C3.3 sand had cleaned
+upwith the major contribution to flow coming from between 1403 mRT
+and 1409 mRT . The temperature logs also indicated a smaller
+contribution to flow from the sand stringer between 1415 mRT and
+1417 mRT ( Figure 13 ) . The temperature anomaly observed in previous
+surveys had disappeared following the earlier clean up flow period
+( Figure 14 ) .
+
+RJ3293 : rjCHA15.05.02
+27th May 1994
+
+
+-----Page 55-----
+
+Challis14 Completion Flowback PLT Report 6
+
+Clean up of the main sand and the small contribution to flow from the
+C3.2C3.3 stringer sands were further confirmed by a flowing gradient
+
+survey conducted over the perforations ( Figure 15 ) . The derived fluid
+
+density over the main sand indicated coil . Below 1412 mRT the derived 8 .
+fluid density was comparable to the completion brine ( 1.13 SG @ 20 C )
+which suggests very little or no flow below this point ( if the
+
+perforations were flowing it was insufficient to lift the brine ) .
+
+A flowing gradient survey was performed while POOH ( Figure 16 ) .
+The change in gradient indicating gas break out was very subtie
+occurting anywhere between 1160 psia to 1450 psia . A most likely
+bubble point pressure of 1160 psia at 64.9 C was estimated based on
+statistical analysis of the data .
+
+42.7 PLT Run4
+
+Four PLT surveys ( Table 2 ) were conducted over the perforated interval
+( 1395 mRT to 1421 mRT ) . Chaliis14 was opened at 0856 hours on 3
+March 1994 and beaned up to a maximum oil production rate of 385
+sm3d ( Figure 17 ) . Production was shut in briefly at 1000 hours with
+the weli reopened at 1014 hours to a maximum flow of 1088 sm3d .
+Production was shut in at 1137 bours following the completion of the
+PLT surveys ( Figure 18 ) . Respective totals of 9 sm ? and 39 sm ? of oii
+were recovered at surface during each flow periods .
+
+The temperature logs indicated similar results to PLT run 3 ( Figure 19 ) . ..
+4.2.8 PLT Run5
+
+This run was aborted before any data was obtained . Challis14 was
+opened at 1313 hours on 3 March 1994 and beaned up to a maximum
+oil production rate of 1190 sm ? d . Production was shut in at 1412
+hours when the production logging program was aborted ( Figure 20 ) .
+A total of 36 sm ? of oil was recovered at surface .
+
+RJ3293 : rjCHA15.05.02
+27th May 1994
+
+
+-----Page 56-----
+
+43
+
+Challis14 Completion Flowback PLT Report 7
+
+Productivity Index
+
+Productivity indices ( P1 ) were measured during the initial flowback and well re
+entry of 40 stbdpsi and 70 stbdpsi respectively . The increase in PI between
+the two measurements can be attributed to the clean up of the well . The PIs
+calculated assume the following :
+
+Well Reentry
+
+Reservoir Pressure Cpsia
+( Based on extrapolated Chailis14 1856.2
+RFT data at 1395 mRT ) .
+
+Flowing Pressure psia
+
+REFERENCES
+
+Challis14 Subsea Completion Programme February 1994 ..
+Challis14 Well Test Data Report Halliburton March 1994 .
+
+Challis14 RFT Report May 1994
+
+RJ3293 : rjCHA15.05.02
+27th May 1994
+
+
+-----Page 57-----
+
+Well :
+Permit :
+
+Location :
+
+Rig :
+Seismic reference Line :
+
+RT Elevation :
+Water Depth :
+
+Well TD ( 12 12 Hole ) :
+
+Spud Date :
+Date Reached TD :
+Well Status :
+
+Casing Points :
+
+Reservoir Tops :
+
+Datum Depth :
+Pressure at Datum :
+Reservoir Temperature :
+
+Table 1
+
+Challis14
+ACIL3
+
+Lat : 12 ? 06 41.69 South
+Long : 12501 53.94 East
+
+Semi Submersible MODU Sedco708
+CH113 SP1330
+
+26.5 m above MSL
+
+100 m
+
+1676 mRT
+
+6 February 19594
+
+18 February 1994
+Completed waiting tie back to Challis Venture
+
+20 530 mRT
+
+13 38 1050 mRT
+
+9 58 1666 mRT
+
+C3.2C3.3 1398 mRT to 1419 mRT
+C4.0 1432.5 mRT to 1457.5 mRT
+C5.0 1472.5 mRT to 1497.5 mRT
+C5.1C5.2 . 1507 mRT to 1518 mRT
+C6.0 1538 mRT to 1543 mRT
+Pollard 1572 mRT U
+
+1410 mSS
+
+1871.5 psia ( C3.2C3.3 )
+
+TO CC
+
+
+-----Page 58-----
+
+Table2
+
+Date Schlumberger Interval Oil Rate Logging Logging
+
+File Number ( mRT smd Direction Speed
+Initial Flowback PLT Run 1
+
+
+
+1439 BEL
+1430250
+
+Well ReEntry PLT Run 1
+
+02Mar94 06:10PM 13951435 Shutin 1800 fbr
+02Mar94 06:17PM 7114351370 Shutin . TIN 1800 .
+Well ReEntry PLT Run 3
+
+13801430 Shut in
+14301380
+
+14301380
+13801430
+
+28Feb94 02:05AM
+
+28Feb94 02:36 AM
+
+28Feb94 03:05 AM
+
+01:05 AM
+01:08AM
+
+03Mar94
+03Mar94
+03Mar94
+03Mar94
+03Mar94 13801430
+03Mar94 02:43 AM 13801430
+03Mar94 14301380
+03Mar94 13801430
+
+01:52AM
+02:10 AM
+
+1800 fbr
+1800 ftbr
+
+Flowing
+
+14301380 1800 fihr
+03Mar94 13801430 1800 fbr
+03Mar94 14301380 1800 ftbr
+
+Well ReEntry PLT Run 4
+14451400
+13801445
+14451389
+14451380
+
+1800 fbr
+1800 fthr
+
+1800 fvhr
+1800 fthr
+
+03Mar94
+03Mar94
+03Mar94
+
+03Mar94
+
+09:27 AM
+
+10:30 AM
+
+
+-----Page 59-----
+
+Figure 1
+
+CHALL.IS14
+LOCATION MAP NG
+
+124.58 124.59 125 . 125.01 125.02 125.03
+
+12.05
+
+12.06 CHALLIS8 @ .
+CHALLISI @
+
+12.07
+
+CHALLISS @
+CHALLIS1 @
+
+@ CHALLIS27Za
+
+@ CHALLI319
+
+CHALLIS4A @
+
+NI
+
+BHP PETROLEUM NORTHERN
+AUSTRALIA
+
+12.09
+
+PETROLEUM TENEMENTS
+
+@ cCAssIN1
+
+12.10 12.10
+124.58 124.59 125 125.01 125.02 125.03
+
+WELL LOCATION
+LONGITUDE LATTITUDE
+
+125 deg 00 16.057E . 12 deg 07 25.51S
+125 deg 01 06.85 E 12 deg 07 17.63 S
+125 deg 01 22.40 E 12 deg 06 54.45 S
+124 deg 59 42.31 E 12 deg 07 45.37 S
+
+124 deg 59 47.94 E
+125 deg 02 04.54 E
+125 deg 02 26.02 E
+125 deg 02 52.17 E .
+125 deg 02 59.34 E
+125 deg 01 02.46 E 12 deg 07 36.25 S
+CHALLIS11 125 deg 03 16.37 E 12 deg 05 56.92 S
+
+CHALLIS14 125 deg 01 53.72 E 12 deg 06 41.80 S
+JCASSINI1 124 deg 58 05.30 E 12 deg 0847.41S
+
+12 deg 07 20.15 S
+12 deg 06 34.78 S
+12 deg 06 19.32 S
+12 deg06 07.78 S
+12 deg 05 57.77S
+
+
+-----Page 60-----
+
+CHALLIS14
+INITIAL FLOWBACK OPERATIONAL SEQUENCE
+
+Well flowed during PLT run 1 . Maximum oil rate was 338 sn ? d
+However due to safety concerns as a result of an earlier air
+
+H for the majority of the period as oil could only be directedto the
+gauge tanks ( ie not flared ) .
+
+PLTHPGRCCL . HP gauge and Gradiomanometer failed during
+PLT Run 1 pressure testing and while RIH respectively . Measured static and
+flowing bottom hole pressures and calculated of PI . Ran
+temperature surveys over perforations . Conducted a flowing gradient
+sulvey while POOH .
+
+1800 2100 2400 0300 0600
+2711293 27293 27293 28293 28293
+
+z BIN614
+
+-----Page 61-----
+
+CHALLIS14
+WELL REENTRY OPERATIONAL SEQUENCE
+
+i Haaaa a Weli clean up .
+1st Flow Period EE AG
+
+Well flowed during PLT run 3
+
+Well flowed during PLT run 4
+
+3rd Flow Period
+
+Well flowed during PLT run 4
+
+: i i . a AA kad ) W6 flowed during PLT run 5
+5th Flow Period rae Maximum oil rate was 1190 smPd .
+
+EK
+CCL Run 1 No perforations identified .
+
+PLTGRCCL with Fullbore Spinner . Gradiomanometer inoperable .
+mak kk ) HP gauge faulty and not run . While RIH fulibore spinner seized
+PLT Run1 pr hence static spinner calibration and check for cross flow not done
+i i ! Ran temperature and pressure surveys over perforations .
+
+i PLTGRCCL with Fullbore Spinner . Gradiomanometer inoperable .
+PLT Run Pa ma . nga anan an ka nama HP gauge faulty and not run . Second attempt at spinner calibration
+and check for cross flow . While RIH fullbore spinner seized . POOH .
+
+PLTGRCCL with Fullbore Spinner . Gradiomanometer inoperable
+
+PLT Run 3 Ran temperature and pressure surveys with Challis14 shut in and
+i flowing . Conducted flowing gradient survey while POOH .
+
+PLTGRCCL with Fullbore Spinner . Gradiomanometer inoperable
+PLT Run 4 ta m5
+Ran temperature and pressure surveys with Challis14 flowing .
+
+H PLTGRCCL with Inline Spinner . Gradiomanometer inoperable .
+PLT Run 5 HP gauge faulty and not run . While RIH fullbore spinner seized .
+i i i Program aborted with no measurements taken .
+
+1200 1800 2400 0600 1200 1800
+A3 2393 2393 3393 3393 3393
+
+c @ In6i
+
+-----Page 62-----
+
+(
+CHALLIS14
+INITIAL FLOWBACK FLOW PERIOD 1 ( CLEAN UP )
+
+800
+
+700
+
+600
+
+Tank Oil Rate ( sm3d )
+b 0
+o o
+o (
+
+74
+a
+o
+
+200
+
+100
+
+18:39 18:50 19:00 19:10 19:20 19:30 19:40 19:50 20:00 20:10 20:20 20:30 20:40 20:50 21:00 21:10
+Time
+
+Tank Rate Wellhead Pressure
+AAAlipa Az
+
+4000
+
+3500
+
+3000
+
+N N
+S
+
+o
+
+Wailhead Pressure ( kPag )
+
+mb
+3 :
+o
+o
+
+1000
+
+500
+
+p 6in6
+
+-----Page 63-----
+
+Tank Oil Rate ( sm7d )
+
+400
+
+350
+
+300
+
+N
+5
+
+N
+3
+
+5
+
+100
+
+CHALLIS14
+
+INITIAL FLOWBACK FLOW PERIOD 2 ( PLT RUN 1 )
+
+Tank Rate
+
+Walihead Pressure
+
+4000
+
+3500
+
+N
+Wellhead Pressure ( kPag )
+
+500
+
+G @ JN64
+
+
+-----Page 64-----
+
+O
+ooz1
+
+90351 9661834Z 9T
+BLVO NOLLV # 40 ( 8 ) T112 INgNI
+
+BET P66102497 kt 2TlA T0Y do
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+-----Page 65-----
+
+CHALLIS14
+
+INITIAL FLOWBACK A TEMPERATURE HISTORY ( ONE INTERPRETATION )
+
+Temperature
+Hip
+
+Geothermal
+Gradient
+
+Borehole
+temperature
+gradient as a
+consequence of
+mud circulation
+
+UZ
+Isolated
+Stringers
+
+Overbalanced mud
+prevents cross flow
+
+Temperature
+
+
+Geothermal
+Gradient
+
+
+
+The shale
+temperature
+between
+
+S
+
+a C3.2 and
+TU
+
+h zz Feat stringers
+BELA Sean atas
+UP TE rises above
+pila geothermal
+
+zz which is
+Isolated reflected in
+Stringers the borehole
+temperature
+
+For seven days :
+. cross flow behind casing
+
+O
+
+Temperature
+Paa
+
+Geothermal
+Gradient
+
+Isolated
+
+Stringers
+at original
+pressure
+
+180 psi !
+depleted
+
+4
+Borehole
+temperature
+building to
+geothermal
+gradient
+Overbalanced mud
+prevents cross flow
+
+Isolated
+Stringers
+
+Temperature
+Him
+
+Geothermal
+Gradient
+
+II
+
+UZ
+Isolated
+Stringers
+
+After seven days :
+Sand stringers are depleted to C3.2 pressure
+The sand is perforated
+Cross flow ceases
+
+Temperature
+pp
+
+Geothermal
+Gradient
+
+Borehole
+temperature
+building to
+geothermal
+gradient
+
+Isolated
+Stringers
+
+Run casing and cement
+Remove hydrostatic head when cement hardened
+CBL shows poor cement bond
+
+Temperature
+mm
+
+log
+
+N
+1.06 gcm ?
+1Brine
+N
+A
+
+N Fluid
+a density
+rom
+Isolated pressure
+Stringers log
+Production Log
+
+A few hours of flow not enough for temperature
+equalisation even if cross flow has ceased behind cas
+Cross flow in casing will tend to retard the rate
+of cooling of the heated sandshale layers
+
+Geothermal
+Gradient
+
+temperature
+
+Z 8IN61
+
+
+-----Page 66-----
+
+Figure 8
+CHALLIS14
+INITIAL FLOWBACK FLOWING GRADIENT SURVEY OVER PERFORATIONS
+
+1390
+
+1395
+
+Fluid Density
+0.78 gcm ?
+
+1400
+
+
+-----Page 67-----
+
+Depth mRT
+
+160
+
+200
+
+300
+
+400
+
+.500
+
+600
+
+700
+
+800
+
+900
+
+1000
+
+1100
+
+1200
+
+1300
+
+1400
+
+1500
+
+600
+
+Figure 9
+
+CHALLIS14
+
+INITIAL FLOWBACK FLOWING GRADIENT SURVEY
+
+nv
+Bubble Point at 48.6 C
+
+Fluid Density
+
+0.73 gicm
+
+
+
+800 1000 1200 14oo 1600 1800 2000
+Pressure psia
+
+-----Page 68-----
+
+LOG UP FROM 1440m @ 18:17 020393
+
+Figure 1
+
+CP 50.2 FILE 57 04MAR1994 20121
+
+INPUT FILE ( 8 ) CREATION DATE
+5 02MAR1994 18317
+
+200
+
+1400
+
+LIN MIWODE
+HA IH
+LIL CH HE
+
+1425
+
+
+-----Page 69-----
+
+Tank Oil Rate ( sm7d )
+
+CHALLIS14
+
+WELL REENTRY FLOW PERIOD 1 ( CLEAN UP )
+
+Tank Rate
+
+Wellhead Pressure
+
+4000
+
+3500
+
+3000
+
+2500
+
+2000
+
+E
+
+Welinead Pressure ( kPag )
+
+1000
+
+500
+
+k @ in61s
+
+
+-----Page 70-----
+
+Tank Oil Rate ( sm ? d )
+
+( .
+
+WELL REENTRY FLOW PERIOD 2 ( PLT RUN 3 )
+
+1600 4000
+1.400 3500
+0
+1200 3000
+Fi
+1000 25005
+od
+3
+F3
+BOO 2000 5
+o
+kr
+o
+
+600 1500 Ss
+z
+400 1000
+200 500
+0 0
+
+Tank Rate Wellhead Pressure
+
+TE @ sn6i 4
+
+-----Page 71-----
+
+MERGED TEMPERATURE PASSES Figure 1
+
+PTEM ( DEG
+
+GA ( GAPI PTEM32 ( DEG !
+
+Z0u
+
+Na
+
+
+1375
+
+BUAN
+
+
+
+
+
+
+
+mi MGA Ni MAE PA AA
+
+
+IK Na EK KG NG 2 LE GG
+LIE HA ON
+
+
+
+
+
+
+
+1400
+
+
+
+
+
+
+
+
+
+
+
+
+
+1425
+
+Hi
+
+
+
+
+
+
+-----Page 72-----
+
+CHALLIS14
+WELL REENTRY A TEMPERATURE HISTORY ( ONE INTERPRETATION )
+
+Temperature Temperature
+1 ) Geothermal ( 2 ) Geothermal
+
+Gradient Gradient
+
+Response
+from
+temperature
+log
+
+Response
+from
+
+Cs pn . temperature
+a NAN IS ! KY g N IS
+Sg N S NAN
+a dg 41.06 glcm ? bi sambil 11.08 gcm ?
+t H NG Pa NA
+BS L Brine Brine
+N
+Fluid Fluid
+density density
+W Nfrom Nfrom
+Isolated 1 pressure Isolated pressure
+
+Stringers log Stringers og
+Challis14 status after the end of the After 2.5 days :
+initial completion flowback . Challis14 reentered and logged .
+Temperature anomaly still present
+Temperature but significantly reduced .
+HC ji
+G ) Geothermal
+Gradient
+0.78 gcm ?
+
+Oil
+
+N
+
+
+
+Xx
+
+1 08 gcm Response
+a from
+Fluid temperature
+density log
+Isolated N pressure
+Stringers Vlog
+
+After a flow period to clean up the well the temperature anomaly
+had disappeared and the temperature log showed significant contribution
+from the main sand with minor contribution from the sand stringers .
+
+PI @ Inbis
+
+-----Page 73-----
+
+Figure 15
+
+CHALLIS14
+WELL REENTRY FLOWING GRADIENT SURVEY OVER PERFORATIONS
+
+1390
+
+1395
+
+1400
+
+Fluid Density
+0.78 gcm ?
+
+1405
+
+1410
+
+Depth MRT
+jensaju payesopod
+
+1415
+
+Fluid Density
+
+N Pal 1.08 gcm ?
+
+1420
+
+1425
+
+1430
+
+1435
+1770 1775 1780 1785 1790 1795 1800 1805 1810 1815 1820 1825
+Pressure psia
+
+-----Page 74-----
+
+Depth MRT
+
+100
+
+200
+
+300
+
+400
+
+500
+
+600
+
+700
+
+800
+
+: 900
+
+1000
+
+1100
+
+1200
+
+1300
+
+Figure 16
+
+CHALLIS14
+WELL REENTRY FLOWING GRADIENT SURVEY
+
+o
+Bubbie Point at 64.9 C
+Fluid Density
+600 800 1000 1200 1400 1600 1800 .
+
+Pressure psia
+
+
+-----Page 75-----
+
+CHALLIS14
+WELL REENTRY FLOW PERIOD 3 ( PLT RUN 4 )
+
+800 4000
+
+700 3500
+
+600 3000
+F
+5 500 2500 G
+5 F1
+boud 3
+z FA
+5 400 2000 8
+3T
+O o
+x F3
+c Pi
+EE 300 1.500 5
+Ss
+
+200 1000
+
+100 500
+0
+
+08:56 09:00 09:05 09:10 09:15 09:20 09:25 09:30 09:35 09:40 09:45 09:50 09:55 40:00
+Time
+
+Tank Rate Wellhead Pressure
+
+Zi @ anbi4
+
+
+-----Page 76-----
+
+1600
+
+1400
+
+1 :200
+
+Tank Oil Rate ( sm ? d )
+e
+8
+
+600
+
+400
+
+200
+
+10:14 10:17 10:24 10:30 10:35 10:40 10:45 10:50 10:55 11:00 11:05 11:10 14:45 11:20 11:25 4130
+
+Tank Rate
+
+rr flu
+
+(
+
+CHALLIS14
+WELL REENTRY FLOW PERIOD 4 ( PLT RUN 4 )
+
+Time
+
+Wellhead Pressure
+pa
+
+11:35 11:37
+
+in
+8
+
+Wellhead Pressure ( kPag )
+
+1000
+
+500
+
+8 ean6iy
+
+-----Page 77-----
+
+aa AAP kaabang
+
+LOG UP FROM 1445m @ 10:47 030394
+Figure 19
+
+a Qng geceeecylyjqq
+
+PYHE PBA
+1000.0
+
+19.00 1.0000
+paga :
+
+FILE 47 04MAR1994 19146
+
+INPUT FILE ( 5 ) CREATION DATE
+7 03MAR1994 1LO146
+
+ad :
+
+
+-----Page 78-----
+
+1400 .
+
+1.200
+
+Tank Oil Rate ( smd )
+.
+B
+
+200
+
+13:13
+
+13:20
+
+13:25
+
+13:30
+
+13:35
+
+(
+
+CHALLIS14
+WELL REENTRY FLOW PERIOD 5 ( PLT RUN 5 )
+
+13:40
+
+Tank Rate
+
+13:45 13:50
+Time
+
+13:55
+
+Wellhead Pressure
+
+a
+
+14:00
+
+14:05
+
+14:10
+
+14:12
+
+NN
+Wellhead Pressure ( kPag )
+
+2
+2 .
+
+
+500
+
+oz @ snbj3
+
+-----Page 79-----
+
+Gp BHP
+
+STUDY OF CHALLIS14 CONVENTIONAL CORE MATERIAL
+
+PERMIT ACL3 NT
+
+PREPARED BY : P. A. Arditto
+Sedimentary Systems Consultant
+
+1959.rep
+
+DATE : December 1994
+
+BHP PETROLEUM PTY . LTD .
+A.C.N . 006 918 832
+
+-----Page 80-----
+
+Study Of Challis14 Conventional Core Material
+
+TABLE OF CONTENTS
+
+Page
+1 INTRODUCTION .. 2.2 l
+2 CHALLIS14 CORES 1 42 ... 2 ... 2
+2.1 Lithological Description ......... 2
+2.2 Environmental Interpretation ........... 4
+
+1959.rep
+December 1994
+
+
+-----Page 81-----
+
+Figure 1
+Figure 2
+Figure 3
+Figure 4
+
+LIST OF FIGURES
+
+Challis14 Core Description Sheets 1:25 scale
+Challis14 Core Gamma Ray Log and RCA Data 1:200
+Challis14 Suite DLLMSFLSDTGR 1:200
+Challis14 Suite 1 LDLCNLGR 1:200
+
+-----Page 82-----
+
+Study Of Challis14 Conventional Core Material
+
+1 INTRODUCTION
+
+This report is based on a detailed examination and descriptioninterpretation of 28.60 m
+of slabbed conventional core ( cores 42 ) cut in Challis14 . This work was
+undertaken by P.A . Arditto on November 14 1994 at the Kestral Wharehouse in
+Mount Waverly at the request of Mr. Ian Garven ( Reservoir Characterisation Manager )
+of BHP Petroleum .
+
+This final report contains the detailed lithological description and environmental
+interpretation of the recovered cored interval followed by graphic core description
+sheets at 1:25 scale core gamma ray log data and wireline log data over and adjacent
+to the cored interval . A key to sedimentary structures and lithology symbois used on
+the core description sheets is given at the end of the report .
+
+1959.rep
+December 1994
+
+-----Page 83-----
+
+Study Of Challis14 Conventional Core Material 2
+
+21
+
+CHALLIS14 CORES 14 2
+Lithological Description
+
+The interval 1393.60 m to 1393.68 m is sandstone fine to medium grained and
+moderately sorted resting on an undulating basal scour surface with a shale rip up
+clast lag . Internally it homogeneous and calcitecemented . The interval 1393.68 m to
+1393.92 m is sandstone very fine to fine grained and well sorted resting on a basal
+scour surface . Internally it is trough cross bedded . The interval 1393.92 m to 1395.40
+m is sandstone very fine grained up to very fine to fine grained composed of four
+upward fining cycles separated by scour surfaces . Internally these cycles contain
+lenticular draped current ripple laminations . The base of the interval rests on an
+undulating scour surface with a basal shale rip up clast lag .
+
+The interval 1395.40 m to 1396.10 m is claystone mottled light greyish green and
+moderately calcareous . Internally the interval is intensely biologically churned and
+contains non carbonaceous ( ? leached ) rootletlike structures . The interval 1396.10 m
+to 1396.85 m is claystone light greyish green interbedded with four thin upward
+fining siltstone cycles with basal scours . Internally the interval is moderately
+bioturbated . The interval 1396.85 m to 1397.25 m is claystone dark grey and
+intensely bioturbated with a gradational base . The interval 1397.25 m to 1400.00 m is
+predominently siltstone dark grey with minor burrows dewatering and
+microfoundering features and starved current ripple laminations . The base of the
+interval is gradational . The interval 1400.00 m to 1400.15 m is siltstone to very fine
+grained sandstone current ripple to flaser laminated with a gradational base .
+
+The interval 1400.15 m to 1400.35 m is sandstone fine grained and well sorted with a
+sharp basal scour and gradational top . Internally it is trough cross bedded with a
+lenticular laminated top . The interval 1400.35 m to 1404.02 m is sandstone pale
+yellow brown ( oil staining ) fine to medium grained and well sorted composed of
+seven cycles 0.5 m thick separated by scour surfaces . Internally the buik of each unit
+is trough cross bedded with the upper portion current ripple laminated . The interval
+1404.02 m to 1409.38 m is sandstone as above comprised of four cycles 0.5 m to 1.5
+m thick separated by scour surfaces . The bulk of each cycle is trough cross bedded
+with the uppermost 0.1 to 0.2 m carbonaceous flaser laminated . The interval 1409.38
+m to 140933 m is sandstone very fine to fine grained with a basal scour surface .
+Internally it is current ripple to flaser laminated and bioturbated .
+
+The interval 1409.83 m to 1412.13 m is predominently siltstone light grey to dark
+grey interbedded with five thin upward fining cycles of very fine grained sandstone .
+The siltstone is bioturbated to flaser laminated with minor carbonaceous plant stems
+and debris . The sandstones are burrowed to homogeneous or wavy laminated with
+sharp wavy basal contacts . The bottom of the interval is gradational into the
+underlying interval . The interval 1412.13 m to 1412.70 m is sandstone fine grained
+and well sorted upward fining to muddy very fine grained and very poorly sorted
+sandstone . The lower half is homogeneous and the upper half is burrowed to
+
+1959.rep
+December 1994
+
+-----Page 84-----
+
+Study Of Challis14 Conventional Core Material
+
+bioturbated . The base vof the interval rests on a scour surface with shale rip up clasts .
+The interval 1412.70 m to 1413.60 m is sandstone fine grained upward fining to very
+fine grained muddy and very poorly sorted with a load cast and flame injected basal
+contact . Interally it is burrowed to flaser laminated with minor disturbance through
+loaddewatering features . The interval 1413.60 m to 1413.95 m is sandstone fine
+grained upward fining to very fine grained muddy and poorly sorted resting on a
+basal scour surface with a shale rip up clast lag . Internally it is burrowed to flaser
+laminated with dewatering features .
+
+The interval 1413.95 m to 1414.86 m is siltstone light yellow grey to light grey green
+calcareous with minor discontinuous scour surface and rip up clast horizons with
+minor current ripple laminations in the lower half . The interval 1414.86 m to 1415.32
+m is sandstone fine grained and well sorted with a sharp basal scour surface .
+
+Internally it is homogeneous with a possible rootlet horizon at the very top . The
+interval 1415.32 m to 1416.26 m is siltstone sandy and light grey with wavy lenticular
+laminations and burrows upward coarsening to sandstone very fine to fine grained and
+moderately sorted . Internally the sandstone is burrowed to lenticular laminated with
+current ripple laminations at the top .
+
+The interval 1416.26 m to 1416.83 m is claystone light grey green internally disturbed
+through fluid escape features including dish structures flame features boudinage
+features and wavy laminations . Minor burrows are evident . The base and top of this
+interval is gradational . The interval 1416.83 m to 1417.30 m is siltstone dark grey
+green and homogeneous with minor scour surfaces and rip up clasts . The base and top
+of the interval is gradational . The interval 1417.30 m to 1418.15 m is sandstone fine
+to medium grained and well sorted upward fining to very fine to fine grained muddy
+and very poorly sorted sandstone . The bulk of the interval is homogeneous with the
+upper finer grained section containing load and flame features with common burrows .
+The interval 1418.15 m to 1419.10 m is sandstone predominently fine to medium
+grained upward fining to very fine grained . The lower two thirds is well sorted with
+slump laminae inclined up to 45 deg and rests on an undulating basal scour the upper
+one third is poorly sorted muddy and burrowed fo bioturbated . The interval 1419.10
+m to 1419.27 m is sandstone fine to medium grained upward fining to very fine
+grained with a basal scour surface . Internally it is homogeneous tolenticular laminated
+with laminae dips up to 45 deg .
+
+The interval 1419.27 m to 1419.65 m is sandstone fine to medium grained at base
+upward fining to fine grained poorly sorted with a wavy basal contact . Internally the
+interval is lenticular laminated and moderately burrowed . The interval 1419.65 m to
+1419.98 m is sandstone fine to medium grained and well sorted upward fining
+through very fine sandstone to siltstone . The basal part of this interval is horizontally
+laminated resting on a scour surface grading up through lenticular laminated and
+burrowed to flaser laminated at the top . The interval 1419.98 m to 1420.20 m is
+sandstone fine to medium grained at the base upward fining to silistone at the top .
+The lower part of the interval is sparsely burrowed with microfoundering features
+resting on a basal scour and the upper half is current ripple to lenticular laminated .
+
+1959.rep
+
+December 1994
+
+-----Page 85-----
+
+Study Of Challis14 Conventional Core Material 4
+
+The interval 1420.20 m to 1420.75 m is sandstone fine to medium grained at the base
+upward fining to siliy very fine grained sandstone at the top muddy and poorly sorted .
+The interval is internally intensely burrowed to bioturbated and rests on a basal scour
+surface . The interval 1420.75 m 1421.03 mis as above . The interval 1421.03 m to
+1421.50 m is sandstone fine to medium grained at the base upward fining to very fine
+grained muddy and very poorly sorted . Internally the interval is intensely burrowed to
+bioturbated and rests on a sharp wavy base . The interval 1421.50 m to 1422.00 m is
+largely core rubble composed of siltstone argillaceous dark greyish green bioturbated
+to flaser laminated . The interval 1422.00 m to 1422.20 m ( base of core 2 ) is
+sandstone fine to medium grained well sorted and planar laminated upward fining
+through very fine grained sandstone to the overlying unit muddy and poorly sorted and
+lenticular laminated to bioturbated .
+
+22 Environmental Interpretation
+
+The interval 1393.60 m to 1393.92 m is interpreted as the basal remnants of two lower
+point bar channel cycles . The high core and wire line log gamma ray response in an
+apparently well sorted sandstone facies indicates the presence of hot detrital minerals
+within this interval . The interval 1393.92 m to 1395.40 m is interpreted as a stacked
+succession of crevasse splay cycles deposited in a lower coastal plain setting . The
+abundance of shaly flaser drapes contributes to the high gamma ray response over this
+interval . The interval 1395.40 m to 1397.25 m is interpreted as overbank or abandoned
+channel fili deposited ih a lower coastal plain setting . The intensity of bioturbation
+indicates brackish water or even more open marine influence perhaps in a delta fringe
+setting . The presence of rootlet structures in the upper third of the interval may
+indicate a colonised levee bank palaeosol . The interval 1397.25 m to 1400.00 m is
+interpreted as a possible distal crevasse splay interval deposited during the early stage
+of a channel abandonment cycle within a high sinuosity lower coastal plain fluvial
+system . The presence of minor small burrows indicates at least a brackish water
+influence during sedimentation .
+
+The interval 1400.00 m to 1400.35 m is interpreted as an upward fining point bar
+channel cycle which gives way to channel abandonment in the overlying interval . The
+interval 14.35 m to 1409.40 m is an aggradational succession of individual lower to
+middle point bar channel units separated by scour surfaces . Trough cross bedding
+characterises deposition within the lower point bar channel while current ripple or
+flaser laminations characterise the waning energy of the middle point bar . The absence
+of the upper point bar abandonment cycle indicates deposition during late flood to
+early falling stage within a low sinuosity fluvial system . No burrows or other marine
+or brackish water indicators are evident and the interval is interpreted as a significant
+fluvial discharge into a more generally marine influenced lower coastal plain setting .
+
+The interval 1409.40 m to 1409.83 m is interpreted as a middle point bar tidal channel
+unit as evidenced by the basal scour and the presence of flasers and bioturbation . The
+interval 1409.83 m to 1412.13 m is interpreted as a stacked succession of distal
+crevasse splay units deposited in a marine influenced lower coastal plain lagoonal
+
+1959.rep
+December 1994
+
+-----Page 86-----
+
+Study Of Challis14 Conventional Core Material 5
+
+setting ( as evidenced by the intensity of bioturbation and burrowing abundance of
+carbonaceous material and soft sediment deformation ) . The interval 1412.13 m to
+1413.95 m is interpreted as stacked tidal channel units ( scoured base common burrows
+and flasers ) which grades into the overlying channel abandonment crevasse splay
+succession . Dewatering and loadflame features indicate rapid and episodic deposition
+
+of these units .
+
+The interval 1413.95 m to 1414.85 m is interpreted as a channel abandonment
+succession deposited during a low stage fluvial cycle within a lower coastal plain
+setting . The base of the interval contain a possible rootlet horizon which penetrate
+into the underlying interval indicating plant colonisation . The interval 1414.85 m to
+1415.30 m is interpreted a a stream mouth bar channel unit . The interval 1415.30 m to
+1416.83 m is interpreted as a deltaic prograde unit building into a marginal marine
+setting ( as evidenced by the upward coarsening nature and common burrows ) . The
+interval 1416.83 m to 1419.10 m is interpreted as two proximal point bar tidal channel
+units as evidenced by the scour surfaces upward fining character and common
+burrows . The lower unit displays evidence of slump movement and has a highly
+incised basal scour surface . The upper unit displays a better developed abandonment
+cycle and is gradational into the overlying unit . Abandonment appears to be caused by
+a marine incursion which initiated the overlying deltaic prograde .
+
+The interval 1419.10 m to 1421.50 m is interpreted to be a stacked succession of distal
+estuarine bay channel units as evidenced by the upward fining and muddy burrowed to
+bioturbated character of individual units . The interval 1421.50 m to 1421.97 m is
+interpreted as an abandoned channel fill unit deposited in a marine influenced setting
+as evidenced by the extent of flasers and bioturbation . The interval 1421.97 m to
+1422.20 m ( base of core 2 ) is interpreted as the uppermost part of a middle point bar
+channel unit ( base of unit not intersected by the core ) .
+
+1959.rep
+December 1994
+
+-----Page 87-----
+
+@ BHP KEY TO
+SEDIMENTARY STRUCTURES
+H homogenous
+
+pa
+
+H
+sss trough cross bedding
+s3 . hummocky cross stratification
+s3 wave oscillation ripple
+current ripple lamination
+ww laser bedding
+ml lenticular bedding
+JwW dewatering feature
+
+AW rip up clasts
+
+scour surface
+
+wavy inclined
+
+aa
+U welling burrow
+ag . bioturbation
+ES @ phiomorpha burrow
+8 gastropod
+ec . shell debris
+B brachiopod
+B bivaive
+H cephalopod
+yt oad and flame structure
+microfoundering feature
+
+load casts
+
+fracture
+
+magsywww siylolite
+
+plant stems
+
+LI
+
+Lo
+H # E mudcrack
+
+H
+
+rootlets
+
+December 1994 F955P1
+
+
+-----Page 88-----
+
+@ # BHP
+
+LITHOLOGY MODIFIER ONLY
+
+D G9 concretions
+Fer Fe ... siderite cement
+L L calcite cement
+Z dolomite cement
+5 5 glauconite
+um .m wm . Carbonaceous
+.. . 3 3 3 .. 3 .. 3938 ( COal
+o 6 Pyrite
+oo000 : Ppebble lag
+. Sshale
+sand
+ee silstone
+
+limestone
+
+Fa55P2
+
+December 1994
+
+-----Page 89-----
+
+CORE DESCRIPTION
+CHALLIS14
+
+PERMIT : ACL3 DATE : 14111994 CORE NNO . : 1 Page : 10f6
+
+AUTHOR : P. Arditto INTERVAL : 1393.60m 1398.80m
+RIG : SEDCO 708
+
+K.B . : 26.5m W.D . : 99.0m
+
+SHOWS
+DEPTH LITHOLOGY SEDIMENTARY LITHOLOGICAL
+( m ) T P ! STRUCTURE DESCRIPTION
+m p
+UE G
+
+Sandstone very fine to fine grained well
+sorted and trough cross bedded .
+
+Sandstone very fine grained and
+moderately sorted composed of 4 upward
+fining cycles . Interally these cycles are
+lenticular draped current rippled laminated .
+Base of interval rests on undulose scour
+surface with basal lag of rip up clasts .
+
+Claystone ( minor siltstone ) light greyish
+green .
+
+Internally the interval is intensely churned
+and mottled . Upper 0.75m contain possible
+rootlet structures ( noncarbonaceous )
+
+and calcite cement possible palaeosol .
+
+5mm coalcarbonised flattened plant stem .
+
+Siltstone as below .
+
+December 1994 ( base drawing f988 ) 1428p4
+
+-----Page 90-----
+
+CORE DESCRIPTION
+CHALLIS14
+
+PERMIT : ACL3 DATE : 14111994 CORENO . : 2 Page : 20f6
+
+AUTHOR : P. Arditto INTERVAL : 1398.80m 1422.20m
+CT SEDCO 708
+
+DEPTH LITHOLOGY SEDIMENTARY LITHOLOGICAL
+( m ) STRUCTURE DESCRIPTION
+m
+
+BOTTOM CORE 1
+TOP CORE 2
+
+Siltstone dark grey with minor burrows
+microfoundering features and starved
+current ripple laminations .
+
+Sandstone fine grained well sorted with
+sharp basal scour and gradational top .
+Internally trough crossbedded to lenticular
+and flaser to current ripple laminated .
+
+Sandstone as below .
+
+December 1994 ( base drawing f988 ) f1428p4
+
+-----Page 91-----
+
+CORE DESCRIPTION
+CHALLIS14
+
+PERMIT : ACL3 DATE : 14111994 CORE NO . : 2 Page : 3 0f6
+
+AUTHOR : P. Arditto INTERVAL : 139880m 1422.20m
+RIG : SEDCO 708
+
+DEPTH LITHOLOGY SEDIMENTARY LITHOLOGICAL
+STRUCTURE DESCRIPTION
+
+Sandstone yellow brown ( oil stained ) fine
+to medium grained and well sorted
+composed of units 0.5m to 1.5m in
+thickness separated by scour surfaces .
+Internally these units are trough cross
+bedded with carbonaceous flaser laminated
+or current ripple laminated tops .
+
+December 1994 ( base drawing f988 ) f1428p4
+
+-----Page 92-----
+
+CORE DESCRIPTION
+CHALLIS14
+
+PERMIT : ACL3 DATE : 14111994 CORENO . : 2 Page : 40f6
+
+AUTHOR : P. Arditto INTERVAL : 1398.80m 1422.20m
+RIG : SEDCO 708
+
+DEPTH LITHOLOGY SEDIMENTARY LITHOLOGICAL
+( m ) STRUCTURE DESCRIPTION
+m
+
+Siltstone light grey to dark grey
+interbedded with thin sandstone intervals
+very fine grained . Siltstone is bioturbated
+to flaser laminated with minor
+carbonaceous plant stems and debris .
+
+Sandstones are burrowed to homogeneous
+or wavy laminated .
+
+t Ng
+I nel
+
+Sandstone fine grained and well sorted
+upward fining to muddy very fine grained and
+very poorly sorted sandstone . Lower half
+homogeneous upper half burrowed to
+bioturbated . Basal scour surface with rip up
+clasts .
+
+Sandstone fine to very fine grained
+composed of 2 upward fining cycles
+separated by scour or load and flame
+surfaces . Internally the bulk of each cycle is
+muddy very poorly sorted and burrowed with
+load founderingdewatering features .
+
+5G le d
+
+ce
+ce
+
+Siltstone light yellow grey to light grey green
+with minor scour surface and rip up clast
+horizons and minor current ripple lamination
+in lower half . Minor calcitic cement .
+
+Possible rootlet horizon .
+
+December 1994 ( base drawing f988 ) f1428p4
+
+-----Page 93-----
+
+Y Ci la CORE DESCRIPTION
+II . CHALLIS14
+
+AUTHOR : P. Arditto INTERVAL : 1398.80m 1422.20m
+RIG : SEDCO 708
+
+CORE BARREL 8 MUD TYPE :
+
+GRAIN SIZE
+DEPTH LITHOLOGY SEDIMENTARY LITHOLOGICAL
+( m ) 1 STRUCTURE DESCRIPTION
+m
+
+Sandstone fine grained well sorted and
+homogeneous with sharp basal scour
+surface .
+
+Sandstone very fine to fine grained
+moderately sorted and burrowed to lenticular
+laminated with current ripple laminated top .
+
+Siltstone light grey sandy wavy lenticular
+laminated and burrowed . Gradational top .
+
+Claystone light grey green . Internally
+disturbed through fluid escape features dish
+structures flame features boundinage and
+wavy laminations . Minor small burrows .
+Gradational top .
+
+Siltstone dark grey green and homogeneous
+with minor scour surfaces and rip up clasts .
+Gradational top .
+
+Sandstone very fine to fine grained poorly
+sorted and muddy with load and flame
+features and burrows . Gradational top .
+
+Sandstone fine to medium grained well
+sorted and homogeneous . Sharp scour base
+and gradational top .
+
+Sandstone predominantly fine to medium
+grained upward fining to very fine grained .
+Lower 23 well sorted with inclined slump
+lamina up to 45 with wavy basal scour .
+Upper 13 poorly sorted muddy and
+burrowed to bioturbated .
+
+Sandstone fine to medium grained upward
+fining to very fine grained with basal scour .
+Interally homogeneous to lenticular
+laminated with dips up to 45 .
+
+Sandstone fine to medium grained upward
+fining to very fine grained or siltstone planar
+to lenticular laminated and burrowed .
+Composed of 3 upward fining cycles
+separately by scour surfaces .
+
+c3
+December 1994 ( base drawing f988 ) 11428p4
+
+-----Page 94-----
+
+CORE DESCRIPTION
+CHALLIS14
+
+PERMIT : ACL3 DATE : 14111994 CORE NO . : 2 Page : 6 of 6
+
+AUTHOR : P. Arditto INTERVAL : 1398.80m 1422.20m
+RIG : SEDCO 708
+
+SHOWS GRAIN SIZE
+DEPTH LITHOLOGY SEDIMENTARY LITHOLOGICAL
+( m ) T STRUCTURE DESCRIPTION
+m
+UFIG
+
+Sandstone fine to medium grained to very
+fine grained comprised of 3 upward fining
+cycles separated by scour surfaces . The
+
+sandstones are poorly sorted very muddy
+and internally burrowed to bioturbated .
+
+Siltstone argillaceous dark grey green
+bioturbated to flaser laminated . Largely core
+rubble .
+
+Sandstone fine to medium grained well
+sorted planar to lenticular laminated .
+
+BASE CORE 2
+
+December 1994 ( base drawing f988 ) f11428p4
+
+-----Page 95-----
+
+ACS LABORATORIES PTY . LTD .
+ACN 008 273 005 CORE PLOT
+
+Scale 1 : 200
+Company : BHP PETROLEUM PTY LTD File No . : 3224
+We ! Il : CHALLIS No.14
+Fle CHA
+Held kon : GHALLIS
+
+CORE GAMMA
+
+Sal
+d il
+
+
+
+
+
+EY DD
+ihilia
+
+
+AN
+NHA
+
+Bill WARE ! NOE
+
+Wagi
+
+PEER ARA
+HHHRRANE
+MANE HEH
+
+bl
+
+sili
+HI NA
+il
+HUT
+KN KH
+
+TULA PBA EU
+SZ
+hg
+
+:
+
+la
+HIF
+NE
+HI
+F
+NG
+l
+PH
+N
+E
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+AI BB
+
+TH
+
+BRRRH
+AJ KO BA BA
+
+
+Hip
+
+N
+
+L LABORATORIES
+( AUsTRALA
+OIL re GRAIN
+
+an o
+# aaeo WATER arao NATURAL
+SATURATION DENSITY
+
+An
+
+Hi
+
+UV
+
+
+
+a
+
+
+AT
+
+da
+
+
+
+HIN NA
+A747 4 NA
+LITA LY
+
+ih
+
+POP NA
+
+C
+
+NAGIN
+Aa
+punya
+
+
+ULA INA
+
+AI LET ITOT TLTT RT UM NARS TUT TTUAPMRAG
+CAITIE TITTET TUNE FG FT
+CAITIE LLEUTLLUT bal
+TITTTETTTILELLELL LV
+
+a a a ANY
+ILITLLELL LE MAYA
+LAILILLILILLLL TONE
+
+
+-----Page 96-----
+
+aman LL O dg
+
+N
+pa
+
+t .
+LREN
+Ted
+
+
+
+
+
+
+
+
+Mali H HI
+FTN E3g
+
+MEMA :
+LIES
+
+RC
+
+la
+HY
+
+p
+Hi
+
+LIHA
+LIT Lk
+
+H
+
+LLHN
+KI
+
+NI
+
+
+
+
+
+H
+
+h
+
+iso lddll
+
+CITI .
+
+BED
+
+LU a
+
+La
+
+
+
+
+
+NE
+H :
+
+Nan NN
+
+h N
+HA PNR
+
+22582252252
+IT
+
+IH
+
+
+AI
+
+LE
+
+
+
+5
+H
+
+
+
+
+
+
+N
+FH
+eg
+FH
+
+Aj
+
+
+DT
+
+Ng
+
+
+
+DLL : M
+
+
+
+
+
+H
+
+
+
+
+
+ALLIS14
+
+A
+SFLSPTGR
+
+
+-----Page 97-----
+
+a
+
+qp
+ad
+
+bt dk Nsa
+a
+
+F
+
+t
+tr
+
+
+
+
+
+
+
+
+

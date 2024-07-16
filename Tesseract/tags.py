@@ -1,6 +1,16 @@
-tag_options = ["Machine Learning", 
-               "Artificial Intelligence", 
-               "Statistical Analysis", 
-               "Global Warming",
-               "Unknown"
+tag_options = ["Artificial Intelligence", 
+               "Machine Learning",
+                "Well Completion Report", 
+                "Unstructured Data",
+                "Data Analysis", 
+                "Climate Change",
+                "Digitalization", 
+                "Data Mining",
+                "Waste Management", 
+                "Micro Service",
+                "Global Warming", 
+                "Data Visualization",
+                "Mining", 
+                "Exploration", 
+                "Others"
                ]
