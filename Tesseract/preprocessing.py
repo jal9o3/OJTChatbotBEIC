@@ -1,11 +1,11 @@
-from pdf2image import convert_from_path
-
 import cv2 as cv
 import numpy as np
 
 import string
 import re
 import nltk
+
+nltk.download('punkt')
 
 #       Preprocessing Functions---------------------
 

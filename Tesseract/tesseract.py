@@ -22,13 +22,13 @@ from psycopg2 import OperationalError
 def input_credentials():
     placeholder_text = "Enter Value"
 
-    db_name = st.text_input("Enter Database Name: ", value = "knowledge_base", placeholder = placeholder_text, type = "password")
+    db_name = st.text_input("Enter Database Name: ", value = st.session_state.db_name, placeholder = placeholder_text)
     
-    db_user = st.text_input("Enter User: ", value = "postgres", placeholder = placeholder_text, type = "password")
+    db_user = st.text_input("Enter User: ", value = st.session_state.db_user, placeholder = placeholder_text)
     
-    db_host = st.text_input("Enter Host Address: ", value = "localhost", placeholder = placeholder_text, type = "password")
+    db_host = st.text_input("Enter Host Address: ", value = st.session_state.db_host, placeholder = placeholder_text)
     
-    db_port = st.text_input("Enter Port: ", value = 5432, placeholder = placeholder_text, type = "password")
+    db_port = st.text_input("Enter Port: ", value = st.session_state.db_port, placeholder = placeholder_text)
     
     db_password = st.text_input("Enter password: ", placeholder = placeholder_text, type = "password")
 
@@ -284,8 +284,6 @@ def set_session_states(action = "set"):
                    "upload_database", 
                    "upload_pdf", 
                    "process_change", 
-                   "process",
-                   "undo_preprocess",
                    "confirm_upload",
                    "submit_credentials",
                    "upload_again"
@@ -348,12 +346,6 @@ def upload_database():
 
 def process_change():
     st.session_state.process_change = True
-
-def process():
-    st.session_state.process = True
-
-def undo_preprocess():
-    st.session_state.undo_preprocess = True
 
 def submit_credentials():
     st.session_state.submit_credentials = True
@@ -601,13 +593,10 @@ def main():
             for option in options:
                 st.session_state[option["key"]] = st.sidebar.checkbox(option["label"], on_change = process_change)
             
-            st.button("Preprocess Images", on_click = process, disabled = not st.session_state.process_change)
-
-            st.button("Undo Changes", on_click = undo_preprocess)
-
             message_con = st.container(height = 200)
             
-            if st.session_state.process:
+            if st.button("Preprocess Images", disabled = not st.session_state.process_change):
+
                 if st.session_state.process_done == False:
 
                     for file_name in os.listdir(image_dir): # iterate for each file in the directory
@@ -651,6 +640,15 @@ def main():
 
                     st.session_state.process_change = False
             
+            if st.button("Undo Changes"):
+                st.session_state.process_done = False
+                remove_contents(preprocessed_dir)
+                
+                for option in options:
+                    st.session_state[option["key"]] = False
+
+                show_message("Undo Changes")
+
             if st.session_state.process_done:
                 if not directory_check(preprocessed_dir):
                     with message_con:
@@ -668,15 +666,7 @@ def main():
                         elif difference:
                             for item in difference:
                                 st.error(f"The file {item} could not be preprocessed")
-            
-            if st.session_state.undo_preprocess:
-                st.session_state.process_done = False
-                remove_contents(preprocessed_dir)
-                
-                for option in options:
-                    st.session_state[option["key"]] = False
-
-                show_message("Undo Changes")
+        
                     
     with extract_col:
         st.markdown('<h4 style="text-align: left;">Extract Text from the PDF:</h4>', unsafe_allow_html=True)
@@ -860,6 +850,7 @@ def main():
             remove_contents(metadata_dir)
             remove_contents(output_dir)
             set_session_states("new_upload")
+            st.rerun()
 
         if st.session_state.upload_done:
             with message_con:

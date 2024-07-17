@@ -1,18 +1,22 @@
 import psycopg2
 # PGDB --> Postgres Database
 
+import constants
+
 from text_management import calculate_sha256, generate_random_string
 
-from constants import PGDB_PASS
-
-def connect_to_or_create_pgdb(pgdb_name):
+def connect_to_or_create_pgdb(db_name = constants.PGDB_NAME,
+                                db_user = constants.PGDB_USER,
+                                db_password = constants.PGDB_PASS, 
+                                db_host = constants.PGDB_HOST,
+                                db_port = constants.PGDB_PORT):
     # Connect to the database server
     conn = psycopg2.connect(
-    dbname="postgres",
-    user="postgres",
-    password=PGDB_PASS,
-    host="localhost",
-    port=5432,
+    dbname=db_name,
+    user=db_user,
+    password=db_password,
+    host=db_host,
+    port=db_port,
     )
     conn.autocommit = True
 
@@ -20,20 +24,24 @@ def connect_to_or_create_pgdb(pgdb_name):
     # Check if the desired database exists
     cur.execute("SELECT datname FROM pg_database;")
     databases = cur.fetchall()
-    if pgdb_name not in [db[0] for db in databases]:
+    if db_name not in [db[0] for db in databases]:
         # Create the database if it doesn't exist
-        cur.execute(f"CREATE DATABASE {pgdb_name}")
+        cur.execute(f"CREATE DATABASE {db_name}")
     cur.close()
     conn.close()
 
-def create_table_if_not_exists(table_name, db_name):
+def create_table_if_not_exists(table_name, db_name = constants.PGDB_NAME,
+                                            db_user = constants.PGDB_USER,
+                                            db_password = constants.PGDB_PASS, 
+                                            db_host = constants.PGDB_HOST,
+                                            db_port = constants.PGDB_PORT):
     # Connect to the database server
     conn = psycopg2.connect(
     dbname=db_name,
-    user="postgres",
-    password=PGDB_PASS,
-    host="localhost",
-    port=5432,
+    user=db_user,
+    password=db_password,
+    host=db_host,
+    port=db_port,
     )
 
     cursor = conn.cursor()
@@ -74,14 +82,18 @@ def create_table_if_not_exists(table_name, db_name):
     cursor.close()
     conn.close()
 
-def drop_database(db_name):
+def drop_database(db_name = constants.PGDB_NAME,
+                    db_user = constants.PGDB_USER,
+                    db_password = constants.PGDB_PASS, 
+                    db_host = constants.PGDB_HOST,
+                    db_port = constants.PGDB_PORT):
     # Connect to the database server
     conn = psycopg2.connect(
-        dbname="postgres",  # Connect to the default 'postgres' database
-        user="postgres",
-        password=PGDB_PASS,
-        host="localhost",
-        port=5432,
+        dbname=db_name,  # Connect to the default 'postgres' database
+        user=db_user,
+        password=db_password,
+        host=db_host,
+        port=db_port,
     )
     conn.autocommit = True
     cur = conn.cursor()
@@ -98,8 +110,11 @@ def drop_database(db_name):
     cur.close()
     conn.close()
 
-
-def upload_to_pgdb(document, pgdb_conn):
+def upload_to_pgdb(document, pgdb_conn, db_name = constants.PGDB_NAME,
+                                        db_user = constants.PGDB_USER,
+                                        db_password = constants.PGDB_PASS, 
+                                        db_host = constants.PGDB_HOST,
+                                        db_port = constants.PGDB_PORT):
     """
     Uploads document metadata and chunks to PostgreSQL database.
     """
@@ -107,10 +122,18 @@ def upload_to_pgdb(document, pgdb_conn):
     cursor = pgdb_conn.cursor()
 
     # Create database if it doesn't exist
-    connect_to_or_create_pgdb("knowledge_base")
+    connect_to_or_create_pgdb(db_name = db_name,
+                                db_user = db_user,
+                                db_password = db_password, 
+                                db_host = db_host,
+                                db_port = db_port)
 
     # Create paper_titles table if it doesn't exist
-    create_table_if_not_exists("paper_titles", "knowledge_base")
+    create_table_if_not_exists("paper_titles", db_name = db_name,
+                                                db_user = db_user,
+                                                db_password = db_password, 
+                                                db_host = db_host,
+                                                db_port = db_port)
     # Insert title into paper_titles table and generate primary key
     data = document["metadata"]
     # Convert dictionary to SQL insert
@@ -127,7 +150,11 @@ def upload_to_pgdb(document, pgdb_conn):
 
     chunks = document['chunks']
     # Create chunks table if it doesn't exist
-    create_table_if_not_exists("chunks", "knowledge_base")
+    create_table_if_not_exists("chunks", db_name = db_name,
+                                            db_user = db_user,
+                                            db_password = db_password, 
+                                            db_host = db_host,
+                                            db_port = db_port)
     # Insert chunks into chunks table
     # Insert each chunk into the table
     for i, chunk in enumerate(chunks):

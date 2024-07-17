@@ -33,15 +33,31 @@ def format_upload_doc(filename, title, authors, tags,
                       ):
     
     # Set up a test database connection
-    connect_to_or_create_pgdb(constants.PGDB_NAME)
+    connect_to_or_create_pgdb(db_name = db_name,
+                                db_user = db_user,
+                                db_password = db_password, 
+                                db_host = db_host,
+                                db_port = db_port)
 
-    conn = create_connection(db_name, db_user, db_password, db_host, db_port)
+    conn = create_connection(db_name = db_name,
+                                db_user = db_user,
+                                db_password = db_password, 
+                                db_host = db_host,
+                                db_port = db_port)
 
     cur = conn.cursor()
     
     # Create test tables
-    create_table_if_not_exists("paper_titles", db_name)
-    create_table_if_not_exists("chunks", db_name)
+    create_table_if_not_exists("paper_titles", db_name = db_name,
+                                                db_user = db_user,
+                                                db_password = db_password, 
+                                                db_host = db_host,
+                                                db_port = db_port)
+    create_table_if_not_exists("chunks", db_name = db_name,
+                                                db_user = db_user,
+                                                db_password = db_password, 
+                                                db_host = db_host,
+                                                db_port = db_port)
 
     # Commit changes to the database
     conn.commit()
@@ -64,7 +80,11 @@ def format_upload_doc(filename, title, authors, tags,
 
     }
     # Upload the contents of the dictionary to the Postgres database
-    upload_to_pgdb(doc_dic, conn)
+    upload_to_pgdb(doc_dic, conn, db_name = db_name,
+                                    db_user = db_user,
+                                    db_password = db_password, 
+                                    db_host = db_host,
+                                    db_port = db_port)
 
 def main():
 
