@@ -40,37 +40,7 @@ torch.manual_seed(122)
 if torch.cuda.is_available():
     torch.cuda.manual_seed(122)
     torch.cuda.manual_seed_all(122)
-
-
-def get_documents():
-
-    sample_doc = [
-        {"id": 0,
-         "title": "A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques",
-         "authors": "A.N.N. Sazali, N.M. Hernandez, F. Baillard, K.G. Maver",
-         "tags": ["Artificial Intelligence", "Machine Learning", "Economy"],
-         "file_name": "2021 - A Case Study of Understanding the Bonaparte Basin using Unstructured Data Analysis with Machine Learning Techniques.pdf"},
-
-        {"id": 1,
-         "title": "An Automated Information Retrieval Platform For Unstructured Well Data Utilizing Smart Machine Learning Algorithms Within A Hybrid Cloud Container",
-         "authors": "N.M. Hernandez, P.J. Lucafias', J.C. Graciosa', C. Mamador, L. Caezar', I. Panganiban, C. Yu', K.G",
-         "tags": ["Artificial Intelligence"],
-         "file_name": "2021 - An Automated Information Retrieval Platform For Unstructured Well Data Utilizing Smart Machine Learning Algorithms Within A Hybrid Cloud Container.pdf"},
-
-        {"id": 2, "title": " Supporting the UN 2050 Net Zero goals by reading the earth better",
-         "authors": "Nina Marie Hernandez, Kim Gunn Maver and Charmyne Mamador",
-         "tags": ["Machine Learning"],
-         "file_name": "2021 - Supporting the UN 2050 Net Zero goals by reading the earth better.pdf"},
-
-        {"id": 3,
-         "title": "Scaling and optimizing performance and cost of machine learning ingestion on unstructured data for subsurface applications",
-         "authors": "L.C.L. Panganiban, F. Baillard', N.M. Hernandez!",
-         "tags": ["Artificial Intelligence", "Machine Learning"],
-         "file_name": "2022 - Scaling and optimizing performance and cost of machine learning ingestion on unstructured data for subsurface applications.pdf"},
-    ]
-
-    return sample_doc
-
+    
 
 # --- Load Selected Documents ---
 def load_selected_documents(selected_documents: list, db_setting):

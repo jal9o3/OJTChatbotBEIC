@@ -58,8 +58,6 @@ if 'llm_setting' not in st.session_state:
 if 'db_setting' not in st.session_state:
     st.session_state.db_setting = ["knowledge_base", "postgres", "password", "", "5432"]
 
-if 'database_address' not in st.session_state:
-    st.session_state.database_address = ""
 
 
 # --- Document Selector ---
@@ -359,10 +357,12 @@ def load_chat():
     except:
         st.session_state.messages.pop()
         st.session_state.history.pop()
+
         if st.session_state.llm_setting[0] == "Locally":
-            return llm_error(1)
+           return llm_error(1)
         else:
             return llm_error(2)
+
 
 
 # Set up the LLM
@@ -414,6 +414,14 @@ def set_up_llm(code):
                 st.session_state.llm_setting[0] = method.index(selected_method)
                 st.session_state.llm_setting[2] = models.index(selected_model)
 
+                if not st.session_state.document_select:
+                    # Rebuild Tools
+                    st.session_state.chat_tools = chat.build_tools(
+                        st.session_state.selected_document,
+                        st.session_state.chat_documents,
+                        st.session_state.llm
+                    )
+
                 st.rerun()
         else:
             if st.button(action):
@@ -431,7 +439,13 @@ def set_up_llm(code):
                 st.session_state.llm_setting[1] = url
                 st.session_state.llm_setting[2] = models.index(selected_model)
 
-                print(url)
+                if not st.session_state.document_select:
+                    # Rebuild Tools
+                    st.session_state.chat_tools = chat.build_tools(
+                        st.session_state.selected_document,
+                        st.session_state.chat_documents,
+                        st.session_state.llm
+                    )
 
                 st.rerun()
 
@@ -459,7 +473,7 @@ def initial_setup():
 
         db_name = st.text_input("Database Name", st.session_state.db_setting[0])
         user = st.text_input("User", st.session_state.db_setting[1])
-        password = st.text_input("Password", st.session_state.db_setting[2])
+        password = st.text_input("Password", st.session_state.db_setting[2], type="password")
         db_address = st.text_input("Database Container Address", st.session_state.db_setting[3])
         port = st.text_input("Port", st.session_state.db_setting[4])
 
@@ -559,7 +573,7 @@ def settings():
     with st.expander("Database Settings"):
         db_name = st.text_input("Database Name", st.session_state.db_setting[0])
         user = st.text_input("User", st.session_state.db_setting[1])
-        password = st.text_input("Password", st.session_state.db_setting[2])
+        password = st.text_input("Password", st.session_state.db_setting[2], type="password")
         db_address = st.text_input("Database Container Address", st.session_state.db_setting[3])
         port = st.text_input("Port", st.session_state.db_setting[4])
 
@@ -654,19 +668,19 @@ def error(code):
         st.title("Error: Unable to Retrieve Data")
         st.subheader("We encountered an issue while trying to access the data.")
         st.write("Please verify the following:")
-        st.write("- The database container is exists.")
+        st.write("- The database container exists.")
         st.write("- The database container is running.")
         st.write("- You have inputted the right database information")
         col1, col2 = st.columns(2)
 
         with col1:
-            db_name = st.text_input("Database Name", st.session_state.db_setting[0])
-            user = st.text_input("User", st.session_state.db_setting[1])
-            password = st.text_input("Password", st.session_state.db_setting[2])
+            db_name = st.text_input("Database Name", st.session_state.db_setting[0], key="db_name_error")
+            user = st.text_input("User", st.session_state.db_setting[1], key="user_error")
+            password = st.text_input("Password", st.session_state.db_setting[2], type="password", key="password_error")
 
         with col2:
-            db_address = st.text_input("Database Container Address", st.session_state.db_setting[3])
-            port = st.text_input("Port", st.session_state.db_setting[4])
+            db_address = st.text_input("Database Container Address", st.session_state.db_setting[3], key="address_error")
+            port = st.text_input("Port", st.session_state.db_setting[4], key="port_error")
 
         st.write("- Your network connection is stable.")
         st.write("- All required services are operational.")
