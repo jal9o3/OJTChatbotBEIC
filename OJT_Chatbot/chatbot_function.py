@@ -157,7 +157,7 @@ def build_tools(selected_documents, document, llm):
     for idx, doc in enumerate(selected_documents):
         title = doc[1]
 
-        wiki_summary = (
+        doc_summary = (
             f"This content paper about Document {idx+1} which is about the paper {title}."
             f" Use this tool if you want to answer any questions about Document {idx+1}: {title}.\n"
         )
@@ -167,7 +167,7 @@ def build_tools(selected_documents, document, llm):
             query_engine=agents[i],
             metadata=ToolMetadata(
                 name=f"tool_{i}",
-                description=wiki_summary,
+                description=doc_summary,
             ),
         )
         all_tools.append(doc_tool)
