@@ -36,7 +36,7 @@ def input_credentials():
 
     if st.button("Submit"):
         credential_check = None
-        try:
+        try: # Checks if the inputted credentials are correct
             credential_check = demo_main.create_connection(db_name = db_name,
                                                            db_user = db_user,
                                                            db_password = db_password, 
@@ -211,7 +211,7 @@ def metadata(file_path):
         if not tags:
             tags = "Unknown"
 
-        if st.button("Confirm data"):
+        if st.button("Confirm data"): # Updates the metadata
             for i in range(3):
                 if i == 0:
                     new_info = f"Title: {title}"
@@ -279,7 +279,6 @@ def image_processing_options():
 def set_session_states(action = "set"):
     options = image_processing_options()
 
-    # Database session_states
     button_keys = ["extract", 
                    "upload_database", 
                    "upload_pdf", 
@@ -335,6 +334,7 @@ def set_session_states(action = "set"):
         for key in database_keys:
             st.session_state[key] = ""
 
+# The functions below are for the session states of buttons
 def upload_pdf():
     st.session_state.upload_pdf = True
 
@@ -379,14 +379,10 @@ def show_message(message, duration=0.5):
     time.sleep(duration)
     placeholder.empty()
 
-
-
-
-
     #MAIN FUNCTION--------------------------
 
-def remove_contents(dir):
-    if os.path.exists(dir):# Delete files in extraction Diectory afterwards
+def remove_contents(dir): # Removes the contents of directories
+    if os.path.exists(dir):
         for root, dirs, files in os.walk(dir, topdown=False):
             for name in files:
                 os.remove(os.path.join(root, name))
@@ -443,6 +439,7 @@ def directory_check(directory_path):
         st.error(f"The directory {directory} is empty.")
         return False
 
+# Compares the contents of two lists to check process output
 def file_process_check(list_1, list_2):
     set_1 = set(list_1)
     set_2 = set(list_2)
@@ -486,7 +483,7 @@ def main():
 
     upload_con = st.container() # for upload processes
     extract_col, upload_col = st.columns(2) # extract_col = for extraction processes; upload_col = for database uploading processes
-    document_selection, edit_metadata = st.columns(2)
+    document_selection, edit_metadata = st.columns(2) # For selecting the documents and editing the metadata
     image_view, text_view = st.columns(2) # for viewing what will be processed
 
     with upload_con:
@@ -515,6 +512,7 @@ def main():
             with upload_confirm:
                 st.button("Confirm Upload", on_click = upload_pdf,disabled = st.session_state.confirm_upload)
 
+        # Prompt to input the credentials for the databbse connection
         if st.session_state.submit_credentials:
             input_credentials()
             
@@ -526,6 +524,7 @@ def main():
                 # Save the pdfs
                 for file in st.session_state.uploaded_file:
                     try:
+                        # Removes characters from the name of the file that may cause errors in the process
                         file_name = os.path.splitext(file.name)[0]
                         file_name = preprocessing.remove_unaccepted_chars(file_name)
 
@@ -543,8 +542,7 @@ def main():
                         continue
                 
                 # Extract images from the pdfs
-                
-                for file_name in os.listdir(upload_dir): # iterate for each file in the directory
+                for file_name in os.listdir(upload_dir): 
                     try:
                         extract_image(upload_dir, image_dir, file_name)
                         
@@ -559,7 +557,7 @@ def main():
 
                 st.session_state.confirm_upload = True
 
-        if st.session_state.confirm_upload:
+        if st.session_state.confirm_upload: # Compares the conttents of uploaded_files and upload_dir to check if all files were uploaded
             if not directory_check(upload_dir):
                 with message_con:
                     st.error("The files were not uploaded")
@@ -590,7 +588,7 @@ def main():
             st.title("Perform Image Prepocessing")
             options = image_processing_options()
 
-            for option in options:
+            for option in options: # Generate preprocessing options via checkboxes
                 st.session_state[option["key"]] = st.sidebar.checkbox(option["label"], on_change = process_change)
             
             message_con = st.container(height = 200)
@@ -640,7 +638,7 @@ def main():
 
                     st.session_state.process_change = False
             
-            if st.button("Undo Changes"):
+            if st.button("Undo Changes"): # Undos preprocessing
                 st.session_state.process_done = False
                 remove_contents(preprocessed_dir)
                 
@@ -649,7 +647,7 @@ def main():
 
                 show_message("Undo Changes")
 
-            if st.session_state.process_done:
+            if st.session_state.process_done: # Compares directories to check if all the files were preprocessed
                 if not directory_check(preprocessed_dir):
                     with message_con:
                         st.error("The files were not preprocessed")
@@ -666,8 +664,7 @@ def main():
                         elif difference:
                             for item in difference:
                                 st.error(f"The file {item} could not be preprocessed")
-        
-                    
+                     
     with extract_col:
         st.markdown('<h4 style="text-align: left;">Extract Text from the PDF:</h4>', unsafe_allow_html=True)
 
@@ -682,7 +679,7 @@ def main():
                 if not st.session_state.uploaded_file:
                     st.error("Please Upload A File")
             
-            if st.session_state.process_done == True:
+            if st.session_state.process_done == True: # If preprocessing was conducted; change directories
                 dir_to_extract = preprocessed_dir
             else:
                 dir_to_extract = image_dir
@@ -711,7 +708,7 @@ def main():
                             continue
 
                         st.session_state.extract_done = True
-          
+            # Compares directory content to check if all the document were extracted using difference
             if st.session_state.extract_done:
                 if not directory_check(extracted_text_dir):
                     with message_con:
@@ -740,7 +737,7 @@ def main():
             else:
                 selection_dir = image_dir
             
-            # List all subdirectories in the parent directory
+            # List all images of the documentdirectory
             pdf_images = []
             if directory_check(selection_dir):
                 pdf_images = [dir for dir in os.listdir(selection_dir) if os.path.isdir(os.path.join(selection_dir, dir))]
@@ -749,6 +746,7 @@ def main():
                 
             st.session_state.selected_pdf = st.selectbox("Select a PDF:", pdf_images)
 
+            # List 
             image_files = []
             if st.session_state.selected_pdf:
                 pdf_images_dir = os.path.join(selection_dir, st.session_state.selected_pdf)
@@ -829,6 +827,7 @@ def main():
                             authors = [item.strip() for item in file_content[1].split(',') if item.strip()]
                             tags = [item.strip() for item in file_content[2].split(',') if item.strip()]
 
+                            # Upload to the database
                             demo_main.format_upload_doc(file_path, title, authors, tags,
                                                         db_name = st.session_state.db_name,
                                                         db_user = st.session_state.db_user,
@@ -842,7 +841,7 @@ def main():
 
                             st.session_state.upload_done = True
         
-        if st.session_state.upload_again:
+        if st.session_state.upload_again: # Reset the app to upload more files
             remove_contents(upload_dir)
             remove_contents(extracted_text_dir)
             remove_contents(image_dir)
@@ -887,6 +886,5 @@ def main():
                 # Display the file content in a text area
                 st.text_area("File Content", file_content, height = 700)
         
-
 if __name__ == "__main__":
     main()
