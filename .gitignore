@@ -11,3 +11,10 @@ __pycache__/
 */rag_django/rag_api/migrations
 /rag_django/media
 __init__.py
+/.venv/
+/.venv2/
+/Database/
+/SamplePDF/
+/Whole_Data/
+/.idea/
+

@@ -1,0 +1,176 @@
+:root {
+    --primary-color: #1B1B1B; /* Dark */
+    --secondary-color: #FFFFFF; /* White */
+    --accent-color: #FF9554; /* Orange */
+    --lighter: #313131
+}
+
+/* App BG Color */
+div[data-testid="stApp"]{
+    background-color: var(--lighter);
+    color: white;
+}
+
+header[data-testid="stHeader"]{
+    height: 30px;
+    background-color: var(--lighter);
+}
+
+div[data-testid="stBottom"] div[class="st-emotion-cache-uhkwx6 ea3mdgi6"]{
+    background-color: var(--lighter);
+}
+
+/* App Text Color */
+h1, h2, h3, p {
+    color: var(--secondary-color);
+}
+
+/* Side Bar Style */
+section[data-testid="stSidebar"]{
+    background-color: var(--primary-color);
+}
+
+div[data-testid="stVerticalBlockBorderWrapper"][id="selected_doc"]{
+    border: 1px solid var(--secondary-color);
+}
+
+div[data-testid="column"]{
+    display: flex;
+    align-items: center;
+    overflow: hidden;
+}
+
+button[kind="primary"]{
+    width: 100%;
+    background-color: unset;
+    color: black;
+    border-color: #FF9554;
+}
+
+button[kind="primary"]:hover{
+    background-color: #FF9554;
+    color: black;
+}
+
+button[kind="secondary"]{
+    background: none!important;
+    border: 1px solid var(--secondary-color);
+    width: 2001px;
+}
+
+button[kind="secondary"]:hover{
+    background-color: var(--accent-color);
+    color: black;
+}
+
+summary[class="st-emotion-cache-p5msec eqpbllx1"]{
+    border: 1px solid var(--secondary-color);
+    border-radius: 10px 10px 0 0;
+}
+
+div[data-testid="stExpanderDetails"]{
+    border: 1px solid var(--secondary-color);
+    border-radius: 0 0 10px 10px;
+}
+
+ol li{
+    color: white;
+}
+
+ul li{
+    color: white;
+}
+
+tr td{
+    color: white;
+}
+
+th {
+    color: white;
+}
+
+tbody {
+    border-color: white;
+    border-style: solid;;
+}
+
+tbody tr{
+    border-color: white;
+    border-style: solid;;
+}
+
+td{
+    border-color: red;
+    border-style: solid;;
+}
+
+thead{
+    border-color: white;
+    border-style: solid;;
+    border-width: 2px;
+}
+
+.st-emotion-cache-uzeiqp th, .st-emotion-cache-uzeiqp td{
+    border: 1px solid white;
+}
+
+div[data-testid="stModal"] div[tabindex="-1"]{
+
+    margin-top: -5px;
+    overflow: scroll;
+    background-color: var(--lighter);
+    box-shadow: 10px 10px 10px black;
+}
+
+div[class="row-widget stButton"]{
+    display: flex;
+    align-items: center;
+}
+
+button[kind="primary"] {
+    padding: 0!important;
+    color: var(--secondary-color) !important;
+    cursor: pointer;
+    text-align: center ;
+    width: 20%;
+    border: 1px solid var(--secondary-color);
+    margin-right: auto;
+}
+
+button[kind="primary"] p{
+    font-weight: 600;
+    letter-spacing: -0.005em;
+    padding: 0.5rem 0 1rem;
+    margin: 0;
+    line-height: 1.2;
+    font-size: 100%;
+}
+
+button[kind="primary"]:hover {
+    text-decoration: none;
+    color: var(--secondary-color);
+    background-color: var(--accent-color);
+}
+
+button[kind="primary"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    color: #FF9554 !important;
+}
+
+div[class="row-widget stButton"]{
+    width: 180px;
+}
+
+button[kind="secondary"]:hover {
+    text-decoration: none;
+    color: var(--secondary-color);
+    background-color: var(--accent-color);
+}
+
+button[kind="secondary"]:focus {
+    outline: none !important;
+    box-shadow: none !important;
+    color: #FF9554 !important;
+}
+
