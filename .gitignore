@@ -5,5 +5,8 @@ db.sqlite3
 __pycache__/
 .env
 /rag_api/
-/rag_django/rag_api/migrations
+*/rag_django/rag_api/migrations
 /rag_django/media
+*.txt
+constants.py
+__init__.py
