@@ -1,3 +1,13 @@
 *.txt
 */__pycache__/
 constants.py
+chroma_persistent_client/
+reset_records.py
+FORJANNNNN.ipynb
+db.sqlite3
+__pycache__/
+.env
+/rag_api/
+*/rag_django/rag_api/migrations
+/rag_django/media
+__init__.py
